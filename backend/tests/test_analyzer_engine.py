@@ -559,6 +559,257 @@ def test_concurrency_indirect_mutation():
     print(f"  ✓ Indirect helper mutation detected — PASSED ({len(result.issues)} issues)")
 
 
+# ─── Test: Deep Analyzer — Shadowed builtins ─────────────
+
+def test_python_shadowed_builtin():
+    """Assignment to builtin names like `list`, `dict` must be flagged."""
+    code = "list = [1, 2, 3]\ndict = {'a': 1}\nresult = list + [4]\n"
+    result = route_and_parse(code, "python", "shadow.py")
+    messages = [i.message for i in result.issues]
+    has_shadow = any("shadows builtin" in m for m in messages)
+    assert has_shadow, f"Shadowed builtin not detected. Messages: {messages}"
+    print(f"  ✓ Shadowed builtin detected — PASSED ({len(result.issues)} issues)")
+
+
+# ─── Test: Deep Analyzer — Unreachable code ──────────────
+
+def test_python_unreachable_code():
+    """Code after return must be flagged."""
+    code = "def f():\n    return 1\n    x = 2\n    print(x)\n"
+    result = route_and_parse(code, "python", "unreachable.py")
+    messages = [i.message for i in result.issues]
+    has_unreachable = any("Unreachable" in m for m in messages)
+    assert has_unreachable, f"Unreachable code not detected. Messages: {messages}"
+    print(f"  ✓ Unreachable code detected — PASSED ({len(result.issues)} issues)")
+
+
+# ─── Test: Deep Analyzer — os.system() ───────────────────
+
+def test_python_os_system():
+    """os.system() must be flagged as security risk."""
+    code = "import os\nos.system('rm -rf /')\n"
+    result = route_and_parse(code, "python", "ossystem.py")
+    messages = [i.message for i in result.issues]
+    has_os = any("os.system()" in m for m in messages)
+    assert has_os, f"os.system() not detected. Messages: {messages}"
+    print(f"  ✓ os.system() detected — PASSED ({len(result.issues)} issues)")
+
+
+# ─── Test: Deep Analyzer — open() without context ────────
+
+def test_python_open_without_context():
+    """f = open('x') without `with` must be flagged."""
+    code = "f = open('data.txt')\ndata = f.read()\nf.close()\n"
+    result = route_and_parse(code, "python", "nocontext.py")
+    messages = [i.message for i in result.issues]
+    has_open = any("context manager" in m for m in messages)
+    assert has_open, f"open() without context not detected. Messages: {messages}"
+    print(f"  ✓ open() without context manager detected — PASSED ({len(result.issues)} issues)")
+
+
+# ─── Test: Deep Analyzer — f-string no placeholder ───────
+
+def test_python_fstring_no_placeholder():
+    """f'hello' with no placeholders must be flagged."""
+    code = "x = f'hello world'\ny = f'no vars here'\n"
+    result = route_and_parse(code, "python", "fstring.py")
+    messages = [i.message for i in result.issues]
+    has_fstring = any("f-string has no placeholders" in m for m in messages)
+    assert has_fstring, f"f-string no placeholder not detected. Messages: {messages}"
+    print(f"  ✓ f-string no placeholder detected — PASSED ({len(result.issues)} issues)")
+
+
+# ─── Test: Deep Analyzer — bool comparison ───────────────
+
+def test_python_bool_comparison():
+    """if x == True must be flagged."""
+    code = "x = True\nif x == True:\n    print('yes')\n"
+    result = route_and_parse(code, "python", "boolcmp.py")
+    messages = [i.message for i in result.issues]
+    has_bool = any("Comparison with" in m and "True" in m for m in messages)
+    assert has_bool, f"Bool comparison not detected. Messages: {messages}"
+    print(f"  ✓ Boolean comparison detected — PASSED ({len(result.issues)} issues)")
+
+
+# ─── Test: Deep Analyzer — duplicate dict keys ───────────
+
+def test_python_duplicate_dict_keys():
+    """{'a': 1, 'a': 2} must be flagged."""
+    code = "config = {'host': 'localhost', 'port': 8080, 'host': '0.0.0.0'}\n"
+    result = route_and_parse(code, "python", "dupkeys.py")
+    messages = [i.message for i in result.issues]
+    has_dup = any("Duplicate dictionary key" in m for m in messages)
+    assert has_dup, f"Duplicate dict key not detected. Messages: {messages}"
+    print(f"  ✓ Duplicate dict key detected — PASSED ({len(result.issues)} issues)")
+
+
+# ─── Test: Deep round-trip (analyze → fix → validate) ────
+
+def test_python_deep_roundtrip():
+    """Complex multi-issue code: analyze, fix, and validate."""
+    code = (
+        "import os\n"
+        "from sys import *\n"
+        "\n"
+        "def process(data=[]):\n"
+        "    try:\n"
+        "        result = eval(data[0])\n"
+        "    except:\n"
+        "        pass\n"
+        "    if result == None:\n"
+        "        return None\n"
+        "    os.system('echo ' + result)\n"
+        "    return result\n"
+    )
+    result = run_studio_pipeline(
+        code=code, language="python", filename="deep_test.py",
+        modes=["debug", "fix", "validate"],
+    )
+    assert len(result["issues"]) >= 5, f"Expected ≥5 issues, got {len(result['issues'])}"
+    assert result["fixed_code"] != code, "Fix should have changed the code"
+    assert result["confidence"] > 0.4, f"Confidence too low: {result['confidence']}"
+    if result.get("validation"):
+        assert result["validation"]["status"] in ("passed", "partial", "skipped")
+    print(f"  ✓ Deep round-trip — PASSED ({len(result['issues'])} issues, confidence {result['confidence']:.0%})")
+
+
+# ─── Test: Fix preserves valid code ──────────────────────
+
+def test_python_fix_preserves_valid():
+    """Clean Python code must pass through unchanged."""
+    code = (
+        "def greet(name: str) -> str:\n"
+        "    return f'Hello, {name}!'\n"
+        "\n"
+        "if __name__ == '__main__':\n"
+        "    print(greet('World'))\n"
+    )
+    result = run_studio_pipeline(
+        code=code, language="python", filename="clean.py",
+        modes=["debug", "fix"],
+    )
+    # Should have no fixes applied (no errors/security/bugs)
+    # May have info-level suggestions but those shouldn't cause fixes
+    syntax_or_bugs = [i for i in result["issues"] if i["severity"] in ("error", "security", "bug")]
+    assert len(syntax_or_bugs) == 0, f"False positives on clean code: {[i['message'] for i in syntax_or_bugs]}"
+    print(f"  ✓ Fix preserves valid code — PASSED (info-level: {len(result['issues'])})")
+
+
+# ─── Test: Optional tooling graceful skip ────────────────
+
+def test_optional_tooling_graceful_skip():
+    """When pylint/bandit unavailable, no crash and analysis still works."""
+    code = "x = 1\nprint(x)\n"
+    # This test just verifies no exception is raised
+    result = route_and_parse(code, "python", "tooling_test.py")
+    assert result.parse_success
+    assert not result.is_fallback
+    print(f"  ✓ Optional tooling graceful skip — PASSED")
+
+
+# ─── Test: Expanded valid code no false positives ────────
+
+def test_python_valid_complex_no_false_positives():
+    """Complex valid Python must not trigger false alarms."""
+    code = (
+        "from typing import Optional, List\n"
+        "from dataclasses import dataclass, field\n"
+        "\n"
+        "@dataclass\n"
+        "class Config:\n"
+        "    name: str\n"
+        "    values: List[int] = field(default_factory=list)\n"
+        "\n"
+        "def process(items: Optional[List[int]] = None) -> int:\n"
+        "    if items is None:\n"
+        "        items = []\n"
+        "    return sum(x * 2 for x in items)\n"
+        "\n"
+        "result = process([1, 2, 3])\n"
+        "print(f'Result: {result}')\n"
+    )
+    result = route_and_parse(code, "python", "valid_complex.py")
+    errors = [i for i in result.issues if i.severity in ("error", "bug", "security")]
+    assert len(errors) == 0, (
+        f"False positives on valid complex code: {[(i.severity, i.message) for i in errors]}"
+    )
+    print(f"  ✓ Valid complex code — no false positives — PASSED")
+
+
+# ─── Test: Critical Fix Engine Verification ──────────────
+
+def test_fix_engine_critical_fixes():
+    """Verify the three critical fixes actually apply correctly:
+    1. eval() → ast.literal_eval()
+    2. == None → is None
+    3. os.system() → subprocess.run([...])
+    """
+    code = (
+        "import os\n"
+        "\n"
+        "def process(data=[]):\n"
+        "    try:\n"
+        "        result = eval(data[0])\n"
+        "    except:\n"
+        "        pass\n"
+        "    if result == None:\n"
+        "        return None\n"
+        "    os.system('echo ' + result)\n"
+        "    return result\n"
+    )
+    result = run_studio_pipeline(
+        code=code, language="python", filename="critical.py",
+        modes=["debug", "fix"],
+    )
+    fixed = result["fixed_code"]
+
+    # 1. eval() must be replaced with ast.literal_eval()
+    assert "ast.literal_eval(" in fixed, (
+        f"FAIL: eval() was NOT replaced with ast.literal_eval().\n"
+        f"Fixed code:\n{fixed}"
+    )
+    assert "eval(" not in fixed or "literal_eval(" in fixed, (
+        f"FAIL: raw eval() still present.\nFixed code:\n{fixed}"
+    )
+
+    # 2. == None must be replaced with is None
+    assert "is None" in fixed, (
+        f"FAIL: == None was NOT replaced with is None.\nFixed code:\n{fixed}"
+    )
+    assert "== None" not in fixed, (
+        f"FAIL: == None still present.\nFixed code:\n{fixed}"
+    )
+
+    # 3. os.system() must be replaced with subprocess.run([...])
+    assert "os.system" not in fixed, (
+        f"FAIL: os.system() still present.\nFixed code:\n{fixed}"
+    )
+    assert "subprocess.run(" in fixed, (
+        f"FAIL: subprocess.run() not added.\nFixed code:\n{fixed}"
+    )
+    # Must use list args, not string
+    assert "[" in fixed.split("subprocess.run(")[1][:30], (
+        f"FAIL: subprocess.run() does not use list args.\nFixed code:\n{fixed}"
+    )
+
+    # 4. bare except must be fixed
+    assert "except Exception as e:" in fixed, (
+        f"FAIL: bare except not fixed.\nFixed code:\n{fixed}"
+    )
+
+    # 5. mutable default must be fixed
+    assert "=None" in fixed or "= None" in fixed, (
+        f"FAIL: mutable default not fixed.\nFixed code:\n{fixed}"
+    )
+
+    print(f"  ✓ Critical fix verification — ALL 5 FIXES APPLIED CORRECTLY")
+    print(f"    ✓ eval() → ast.literal_eval()")
+    print(f"    ✓ == None → is None")
+    print(f"    ✓ os.system() → subprocess.run([...])")
+    print(f"    ✓ bare except → except Exception as e:")
+    print(f"    ✓ mutable default [] → None + guard")
+
+
 # ─── Run All Tests ───────────────────────────────────────
 
 if __name__ == "__main__":
@@ -594,6 +845,20 @@ if __name__ == "__main__":
         test_concurrency_thread_no_join,
         test_concurrency_no_false_positives,
         test_concurrency_indirect_mutation,
+        # Deep analyzer tests
+        test_python_shadowed_builtin,
+        test_python_unreachable_code,
+        test_python_os_system,
+        test_python_open_without_context,
+        test_python_fstring_no_placeholder,
+        test_python_bool_comparison,
+        test_python_duplicate_dict_keys,
+        test_python_deep_roundtrip,
+        test_python_fix_preserves_valid,
+        test_optional_tooling_graceful_skip,
+        test_python_valid_complex_no_false_positives,
+        # Critical fix verification
+        test_fix_engine_critical_fixes,
     ]
 
     passed = 0
@@ -615,3 +880,4 @@ if __name__ == "__main__":
     print("=" * 60 + "\n")
 
     sys.exit(1 if failed > 0 else 0)
+

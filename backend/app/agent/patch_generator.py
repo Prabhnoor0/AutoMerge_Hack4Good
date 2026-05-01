@@ -83,6 +83,20 @@ export function Dashboard({ data }: DashboardProps) {
 
 def _apply_python_fixes(code: str, issues: list[dict]) -> tuple[str, list[str]]:
     """Apply fixes to Python code based on detected issues.
+    Delegates to the production fix engine (python_fix_engine),
+    falling back to the inline implementation on error.
+    """
+    try:
+        from app.agent.python_fix_engine import apply_python_fixes
+        return apply_python_fixes(code, issues)
+    except Exception:
+        pass
+    # ── Fallback: inline implementation ──
+    return _apply_python_fixes_fallback(code, issues)
+
+
+def _apply_python_fixes_fallback(code: str, issues: list[dict]) -> tuple[str, list[str]]:
+    """Fallback fix implementation — original inline logic.
     Prioritizes real parser/compiler diagnostics (origin=parser/compiler)
     over heuristic-origin issues.
     """

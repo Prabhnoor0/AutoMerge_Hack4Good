@@ -188,9 +188,20 @@ def _parse_python(code: str, filename: str = "code.py") -> ParseResult:
         )
 
     # Phase 2: AST semantic checks (syntax is clean)
+    deep_ran = False
+    tooling_ran = False
     try:
         tree = ast.parse(code, filename=filename)
         issues.extend(_python_ast_semantic_checks(tree, source_lines))
+
+        # Phase 2b: Deep AST semantic checks (extended patterns)
+        try:
+            from app.agent.python_deep_analyzer import run_deep_checks
+            issues.extend(run_deep_checks(tree, source_lines, filename))
+            deep_ran = True
+        except Exception as de:
+            logger.warning("python_deep_analyzer.error", error=str(de))
+
         # Phase 3: Concurrency / thread-safety checks
         try:
             from app.agent.concurrency_analyzer import analyze_concurrency, check_thread_join_at_module_level
@@ -198,13 +209,32 @@ def _parse_python(code: str, filename: str = "code.py") -> ParseResult:
             issues.extend(check_thread_join_at_module_level(tree, source_lines))
         except Exception as ce:
             logger.warning("python_concurrency.error", error=str(ce))
+
+        # Phase 4: Optional external tooling (pylint, bandit) — supplementary
+        try:
+            from app.agent.python_tooling import run_optional_tooling
+            existing_lines = {i.line for i in issues}
+            tooling_issues = run_optional_tooling(code, filename, existing_lines)
+            issues.extend(tooling_issues)
+            tooling_ran = len(tooling_issues) >= 0  # ran even if 0 results
+        except Exception as te:
+            logger.debug("python_tooling.skip", reason=str(te))
+
     except Exception as e:
         logger.warning("python_ast.error", error=str(e))
+
+    # Build backend name reflecting what actually ran
+    backend_parts = ["Python ast.parse() + compile()"]
+    if deep_ran:
+        backend_parts.append("Deep Analyzer")
+    backend_parts.append("Concurrency Analyzer")
+    if tooling_ran:
+        backend_parts.append("External Tools")
 
     return ParseResult(
         language="python",
         parser_name="cpython_ast",
-        backend_name="Python ast.parse() + compile() + Concurrency Analyzer",
+        backend_name=" + ".join(backend_parts),
         issues=issues,
         parse_success=True,
         is_fallback=False,

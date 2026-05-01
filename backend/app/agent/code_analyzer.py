@@ -30,15 +30,8 @@ logger = structlog.get_logger("automerge.code_analyzer")
 # They only run if the primary parse succeeded.
 
 _PYTHON_QUALITY_PATTERNS = [
-    {
-        "id": "py_broad_import",
-        "pattern": r"^from\s+\w+\s+import\s+\*",
-        "severity": "warning",
-        "category": "quality",
-        "message": "Wildcard import pollutes namespace and hides dependencies",
-        "fix_hint": "Import specific names instead of using *",
-        "explanation": "Wildcard imports make it hard to trace where names come from and can shadow builtins.",
-    },
+    # NOTE: py_broad_import (wildcard import) was removed — it's now handled by
+    # the AST-based wildcard_import check in parser_router._python_ast_semantic_checks.
     {
         "id": "py_global_usage",
         "pattern": r"^\s*global\s+",

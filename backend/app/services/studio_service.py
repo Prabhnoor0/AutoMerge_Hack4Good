@@ -89,6 +89,53 @@ EXPLANATION_TEMPLATES = {
         "You're comparing to `None` using `==` instead of `is`. In Python, `is None` is the correct "
         "idiom because `None` is a singleton — `==` can be overridden by custom `__eq__` methods."
     ),
+    # ── New deep analyzer templates ──
+    "py_os_system": (
+        "You're using `os.system()`, which runs commands through the system shell. If any "
+        "user input reaches the command string, an attacker can inject arbitrary shell commands. "
+        "Use `subprocess.run()` with a list argument instead."
+    ),
+    "py_shadowed_builtin": (
+        "You're assigning to a name that shadows a Python builtin (like `list`, `dict`, `str`). "
+        "This hides the original builtin and can cause confusing `TypeError` or `NameError` later."
+    ),
+    "py_unreachable_code": (
+        "This code comes after a `return`, `raise`, `break`, or `continue` statement and can "
+        "**never execute**. It's dead code that should be removed or moved."
+    ),
+    "py_open_no_context": (
+        "You're calling `open()` without a `with` statement. If an exception occurs before "
+        "`.close()` is called, the file handle leaks. Always use `with open(...) as f:` for safety."
+    ),
+    "py_pickle_loads": (
+        "You're using `pickle.loads()` or `pickle.load()`, which can **execute arbitrary code** "
+        "embedded in the pickled data. Never unpickle data from untrusted sources."
+    ),
+    "py_shell_injection": (
+        "You're using `subprocess` with `shell=True`, which passes commands through the system "
+        "shell. If any argument comes from user input, this is a **command injection vulnerability**."
+    ),
+    "py_fstring_no_expr": (
+        "This f-string has no `{...}` expressions — it's just a regular string with an "
+        "unnecessary `f` prefix. Remove the `f` for clarity."
+    ),
+    "py_bool_comparison": (
+        "You're comparing to `True` or `False` with `==`. In Python, use direct truthiness: "
+        "`if x:` instead of `if x == True:`. It's more Pythonic and less fragile."
+    ),
+    "py_init_return": (
+        "Your `__init__` method returns a value. In Python, `__init__` **must** return `None`. "
+        "Returning anything else raises a `TypeError` at runtime."
+    ),
+    "py_except_pass": (
+        "You're catching an exception and silently ignoring it with `pass`. This hides bugs "
+        "and makes debugging extremely difficult. At minimum, log the exception."
+    ),
+    "py_duplicate_dict_key": (
+        "Your dictionary has duplicate keys. In Python, when a key appears twice, the last "
+        "value silently overwrites the first. This is almost always a copy-paste bug."
+    ),
+    # ── JS/TS templates ──
     "js_var_usage": (
         "You're using `var` which has **function scope** — it leaks out of `if/for/while` blocks. "
         "Modern JavaScript uses `let` or `const` for block scope, which prevents subtle bugs."
@@ -469,7 +516,7 @@ def validate_fixed_code(
         "stderr": "",
         "duration_seconds": round(duration, 3),
         "re_parse_backend": re_parse.backend_name,
-        "remaining_issues": [i.to_dict() for i in remaining_errors + remaining_bugs],
+        "remaining_issues": [i.to_dict() for i in remaining_errors + remaining_bugs + remaining_warnings],
     }
 
 
@@ -527,7 +574,7 @@ def run_studio_pipeline(
     else:
         root_cause = "No issues detected — code looks clean"
 
-    # ── Step 4: Confidence (depends on parser quality, not just severity)
+    # ── Step 4: Confidence (depends on parser quality + tooling corroboration)
     parser_info = analysis.get("parser_info", {})
     is_fallback = parser_info.get("is_fallback", True)
     parser_confidence = parser_info.get("parser_confidence", 0.5)
@@ -540,6 +587,17 @@ def run_studio_pipeline(
             base_conf = min(base_conf, 0.45)
         elif parser_confidence < 1.0:
             base_conf = base_conf * parser_confidence
+
+        # Boost confidence if external tooling corroborates AST findings
+        linter_issues = [i for i in issues if i.get("origin") == "linter"]
+        if linter_issues:
+            base_conf = min(base_conf + 0.03, 0.96)
+
+        # Boost if deep analyzer ran (parser_name contains "deep")
+        deep_issues = [i for i in issues if "deep" in i.get("parser_name", "")]
+        if deep_issues:
+            base_conf = min(base_conf + 0.02, 0.96)
+
         if logs:
             base_conf = min(base_conf + 0.05, 0.95)
         confidence = base_conf
