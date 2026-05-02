@@ -353,7 +353,10 @@ export default function BattlePage() {
                 </div>
               ))}
 
-              <button onClick={reset} className="w-full py-3 rounded-xl text-sm font-bold" style={{ background: "linear-gradient(135deg,#ef4444,#8b5cf6)", color: "white" }}>⚔️ New Battle</button>
+              <div className="flex gap-3">
+                <a href={`/ar?type=battle&id=${sessionId}`} className="flex-1 py-3 rounded-xl text-sm font-bold text-center transition-all" style={{ background: "linear-gradient(135deg,rgba(79,142,247,0.15),rgba(168,85,247,0.15))", color: "#a855f7", border: "1px solid rgba(168,85,247,0.2)" }}>🔮 View in AR</a>
+                <button onClick={reset} className="flex-1 py-3 rounded-xl text-sm font-bold" style={{ background: "linear-gradient(135deg,#ef4444,#8b5cf6)", color: "white" }}>⚔️ New Battle</button>
+              </div>
             </div>
           </motion.div>
         )}

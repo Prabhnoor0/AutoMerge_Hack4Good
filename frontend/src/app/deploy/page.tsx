@@ -100,6 +100,7 @@ export default function DeployPage() {
               <div className="flex items-center gap-2 mt-1">
                 <span className="text-[10px] px-1.5 py-0.5 rounded" style={{ background: r.status === "deployed" ? "rgba(34,197,94,0.15)" : "rgba(239,68,68,0.15)", color: r.status === "deployed" ? "var(--accent-green)" : "var(--accent-red)" }}>{r.status}</span>
                 <span className="text-[10px]" style={{ color: "var(--text-muted)" }}>{r.platform}</span>
+                <a href={`/ar?type=deploy&id=${r.id}`} onClick={e => e.stopPropagation()} className="ml-auto text-[9px] font-bold px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: "rgba(168,85,247,0.12)", color: "#a855f7" }}>🔮</a>
               </div>
             </div>
           ))}

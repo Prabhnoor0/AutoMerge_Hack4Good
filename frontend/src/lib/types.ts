@@ -406,3 +406,78 @@ export interface BattleLeaderboardEntry {
   total_score: number;
   battles: number;
 }
+
+// ─── AR Debug Explorer Types ────────────────────────────
+
+export type ARSourceType = "studio" | "repo" | "deploy" | "battle";
+
+export interface ARNode {
+  id: string;
+  label: string;
+  type: string;
+  status: string;
+  color: string;
+  position_hint: Record<string, any>;
+  description: string;
+  source_line: number | null;
+  source_ref: string;
+  severity: string;
+  metadata: Record<string, any>;
+}
+
+export interface AREdge {
+  from: string;
+  to: string;
+  label: string;
+  weight: number;
+  style: string;
+}
+
+export interface ARTimelineStep {
+  label: string;
+  timestamp: string;
+  detail: string;
+  status: string;
+  source_ref: string;
+}
+
+export interface ARMetric {
+  label: string;
+  value: string;
+  color: string;
+}
+
+export interface ARAnnotation {
+  label: string;
+  content: string;
+  type: string;
+}
+
+export interface ARScene {
+  scene_id: string;
+  source_type: ARSourceType;
+  source_id: string;
+  title: string;
+  summary: string;
+  confidence: number;
+  nodes: ARNode[];
+  edges: AREdge[];
+  timeline: ARTimelineStep[];
+  metrics: ARMetric[];
+  warnings: string[];
+  annotations: ARAnnotation[];
+  fallback_text: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ARHistoryEntry {
+  scene_id: string;
+  source_type: ARSourceType;
+  source_id: string;
+  title: string;
+  summary: string;
+  created_at: string;
+  last_viewed_at: string;
+  view_count: number;
+}

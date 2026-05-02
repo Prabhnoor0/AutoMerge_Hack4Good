@@ -281,4 +281,27 @@ export const api = {
 
   battleChallenges: () =>
     request<any>("/battle/meta/challenges"),
+
+  // ─── AR Debug Explorer ──────────────────────────────────
+
+  arStudioScene: (jobId: string) =>
+    request<any>(`/ar/scene/studio/${jobId}`),
+
+  arStudioSceneLive: (result: any) =>
+    request<any>("/ar/scene/studio/live", { method: "POST", body: JSON.stringify(result) }),
+
+  arRepoScene: (reportId: string) =>
+    request<any>(`/ar/scene/repo/${reportId}`),
+
+  arDeployScene: (runId: string) =>
+    request<any>(`/ar/scene/deploy/${runId}`),
+
+  arBattleScene: (sessionId: string) =>
+    request<any>(`/ar/scene/battle/${sessionId}`),
+
+  arHistory: () =>
+    request<any>("/ar/history"),
+
+  arDeleteHistory: (sceneId: string) =>
+    request<any>(`/ar/history/${sceneId}`, { method: "DELETE" }),
 };

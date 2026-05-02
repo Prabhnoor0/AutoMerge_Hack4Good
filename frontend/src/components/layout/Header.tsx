@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Zap, Play, ChevronDown, GitMerge, Code2, LayoutDashboard, GitFork, GraduationCap, Search, Rocket, Swords } from "lucide-react";
+import { Zap, Play, ChevronDown, GitMerge, Code2, LayoutDashboard, GitFork, GraduationCap, Search, Rocket, Swords, Glasses } from "lucide-react";
 import { GitHubDrawer } from "@/components/github/GitHubDrawer";
 import { api } from "@/lib/api";
 import Link from "next/link";
@@ -144,6 +144,17 @@ export function Header() {
           >
             <Swords size={13} />
             Battle
+          </Link>
+          <Link
+            href="/ar"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors"
+            style={{
+              color: pathname === "/ar" ? "var(--text-primary)" : "var(--text-muted)",
+              background: pathname === "/ar" ? "var(--bg-elevated)" : "transparent",
+            }}
+          >
+            <Glasses size={13} />
+            AR
           </Link>
         </nav>
       </div>

@@ -181,6 +181,23 @@ class SharedContextStore:
     def get_qa_history(self, limit: int = 20) -> List[Dict[str, str]]:
         return self._qa_history[-limit:]
 
+    # ─── AR Debug Explorer Context ────────────────────────
+
+    def update_ar_context(self, scene_id: str, source_type: str,
+                          title: str, summary: str):
+        """Update shared context with the most recently viewed AR scene."""
+        if "ar" not in self._context:
+            self._context["ar"] = {}
+        self._context["ar"] = {
+            "scene_id": scene_id,
+            "source_type": source_type,
+            "title": title,
+            "summary": summary[:500],
+            "updated_at": datetime.now(timezone.utc).isoformat(),
+        }
+        self._save()
+        logger.info("shared_context.ar_updated", scene_id=scene_id)
+
 
 # Module-level singleton
 shared_context = SharedContextStore()

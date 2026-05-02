@@ -250,6 +250,13 @@ export default function StudioPage() {
                     <span className="px-2 py-1 bg-[var(--glow-blue)] text-[var(--accent-blue)] rounded-md font-bold flex items-center gap-1">
                       {(result.confidence * 100).toFixed(0)}% Confidence
                     </span>
+                    {result && (
+                      <button onClick={() => { try { sessionStorage.setItem("ar_live_data", JSON.stringify(result)); } catch {} window.location.href = `/ar?type=studio&id=${result.job_id || "live"}&mode=live`; }}
+                        className="px-2 py-1 rounded-md font-bold text-[10px] flex items-center gap-1 transition-all hover:opacity-80 cursor-pointer"
+                        style={{ background: "linear-gradient(135deg, rgba(79,142,247,0.15), rgba(168,85,247,0.15))", color: "#a855f7", border: "1px solid rgba(168,85,247,0.2)" }}>
+                        🔮 AR
+                      </button>
+                    )}
                   </div>
                 </div>
                 <div className="p-4 bg-[var(--bg-elevated)] rounded-xl text-sm text-[var(--text-primary)] border border-[var(--border-subtle)]">

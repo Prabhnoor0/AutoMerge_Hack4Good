@@ -23,6 +23,7 @@ from app.routes.classroom import router as classroom_router
 from app.routes.repo_explorer import router as repo_explorer_router
 from app.routes.deploy import router as deploy_router
 from app.routes.battle import router as battle_router
+from app.routes.ar import router as ar_router
 
 
 # ─── Structured Logging Setup ─────────────────────────────
@@ -95,3 +96,4 @@ app.include_router(classroom_router, prefix="/api/classroom", tags=["classroom"]
 app.include_router(repo_explorer_router, prefix="/api/repo-explorer", tags=["repo-explorer"])
 app.include_router(deploy_router, prefix="/api/deploy", tags=["deploy"])
 app.include_router(battle_router, prefix="/api/battle", tags=["battle"])
+app.include_router(ar_router, prefix="/api/ar", tags=["ar-debug-explorer"])
