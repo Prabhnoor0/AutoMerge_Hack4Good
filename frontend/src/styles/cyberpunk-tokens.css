@@ -1,0 +1,102 @@
+/* ═══════════════════════════════════════════════════════════════
+   CYBERPUNK DESIGN TOKENS
+   Namespaced under --cyber-* to avoid collisions with globals.css
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Base Palette ──────────────────────────────────────────── */
+  --cyber-bg-void:        #06060c;
+  --cyber-bg-deep:        #0a0b14;
+  --cyber-bg-base:        #0e1019;
+  --cyber-bg-surface:     #131521;
+  --cyber-bg-elevated:    #191c2b;
+  --cyber-bg-overlay:     rgba(10, 11, 20, 0.85);
+
+  /* ── Neon Accents ──────────────────────────────────────────── */
+  --cyber-neon-cyan:      #00f0ff;
+  --cyber-neon-blue:      #3b82f6;
+  --cyber-neon-purple:    #a855f7;
+  --cyber-neon-magenta:   #ec4899;
+  --cyber-neon-green:     #00ff88;
+  --cyber-neon-amber:     #ffb700;
+  --cyber-neon-red:       #ff3355;
+  --cyber-neon-white:     #e0e6f0;
+
+  /* ── Semantic Status Tokens ────────────────────────────────── */
+  --cyber-success:        #00ff88;
+  --cyber-success-dim:    rgba(0, 255, 136, 0.15);
+  --cyber-success-glow:   0 0 12px rgba(0, 255, 136, 0.45),
+                          0 0 32px rgba(0, 255, 136, 0.15);
+
+  --cyber-error:          #ff3355;
+  --cyber-error-dim:      rgba(255, 51, 85, 0.15);
+  --cyber-error-glow:     0 0 12px rgba(255, 51, 85, 0.45),
+                          0 0 32px rgba(255, 51, 85, 0.15);
+
+  --cyber-warning:        #ffb700;
+  --cyber-warning-dim:    rgba(255, 183, 0, 0.15);
+  --cyber-warning-glow:   0 0 12px rgba(255, 183, 0, 0.45),
+                          0 0 32px rgba(255, 183, 0, 0.15);
+
+  --cyber-info:           #00f0ff;
+  --cyber-info-dim:       rgba(0, 240, 255, 0.15);
+  --cyber-info-glow:      0 0 12px rgba(0, 240, 255, 0.45),
+                          0 0 32px rgba(0, 240, 255, 0.15);
+
+  --cyber-ai:             #a855f7;
+  --cyber-ai-dim:         rgba(168, 85, 247, 0.15);
+  --cyber-ai-glow:        0 0 12px rgba(168, 85, 247, 0.45),
+                          0 0 32px rgba(168, 85, 247, 0.15);
+
+  /* ── Border Tokens ─────────────────────────────────────────── */
+  --cyber-border:         rgba(255, 255, 255, 0.06);
+  --cyber-border-glow:    rgba(0, 240, 255, 0.18);
+  --cyber-border-accent:  rgba(168, 85, 247, 0.25);
+
+  /* ── Text Tokens ───────────────────────────────────────────── */
+  --cyber-text-primary:   #e0e6f0;
+  --cyber-text-secondary: #7b829a;
+  --cyber-text-muted:     #4a5068;
+  --cyber-text-neon:      #00f0ff;
+
+  /* ── Glassmorphism ─────────────────────────────────────────── */
+  --cyber-glass-bg:       rgba(14, 16, 25, 0.55);
+  --cyber-glass-border:   rgba(255, 255, 255, 0.07);
+  --cyber-glass-blur:     16px;
+  --cyber-glass-blur-heavy: 32px;
+
+  /* ── Shadows ───────────────────────────────────────────────── */
+  --cyber-shadow-sm:      0 2px 8px rgba(0, 0, 0, 0.4);
+  --cyber-shadow-md:      0 4px 16px rgba(0, 0, 0, 0.5),
+                          0 0 1px rgba(0, 240, 255, 0.08);
+  --cyber-shadow-lg:      0 8px 32px rgba(0, 0, 0, 0.6),
+                          0 0 2px rgba(0, 240, 255, 0.1);
+  --cyber-shadow-neon:    0 0 20px rgba(0, 240, 255, 0.2),
+                          0 0 60px rgba(0, 240, 255, 0.08);
+
+  /* ── Spacing Scale (motion-friendly 8px grid) ──────────────── */
+  --cyber-space-1:  4px;
+  --cyber-space-2:  8px;
+  --cyber-space-3:  12px;
+  --cyber-space-4:  16px;
+  --cyber-space-5:  20px;
+  --cyber-space-6:  24px;
+  --cyber-space-8:  32px;
+  --cyber-space-10: 40px;
+  --cyber-space-12: 48px;
+  --cyber-space-16: 64px;
+
+  /* ── Radii ─────────────────────────────────────────────────── */
+  --cyber-radius-sm:  6px;
+  --cyber-radius-md:  10px;
+  --cyber-radius-lg:  16px;
+  --cyber-radius-xl:  24px;
+  --cyber-radius-pill: 9999px;
+
+  /* ── Transitions ───────────────────────────────────────────── */
+  --cyber-ease:       cubic-bezier(0.22, 1, 0.36, 1);
+  --cyber-ease-snap:  cubic-bezier(0.34, 1.56, 0.64, 1);
+  --cyber-duration-fast: 150ms;
+  --cyber-duration-normal: 250ms;
+  --cyber-duration-slow: 400ms;
+}

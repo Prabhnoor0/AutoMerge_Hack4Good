@@ -1,0 +1,102 @@
+/* CYBERPUNK BADGES — Status badges with neon glow, namespaced cyber-badge-* */
+
+/* Base badge */
+.cyber-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-radius: var(--cyber-radius-pill);
+  line-height: 1.4;
+  white-space: nowrap;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* ── Status variants ─────────────────────────────── */
+
+.cyber-badge-success {
+  color: var(--cyber-success);
+  background: var(--cyber-success-dim);
+  border: 1px solid rgba(0, 255, 136, 0.2);
+  box-shadow: var(--cyber-success-glow);
+}
+
+.cyber-badge-error {
+  color: var(--cyber-error);
+  background: var(--cyber-error-dim);
+  border: 1px solid rgba(255, 51, 85, 0.2);
+  box-shadow: var(--cyber-error-glow);
+}
+
+.cyber-badge-warning {
+  color: var(--cyber-warning);
+  background: var(--cyber-warning-dim);
+  border: 1px solid rgba(255, 183, 0, 0.2);
+  box-shadow: var(--cyber-warning-glow);
+}
+
+.cyber-badge-info {
+  color: var(--cyber-info);
+  background: var(--cyber-info-dim);
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  box-shadow: var(--cyber-info-glow);
+}
+
+.cyber-badge-ai {
+  color: var(--cyber-ai);
+  background: var(--cyber-ai-dim);
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  box-shadow: var(--cyber-ai-glow);
+}
+
+.cyber-badge-neutral {
+  color: var(--cyber-text-secondary);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ── Dot indicator inside badge ──────────────────── */
+
+.cyber-badge-dot::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+/* Animated dot variant (pulsing) */
+.cyber-badge-dot-pulse::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+  animation: cyber-pulse 1.5s ease-in-out infinite;
+}
+
+/* ── Size variants ───────────────────────────────── */
+
+.cyber-badge-sm {
+  padding: 2px 7px;
+  font-size: 10px;
+}
+
+.cyber-badge-lg {
+  padding: 5px 14px;
+  font-size: 12px;
+}
+
+/* ── Animated badge glow (for live/active states) ── */
+
+.cyber-badge-live {
+  animation: cyber-glow-breathe 3s ease-in-out infinite;
+}
