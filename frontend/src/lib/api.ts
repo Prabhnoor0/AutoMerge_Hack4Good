@@ -211,4 +211,74 @@ export const api = {
 
   repoExplorerDeleteHistory: (report_id: string) =>
     request<any>(`/repo-explorer/history/${report_id}`, { method: "DELETE" }),
+
+  // ─── AutoDeploy ─────────────────────────────────────────
+
+  deployAnalyze: (repo_url: string, token: string = "") =>
+    request<any>("/deploy/analyze", {
+      method: "POST",
+      body: JSON.stringify({ repo_url, token }),
+    }),
+
+  deployPreview: (repo_url: string, platform_id: string = "", token: string = "") =>
+    request<any>("/deploy/preview", {
+      method: "POST",
+      body: JSON.stringify({ repo_url, platform_id, token }),
+    }),
+
+  deployStart: (data: { repo_url: string; platform_id: string; token?: string; platform_token?: string; env_vars?: Record<string, string> }) =>
+    request<any>("/deploy/start", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+
+  deployRuns: () =>
+    request<any>("/deploy/runs"),
+
+  deployGetRun: (id: string) =>
+    request<any>(`/deploy/runs/${id}`),
+
+  deployRetry: (id: string, platform_token: string = "", env_vars?: Record<string, string>) =>
+    request<any>(`/deploy/runs/${id}/retry`, {
+      method: "POST",
+      body: JSON.stringify({ platform_token, env_vars }),
+    }),
+
+  deployEnableAuto: (id: string, platform_token: string = "") =>
+    request<any>(`/deploy/runs/${id}/auto-deploy`, {
+      method: "POST",
+      body: JSON.stringify({ platform_token }),
+    }),
+
+  deployPlatforms: () =>
+    request<any>("/deploy/platforms"),
+
+  // ─── BugFix Arena / Battle ──────────────────────────────
+
+  battleCreate: (host_name: string, challenge_id: string = "") =>
+    request<any>("/battle/create", { method: "POST", body: JSON.stringify({ host_name, challenge_id }) }),
+
+  battleJoin: (room_code: string, player_name: string) =>
+    request<any>("/battle/join", { method: "POST", body: JSON.stringify({ room_code, player_name }) }),
+
+  battleStart: (session_id: string) =>
+    request<any>(`/battle/${session_id}/start`, { method: "POST" }),
+
+  battleSubmit: (session_id: string, player_id: string, code: string, explanation: string = "") =>
+    request<any>(`/battle/${session_id}/submit`, { method: "POST", body: JSON.stringify({ player_id, code, explanation }) }),
+
+  battleGetState: (session_id: string) =>
+    request<any>(`/battle/${session_id}/state`),
+
+  battleGetResult: (session_id: string) =>
+    request<any>(`/battle/${session_id}/result`),
+
+  battleFinish: (session_id: string) =>
+    request<any>(`/battle/${session_id}/finish`, { method: "POST" }),
+
+  battleLeaderboard: () =>
+    request<any>("/battle/meta/leaderboard"),
+
+  battleChallenges: () =>
+    request<any>("/battle/meta/challenges"),
 };

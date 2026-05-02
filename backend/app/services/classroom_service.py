@@ -332,12 +332,27 @@ async def generate_reports(db: AsyncSession) -> list[ClassroomReport]:
         else:
             # Create new report
             severity = min(round(data["severity_sum"] / max(data["count"], 1), 2), 1.0)
+            weakness_summary = f"AutoMerge detected {data['count']} instance(s) of issues related to {knowledge['topic_name'].lower()}. This pattern indicates a recurring weakness area that would benefit from focused study."
+            
+            # ── AutoMerge Mentor: LLM enhancement ──
+            from app.config import settings
+            if settings.has_llm:
+                try:
+                    from app.services import llm_service
+                    ai_summary = await llm_service.generate_learning_summary(
+                        knowledge["topic_name"], weakness_summary, data["evidence"]
+                    )
+                    if ai_summary:
+                        weakness_summary = ai_summary
+                except Exception as e:
+                    pass  # Fall back to deterministic summary
+
             report = ClassroomReport(
                 id=generate_id(),
                 title=f"Improve Your {knowledge['topic_name']}",
                 topic_name=knowledge["topic_name"],
                 topic_category=knowledge["topic_category"],
-                weakness_summary=f"AutoMerge detected {data['count']} instance(s) of issues related to {knowledge['topic_name'].lower()}. This pattern indicates a recurring weakness area that would benefit from focused study.",
+                weakness_summary=weakness_summary,
                 why_it_matters=knowledge["why_it_matters"],
                 evidence=json.dumps(data["evidence"]),
                 resources=json.dumps(knowledge["resources"]),

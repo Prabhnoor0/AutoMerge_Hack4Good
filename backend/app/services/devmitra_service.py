@@ -247,15 +247,19 @@ async def generate_chat_response(
     # Append user message
     _SESSIONS[sid]["history"].append({"role": "user", "content": message})
 
-    # --- LLM Integration Point ---
-    # if settings.has_llm and not settings.DEMO_MODE:
-    #     prompt = _build_system_prompt(context, _SESSIONS[sid]["history"])
-    #     response_text = await generate_text(prompt)
-    # else:
+    # --- LLM Integration (Gemini via llm_service) ---
+    response_text = None
+    if settings.has_llm:
+        try:
+            from app.services import llm_service
+            response_text = await llm_service.generate_chat_reply(message, context)
+        except Exception:
+            pass  # Fall through to mock engine
 
-    # Use smart mock engine with async delay
-    await asyncio.sleep(0.6)
-    response_text = _generate_mock_response(message, context)
+    # Fallback: smart mock engine
+    if not response_text:
+        await asyncio.sleep(0.6)
+        response_text = _generate_mock_response(message, context)
 
     # Append assistant message
     _SESSIONS[sid]["history"].append({"role": "assistant", "content": response_text})

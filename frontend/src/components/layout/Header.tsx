@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Zap, Play, ChevronDown, GitMerge, Code2, LayoutDashboard, GitFork, GraduationCap, Search } from "lucide-react";
+import { Zap, Play, ChevronDown, GitMerge, Code2, LayoutDashboard, GitFork, GraduationCap, Search, Rocket, Swords } from "lucide-react";
 import { GitHubDrawer } from "@/components/github/GitHubDrawer";
 import { api } from "@/lib/api";
 import Link from "next/link";
@@ -122,6 +122,28 @@ export function Header() {
           >
             <Search size={13} />
             Devमित्र
+          </Link>
+          <Link
+            href="/deploy"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors"
+            style={{
+              color: pathname === "/deploy" ? "var(--text-primary)" : "var(--text-muted)",
+              background: pathname === "/deploy" ? "var(--bg-elevated)" : "transparent",
+            }}
+          >
+            <Rocket size={13} />
+            Deploy
+          </Link>
+          <Link
+            href="/battle"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors"
+            style={{
+              color: pathname === "/battle" ? "var(--text-primary)" : "var(--text-muted)",
+              background: pathname === "/battle" ? "var(--bg-elevated)" : "transparent",
+            }}
+          >
+            <Swords size={13} />
+            Battle
           </Link>
         </nav>
       </div>

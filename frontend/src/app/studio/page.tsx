@@ -253,7 +253,7 @@ export default function StudioPage() {
                   </div>
                 </div>
                 <div className="p-4 bg-[var(--bg-elevated)] rounded-xl text-sm text-[var(--text-primary)] border border-[var(--border-subtle)]">
-                  {result.root_cause}
+                  {result.ai_root_cause || result.root_cause}
                 </div>
               </div>
 
@@ -342,18 +342,38 @@ export default function StudioPage() {
                         No issues matching the selected filter.
                       </div>
                     )}
+                    
+                    {result.ai_fix_hint && (
+                      <div className="mt-4 p-4 border border-[var(--border-subtle)] bg-[var(--bg-elevated)] rounded-xl">
+                        <div className="flex items-center gap-2 mb-2 text-[var(--accent-green)]">
+                          <CheckCircle2 size={16} />
+                          <span className="font-semibold text-sm">AI Suggested Fix Hint</span>
+                          <span className="ml-auto px-2 py-0.5 bg-[var(--glow-purple)] text-[var(--accent-purple)] rounded text-[10px] uppercase font-bold tracking-wider">
+                            Mentor
+                          </span>
+                        </div>
+                        <p className="text-sm text-[var(--text-secondary)] whitespace-pre-line">
+                          {result.ai_fix_hint}
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
 
               {/* Explanation */}
-              {result.explanation && (
+              {(result.explanation || result.ai_explanation) && (
                 <div className="p-5 bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl shadow-lg">
                   <div className="flex items-center gap-3 mb-4">
                     <Zap className="text-[var(--accent-amber)]" size={20} />
                     <h2 className="text-lg font-bold text-[var(--text-primary)]">Explanation</h2>
+                    {result.ai_enabled && (
+                      <span className="ml-auto px-2 py-1 bg-[var(--glow-purple)] text-[var(--accent-purple)] rounded-md font-bold text-xs flex items-center gap-1 border border-purple-500/20">
+                        <Zap size={12} /> AutoMerge Mentor
+                      </span>
+                    )}
                   </div>
-                  <div className="prose prose-invert prose-sm max-w-none text-[var(--text-secondary)]" dangerouslySetInnerHTML={{__html: result.explanation.replace(/\\n/g, '<br/>')}} />
+                  <div className="prose prose-invert prose-sm max-w-none text-[var(--text-secondary)]" dangerouslySetInnerHTML={{__html: (result.ai_explanation || result.explanation).replace(/\\n/g, '<br/>')}} />
                 </div>
               )}
 
@@ -370,6 +390,18 @@ export default function StudioPage() {
                   <pre className="p-4 bg-[#0a0b0f] rounded-xl text-xs overflow-x-auto text-gray-300 border border-[var(--border-subtle)] font-mono leading-relaxed">
                     {result.diff_text}
                   </pre>
+                  
+                  {result.ai_test_suggestion && (
+                    <div className="mt-4 p-4 border border-[var(--border-subtle)] bg-[var(--bg-elevated)] rounded-xl">
+                      <div className="flex items-center gap-2 mb-2 text-[var(--accent-blue)]">
+                        <Shield size={16} />
+                        <span className="font-semibold text-sm">Suggested Regression Test</span>
+                      </div>
+                      <pre className="p-3 bg-[#0a0b0f] rounded-lg text-xs overflow-x-auto text-gray-300 border border-[var(--border-subtle)] font-mono leading-relaxed">
+                        {result.ai_test_suggestion}
+                      </pre>
+                    </div>
+                  )}
                 </div>
               )}
 

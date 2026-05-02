@@ -970,6 +970,19 @@ async def analyze_repository(repo_url: str, token: str = "") -> dict:
     structure = _analyze_structure(tree, file_contents)
     report = _generate_report(owner, repo, readme, tech, structure, file_contents)
 
+    # ── AutoMerge Mentor: LLM enhancement ──
+    from app.config import settings
+    if settings.has_llm:
+        try:
+            from app.services import llm_service
+            paths = [f["path"] for f in tree]
+            ai_summary = await llm_service.generate_repo_summary(repo, tech, paths, readme)
+            if ai_summary:
+                report["what_it_does"] = ai_summary
+                report["llm_enhanced"] = True
+        except Exception as e:
+            logger.warning("repo_explorer.llm_summary_failed", error=str(e)[:200])
+
     # Diagrams
     diagrams = {
         "architecture": _generate_architecture_diagram(structure, tech),
@@ -1028,9 +1041,32 @@ async def ask_repo_question(report_id: str, question: str) -> dict:
     if not data:
         return {"answer": "Report not found. Please analyze the repository first.", "sources": []}
 
-    answer = _answer_question(
-        question, data["report"], data["structure"], data.get("file_contents", {})
-    )
+    answer = None
+    from app.config import settings
+    if settings.has_llm:
+        try:
+            from app.services import llm_service
+            context = {
+                "repo_name": data.get("repo_name", ""),
+                "repo_summary": data.get("report", {}).get("what_it_does", ""),
+                "analysis_summary": f"Languages: {data.get('report', {}).get('languages', '')}, Files: {data.get('structure', {}).get('total_files', 0)}",
+            }
+            
+            # If asking about a specific file, include it
+            for f_path, content in data.get("file_contents", {}).items():
+                if f_path.split("/")[-1].lower() in question.lower():
+                    context["filename"] = f_path
+                    context["code"] = content[:1500]
+                    break
+                    
+            answer = await llm_service.generate_chat_reply(question, context)
+        except Exception as e:
+            logger.warning("repo_explorer.llm_qa_failed", error=str(e)[:200])
+
+    if not answer:
+        answer = _answer_question(
+            question, data["report"], data["structure"], data.get("file_contents", {})
+        )
 
     # Persist Q&A
     data.setdefault("qa_history", []).append({

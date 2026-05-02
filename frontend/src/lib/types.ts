@@ -252,3 +252,157 @@ export interface ClassroomSummary {
   revision_done_count: number;
   completed_count: number;
 }
+
+// ─── AutoDeploy Types ───────────────────────────────────
+
+export interface DeployClassification {
+  project_type: string;
+  frontend_type: string | null;
+  backend_type: string | null;
+  ml_type: string | null;
+  database_type: string | null;
+  is_static: boolean;
+  is_monorepo: boolean;
+  recommended_platforms: DeployPlatform[];
+  confidence: number;
+  reasoning: string[];
+  warnings: string[];
+  detected_deps: string[];
+  entry_points: string[];
+  build_command: string | null;
+  start_command: string | null;
+  required_env_vars: string[];
+}
+
+export interface DeployPlatform {
+  id: string;
+  name: string;
+  icon: string;
+  tier: string;
+  best_for: string[];
+  reason?: string;
+  match?: number;
+}
+
+export interface DeployEnvVar {
+  name: string;
+  purpose: string;
+  source_files: string[];
+  is_secret: boolean;
+  priority: string;
+}
+
+export interface DeployEnvScan {
+  required_vars: DeployEnvVar[];
+  detected_in_env_example: string[];
+  missing_vars: string[];
+  detected_sources: Record<string, string[]>;
+  recommendations: string[];
+  total_vars: number;
+}
+
+export interface DeploySimCheck {
+  name: string;
+  status: "pass" | "fail" | "warn" | "info";
+  detail: string;
+}
+
+export interface DeploySimulation {
+  readiness_score: number;
+  status: "ready" | "warning" | "not_ready";
+  issues: string[];
+  warnings: string[];
+  checks: DeploySimCheck[];
+  predicted_failure_probability: number;
+  missing_env: string[];
+  port_risk: boolean;
+  build_risk: boolean;
+}
+
+export interface DeployAnalysis {
+  repo_url: string;
+  owner: string;
+  repo_name: string;
+  classification: DeployClassification;
+  env_scan: DeployEnvScan;
+  failure_warnings: string[];
+  simulation?: DeploySimulation;
+  platform_id?: string;
+}
+
+export interface DeployRun {
+  id: string;
+  repo_url: string;
+  repo_name: string;
+  owner?: string;
+  platform: string;
+  platform_name?: string;
+  project_type: string;
+  frontend_type?: string | null;
+  backend_type?: string | null;
+  status: "deployed" | "failed" | "deploying";
+  deploy_url: string;
+  logs: string[];
+  error: string;
+  failure_category: string;
+  readiness_score: number;
+  env_summary?: { count: number; keys: string[] };
+  auto_deploy?: { supported: boolean; message: string; configured?: boolean };
+  created_at: string;
+}
+
+// ─── BugFix Arena / Battle Types ────────────────────────
+
+export interface BattleScore {
+  correctness: number;
+  hidden_tests: number;
+  explanation_quality: number;
+  speed: number;
+  total: number;
+  breakdown: string[];
+}
+
+export interface BattleParticipant {
+  id: string;
+  name: string;
+  color: string;
+  is_host: boolean;
+  ready: boolean;
+  submitted: boolean;
+  score: BattleScore | null;
+  time_taken?: number;
+  submission?: { code: string; explanation: string; submitted_at: string; time_taken: number } | null;
+}
+
+export interface BattleChallenge {
+  id: string;
+  title: string;
+  difficulty: string;
+  language: string;
+  description: string;
+  broken_code: string;
+  error_logs: string;
+  hints?: string[];
+  time_limit: number;
+}
+
+export interface BattleState {
+  id: string;
+  room_code: string;
+  status: "waiting" | "ready" | "running" | "judging" | "finished";
+  title: string;
+  time_limit: number;
+  elapsed: number;
+  remaining: number;
+  participants: BattleParticipant[];
+  winner: string | null;
+  challenge: BattleChallenge;
+}
+
+export interface BattleLeaderboardEntry {
+  name: string;
+  wins: number;
+  losses: number;
+  total_score: number;
+  battles: number;
+}

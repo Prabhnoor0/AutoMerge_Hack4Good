@@ -25,6 +25,9 @@ class Settings(BaseSettings):
     # Optional: LLM integration
     OPENAI_API_KEY: str | None = None
     GEMINI_API_KEY: str | None = None
+    ENABLE_LLM: bool = True  # Feature flag — disable to use deterministic-only mode
+    LLM_MODEL: str = "gemini-2.5-flash"  # Default free-tier model
+    LLM_TIMEOUT_SECONDS: int = 15
 
     # Optional: GitHub integration
     GITHUB_TOKEN: str | None = None
@@ -41,7 +44,7 @@ class Settings(BaseSettings):
 
     @property
     def has_llm(self) -> bool:
-        return bool(self.OPENAI_API_KEY or self.GEMINI_API_KEY)
+        return bool(self.ENABLE_LLM and self.GEMINI_API_KEY)
 
     @property
     def has_github(self) -> bool:

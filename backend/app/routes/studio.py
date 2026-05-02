@@ -22,6 +22,8 @@ from app.services.studio_service import (
     list_demo_samples,
 )
 from app.services.github import GitHubClient, parse_repo_url
+from app.services import llm_service
+from app.config import settings
 
 logger = structlog.get_logger("automerge.studio")
 
@@ -127,6 +129,14 @@ class StudioResponse(BaseModel):
     modes_executed: list[str]
     duration_ms: int
     created_at: str
+    # ── AutoMerge Mentor (LLM-enhanced, optional) ──
+    ai_explanation: str = ""
+    ai_fix_hint: str = ""
+    ai_root_cause: str = ""
+    ai_test_suggestion: str = ""
+    ai_pr_title: str = ""
+    ai_pr_summary: str = ""
+    ai_enabled: bool = False
 
 
 class StudioDemoRequest(BaseModel):
@@ -160,6 +170,35 @@ async def studio_submit(
         logs=payload.logs,
         modes=payload.modes,
     )
+
+    # ── AutoMerge Mentor: LLM enhancement (non-blocking) ──
+    mentor = {}
+    if settings.has_llm and result.get("issues"):
+        try:
+            import asyncio
+            ai_explanation, ai_fix_hint, ai_root_cause, ai_test = await asyncio.gather(
+                llm_service.generate_explanation(payload.code, result["issues"], result["language"]),
+                llm_service.generate_fix_hint(payload.code, result["issues"], result["language"]),
+                llm_service.generate_root_cause_summary(payload.code, result["issues"], result["language"]),
+                llm_service.generate_test_suggestion(payload.code, result["issues"], result["language"]),
+                return_exceptions=True,
+            )
+            mentor["ai_explanation"] = ai_explanation if isinstance(ai_explanation, str) else ""
+            mentor["ai_fix_hint"] = ai_fix_hint if isinstance(ai_fix_hint, str) else ""
+            mentor["ai_root_cause"] = ai_root_cause if isinstance(ai_root_cause, str) else ""
+            mentor["ai_test_suggestion"] = ai_test if isinstance(ai_test, str) else ""
+            mentor["ai_enabled"] = True
+
+            # Enhance PR data with LLM if available
+            if result.get("pr_data") and result.get("changes"):
+                ai_pr = await llm_service.generate_pr_body(
+                    result["root_cause"], result["changes"], result["language"], result["confidence"]
+                )
+                if ai_pr and isinstance(ai_pr, dict):
+                    mentor["ai_pr_title"] = ai_pr.get("title", "") or ""
+                    mentor["ai_pr_summary"] = ai_pr.get("summary", "") or ""
+        except Exception as e:
+            logger.warning("studio.mentor_failed", error=str(e)[:200])
 
     # Save as a Job for history
     job = Job(
@@ -262,6 +301,14 @@ async def studio_submit(
         modes_executed=result["modes_executed"],
         duration_ms=result["duration_ms"],
         created_at=job.created_at.isoformat() if job.created_at else "",
+        # AutoMerge Mentor
+        ai_explanation=mentor.get("ai_explanation", ""),
+        ai_fix_hint=mentor.get("ai_fix_hint", ""),
+        ai_root_cause=mentor.get("ai_root_cause", ""),
+        ai_test_suggestion=mentor.get("ai_test_suggestion", ""),
+        ai_pr_title=mentor.get("ai_pr_title", ""),
+        ai_pr_summary=mentor.get("ai_pr_summary", ""),
+        ai_enabled=mentor.get("ai_enabled", False),
     )
 
 
