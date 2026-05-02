@@ -6,8 +6,8 @@
     "title": "Studio: Python Analysis",
     "summary": "eval() executes arbitrary code \u2014 remote code execution risk (line 19) \u2014 Use `ast.literal_eval()` for safe literal parsing, or a proper schema parser",
     "created_at": "2026-05-02T15:16:55.979112+00:00",
-    "last_viewed_at": "2026-05-02T15:24:24.528400+00:00",
-    "view_count": 10
+    "last_viewed_at": "2026-05-02T16:42:44.267031+00:00",
+    "view_count": 19
   },
   {
     "scene_id": "ar_3bd6c77441",
@@ -16,7 +16,7 @@
     "title": "Error loading studio scene",
     "summary": "Missing return statement",
     "created_at": "2026-05-02T14:46:50.939565+00:00",
-    "last_viewed_at": "2026-05-02T15:24:15.214519+00:00",
-    "view_count": 5
+    "last_viewed_at": "2026-05-02T15:59:36.973197+00:00",
+    "view_count": 6
   }
 ]

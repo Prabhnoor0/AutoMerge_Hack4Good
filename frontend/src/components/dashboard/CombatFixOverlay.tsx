@@ -72,6 +72,7 @@ export function CombatFixOverlay({ isActive, onComplete, diffText }: Props) {
         <AnimatePresence>
           {phase === "exploding" && (
             <motion.div
+              key="explode-flash"
               initial={{ scale: 1, opacity: 1 }}
               animate={{ scale: 4, opacity: 0 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
@@ -80,6 +81,7 @@ export function CombatFixOverlay({ isActive, onComplete, diffText }: Props) {
           )}
           {phase === "exploding" && (
             <motion.div
+              key="explode-text"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
