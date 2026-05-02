@@ -392,16 +392,38 @@ def _score_submission(code: str, explanation: str, challenge: dict | None, time_
 
 
 def _finish_battle(s: dict):
-    """Determine winner and finalize battle."""
+    """Determine winner and finalize battle with fair thresholds."""
+    # ─── Thresholds ────────────────────────────────────
+    # Players must fix at least 60% of bugs (30/50 correctness pts) to be win-eligible
+    WIN_THRESHOLD_CORRECTNESS = 30   # out of 50
+    WIN_THRESHOLD_TOTAL       = 40   # out of 100
+
     s["status"] = "finished"
     s["finished_at"] = datetime.now(timezone.utc).isoformat()
 
-    if len(s["participants"]) == 1:
-        s["winner"] = s["participants"][0]["id"]
-    elif len(s["participants"]) >= 2:
-        p1, p2 = s["participants"][0], s["participants"][1]
-        s1 = (p1.get("score") or {}).get("total", 0)
-        s2 = (p2.get("score") or {}).get("total", 0)
+    def _is_eligible(p: dict) -> bool:
+        """A player is win-eligible only if they submitted AND meet minimum quality."""
+        if not p.get("submitted") or not p.get("score"):
+            return False
+        sc = p["score"]
+        return sc.get("correctness", 0) >= WIN_THRESHOLD_CORRECTNESS and sc.get("total", 0) >= WIN_THRESHOLD_TOTAL
+
+    eligible = [p for p in s["participants"] if _is_eligible(p)]
+
+    if len(eligible) == 0:
+        # Nobody meets the bar — no winner
+        s["winner"] = None
+        s["outcome"] = "no_winner"
+        s["outcome_reason"] = "No player met the minimum correctness threshold."
+    elif len(eligible) == 1:
+        s["winner"] = eligible[0]["id"]
+        s["outcome"] = "win"
+        s["outcome_reason"] = f"{eligible[0]['name']} met the threshold; opponent did not."
+    else:
+        # Both eligible — highest total wins
+        p1, p2 = eligible[0], eligible[1]
+        s1 = p1["score"]["total"]
+        s2 = p2["score"]["total"]
         if s1 > s2:
             s["winner"] = p1["id"]
         elif s2 > s1:
@@ -411,8 +433,22 @@ def _finish_battle(s: dict):
             t1 = (p1.get("submission") or {}).get("time_taken", 9999)
             t2 = (p2.get("submission") or {}).get("time_taken", 9999)
             s["winner"] = p1["id"] if t1 <= t2 else p2["id"]
+        s["outcome"] = "win"
+        s["outcome_reason"] = "Both players eligible; highest score wins."
 
-    logger.info("battle.finished", session_id=s["id"], winner=s["winner"])
+    # Tag each player with their personal outcome
+    for p in s["participants"]:
+        sc = p.get("score") or {}
+        if not p.get("submitted"):
+            p["result"] = "did_not_submit"
+        elif sc.get("correctness", 0) < WIN_THRESHOLD_CORRECTNESS:
+            p["result"] = "failed"
+        elif p["id"] == s.get("winner"):
+            p["result"] = "won"
+        else:
+            p["result"] = "lost"
+
+    logger.info("battle.finished", session_id=s["id"], winner=s["winner"], outcome=s.get("outcome"))
 
 
 def finish_battle(session_id: str) -> dict:
@@ -457,13 +493,16 @@ def get_state(session_id: str) -> dict:
         "time_limit": s["time_limit"],
         "elapsed": round(elapsed),
         "remaining": round(remaining),
+        "outcome": s.get("outcome"),
+        "outcome_reason": s.get("outcome_reason"),
         "participants": [
             {
                 "id": p["id"], "name": p["name"], "color": p["color"],
                 "is_host": p["is_host"], "ready": p["ready"],
                 "submitted": p["submitted"],
-                "score": p["score"]["total"] if p.get("score") and s["status"] == "finished" else None,
+                "score": p["score"] if p.get("score") and s["status"] == "finished" else None,
                 "time_taken": (p.get("submission") or {}).get("time_taken"),
+                "result": p.get("result"),
             }
             for p in s["participants"]
         ],

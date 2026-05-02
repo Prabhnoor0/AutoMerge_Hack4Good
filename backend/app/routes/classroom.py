@@ -11,7 +11,8 @@ from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.database import get_db
-from app.models import ClassroomReport
+from app.models import ClassroomReport, User
+from app.dependencies import get_current_user_optional
 from app.schemas import (
     ClassroomReportResponse,
     ClassroomReportUpdate,
@@ -38,6 +39,7 @@ def _serialize_report(report: ClassroomReport) -> dict:
 
     return {
         "id": report.id,
+        "user_id": report.user_id,
         "title": report.title,
         "topic_name": report.topic_name,
         "topic_category": report.topic_category,
@@ -60,6 +62,7 @@ def _serialize_report(report: ClassroomReport) -> dict:
 async def list_reports(
     status: str | None = None,
     db: AsyncSession = Depends(get_db),
+    current_user: User | None = Depends(get_current_user_optional),
 ):
     """List all classroom reports, optionally filtered by status."""
     query = select(ClassroomReport).order_by(
@@ -69,30 +72,30 @@ async def list_reports(
     if status:
         query = query.where(ClassroomReport.status == status)
 
+    if current_user:
+        query = query.where((ClassroomReport.user_id == current_user.id) | (ClassroomReport.user_id == None))
+    else:
+        query = query.where(ClassroomReport.user_id == None)
+
     result = await db.execute(query)
     reports = result.scalars().all()
     return [_serialize_report(r) for r in reports]
 
 
 @router.get("/summary", response_model=ClassroomSummary)
-async def classroom_summary(db: AsyncSession = Depends(get_db)):
+async def classroom_summary(db: AsyncSession = Depends(get_db), current_user: User | None = Depends(get_current_user_optional)):
     """Get high-level classroom stats."""
-    total = (await db.execute(select(func.count(ClassroomReport.id)))).scalar() or 0
-    open_count = (
-        await db.execute(
-            select(func.count(ClassroomReport.id)).where(ClassroomReport.status == "open")
-        )
-    ).scalar() or 0
-    revision_done = (
-        await db.execute(
-            select(func.count(ClassroomReport.id)).where(ClassroomReport.revision_done == True)
-        )
-    ).scalar() or 0
-    completed = (
-        await db.execute(
-            select(func.count(ClassroomReport.id)).where(ClassroomReport.status == "completed")
-        )
-    ).scalar() or 0
+    
+    base_query = select(func.count(ClassroomReport.id))
+    if current_user:
+        base_query = base_query.where((ClassroomReport.user_id == current_user.id) | (ClassroomReport.user_id == None))
+    else:
+        base_query = base_query.where(ClassroomReport.user_id == None)
+        
+    total = (await db.execute(base_query)).scalar() or 0
+    open_count = (await db.execute(base_query.where(ClassroomReport.status == "open"))).scalar() or 0
+    revision_done = (await db.execute(base_query.where(ClassroomReport.revision_done == True))).scalar() or 0
+    completed = (await db.execute(base_query.where(ClassroomReport.status == "completed"))).scalar() or 0
 
     return ClassroomSummary(
         total_reports=total,

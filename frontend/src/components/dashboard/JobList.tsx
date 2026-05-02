@@ -183,7 +183,7 @@ export function JobList({ jobs, selectedId, onSelect }: JobListProps) {
             }}
           >
             <div className="flex items-start justify-between gap-2">
-              <div className="flex items-center gap-2 min-w-0">
+              <div className="flex items-center gap-2 min-w-0 flex-wrap">
                 <span style={{ color: statusColor }}>
                   {STATUS_ICONS[job.status] || <Bug size={14} />}
                 </span>
@@ -196,6 +196,10 @@ export function JobList({ jobs, selectedId, onSelect }: JobListProps) {
                   }}
                 >
                   {job.status}
+                </span>
+
+                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded border" style={{ borderColor: "var(--border)", color: "var(--text-muted)" }}>
+                  #{job.id.split('-')[0] || job.id.substring(0, 8)}
                 </span>
               </div>
 

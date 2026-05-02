@@ -304,4 +304,44 @@ export const api = {
 
   arDeleteHistory: (sceneId: string) =>
     request<any>(`/ar/history/${sceneId}`, { method: "DELETE" }),
+
+  // ─── Sandbox Execution ──────────────────────────────────
+
+  sandboxRun: (data: { code: string; language?: string; test_code?: string; filename?: string; mode?: string; timeout?: number; memory_limit?: string; cpu_limit?: string; network_disabled?: boolean; source_feature?: string }) =>
+    request<any>("/sandbox/run", { method: "POST", body: JSON.stringify(data) }),
+
+  sandboxTest: (data: { code: string; language?: string; test_code?: string; timeout?: number }) =>
+    request<any>("/sandbox/test", { method: "POST", body: JSON.stringify(data) }),
+
+  sandboxRuns: (limit?: number) =>
+    request<any>(`/sandbox/runs?limit=${limit || 50}`),
+
+  sandboxGetRun: (runId: string) =>
+    request<any>(`/sandbox/runs/${runId}`),
+
+  sandboxDeleteRun: (runId: string) =>
+    request<any>(`/sandbox/runs/${runId}`, { method: "DELETE" }),
+
+  // ─── Chrome Extension API ────────────────────────────────
+
+  extensionAnalyze: (data: {
+    code: string; language?: string; filename?: string; source_type?: string;
+    page_url?: string; repo_url?: string; selected_text?: string;
+    session_id?: string; extension_version?: string;
+  }) => request<any>("/extension/analyze", { method: "POST", body: JSON.stringify(data) }),
+
+  extensionExplain: (data: { code: string; language?: string; filename?: string; page_url?: string }) =>
+    request<any>("/extension/explain", { method: "POST", body: JSON.stringify(data) }),
+
+  extensionHistory: (limit?: number) =>
+    request<any>(`/extension/history?limit=${limit || 50}`),
+
+  extensionReport: (analysisId: string) =>
+    request<any>(`/extension/runs/${analysisId}`),
+
+  extensionDeleteReport: (analysisId: string) =>
+    request<any>(`/extension/runs/${analysisId}`, { method: "DELETE" }),
+
+  extensionHealth: () =>
+    request<any>("/extension/health"),
 };

@@ -1,0 +1,43 @@
+{
+  "id": "battle_52185826b2",
+  "room_code": "5XT87M",
+  "title": "BugFix Arena: Broken Calculator",
+  "status": "finished",
+  "challenge_id": "ch_python_calc",
+  "challenge": {
+    "id": "ch_python_calc",
+    "title": "Broken Calculator",
+    "difficulty": "medium",
+    "language": "python",
+    "description": "A shopping cart calculator is returning incorrect totals. The discount logic has multiple bugs causing wrong prices. Find and fix all issues.",
+    "broken_code": "def calculate_total(items, discount_percent=0):\n    \"\"\"Calculate total price with optional discount.\"\"\"\n    total = 0\n    for item in items:\n        price = item[\"price\"]\n        quantity = item[\"quantity\"]\n        total += price  # BUG: not multiplying by quantity\n    \n    if discount_percent:\n        discount = total * discount_percent  # BUG: should divide by 100\n        total = total + discount  # BUG: should subtract\n    \n    return round(total, 3)  # BUG: should round to 2 decimals\n\n\ndef apply_tax(total, tax_rate=0.08):\n    \"\"\"Apply sales tax to total.\"\"\"\n    tax = total * tax_rate\n    return total  # BUG: not adding tax\n\n\ndef get_final_price(items, discount=10, tax_rate=0.08):\n    \"\"\"Get final price with discount and tax.\"\"\"\n    subtotal = calculate_total(items, discount)\n    final = apply_tax(subtotal, tax_rate)\n    return final\n",
+    "error_logs": "FAILED test_calculate_total - AssertionError: assert 50.00 == 150.00\nFAILED test_discount - AssertionError: assert 165.0 == 135.0\nFAILED test_tax - AssertionError: assert 100 == 108.0\nFAILED test_final_price - AssertionError: assert 50.00 == 145.80\n\nTests: 4 failed, 0 passed",
+    "hints": [
+      "Check quantity multiplication",
+      "Check discount math",
+      "Check tax return"
+    ],
+    "time_limit": 300
+  },
+  "time_limit": 300,
+  "participants": [
+    {
+      "id": "player_fcc1aabf82",
+      "name": "noor",
+      "color": "#4f8ef7",
+      "is_host": true,
+      "ready": false,
+      "submitted": false,
+      "score": null,
+      "submission": null,
+      "joined_at": "2026-05-02T18:23:07.291300+00:00",
+      "result": "did_not_submit"
+    }
+  ],
+  "started_at": "2026-05-02T18:23:11.288483+00:00",
+  "finished_at": "2026-05-02T18:28:11.311867+00:00",
+  "winner": null,
+  "created_at": "2026-05-02T18:23:07.291338+00:00",
+  "outcome": "no_winner",
+  "outcome_reason": "No player met the minimum correctness threshold."
+}

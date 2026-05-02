@@ -371,6 +371,7 @@ export interface BattleParticipant {
   submitted: boolean;
   score: BattleScore | null;
   time_taken?: number;
+  result?: "won" | "lost" | "failed" | "did_not_submit" | null;
   submission?: { code: string; explanation: string; submitted_at: string; time_taken: number } | null;
 }
 
@@ -394,6 +395,8 @@ export interface BattleState {
   time_limit: number;
   elapsed: number;
   remaining: number;
+  outcome?: "win" | "no_winner" | null;
+  outcome_reason?: string | null;
   participants: BattleParticipant[];
   winner: string | null;
   challenge: BattleChallenge;
@@ -480,4 +483,55 @@ export interface ARHistoryEntry {
   created_at: string;
   last_viewed_at: string;
   view_count: number;
+}
+
+// ─── Chrome Extension Types ──────────────────────────────
+
+export type ExtSourceType = "selection" | "codeblock" | "github" | "web_editor" | "textarea" | "none";
+
+export interface ExtensionAnalysisResult {
+  analysis_id: string;
+  language: string;
+  source_type: ExtSourceType;
+  source_summary: string;
+  issue_count: number;
+  issue_summary: string;
+  root_cause: string;
+  explanation: string;
+  fix_suggestion: string;
+  learning_notes: string;
+  confidence: number;
+  open_full_report_url: string;
+  has_fix: boolean;
+  validation_status: string;
+  created_at: string;
+  status: "ok" | "error";
+  error?: string;
+}
+
+export interface ExtensionHistoryEntry {
+  analysis_id: string;
+  source_type: ExtSourceType;
+  page_url: string;
+  filename: string;
+  language: string;
+  confidence: number;
+  issue_count: number;
+  root_cause: string;
+  code_hash: string;
+  created_at: string;
+  open_url: string;
+}
+
+export interface ExtensionFullReport extends ExtensionAnalysisResult {
+  code_snippet: string;
+  filename: string;
+  page_url: string;
+  repo_url: string;
+  issues: any[];
+  fixed_code: string;
+  diff_text: string;
+  validation: any;
+  quality_suggestions: any[];
+  refactor_suggestions: any[];
 }

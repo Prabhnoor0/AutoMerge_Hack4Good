@@ -1,13 +1,33 @@
 [
   {
+    "scene_id": "ar_97211d15bf",
+    "source_type": "battle",
+    "source_id": "battle_07380b0f58",
+    "title": "Battle: Broken Calculator",
+    "summary": "BugFix Arena \u2014 Broken Calculator",
+    "created_at": "2026-05-02T18:22:37.757827+00:00",
+    "last_viewed_at": "2026-05-02T18:24:22.120769+00:00",
+    "view_count": 3
+  },
+  {
+    "scene_id": "ar_1fc8731fd4",
+    "source_type": "battle",
+    "source_id": "battle_cd1c77cef8",
+    "title": "Battle: Broken API Handler",
+    "summary": "BugFix Arena \u2014 Broken API Handler",
+    "created_at": "2026-05-02T18:08:41.371777+00:00",
+    "last_viewed_at": "2026-05-02T18:24:24.054540+00:00",
+    "view_count": 5
+  },
+  {
     "scene_id": "ar_2acdfd5cab",
     "source_type": "studio",
     "source_id": "0376b482f5d5",
     "title": "Studio: Python Analysis",
     "summary": "eval() executes arbitrary code \u2014 remote code execution risk (line 19) \u2014 Use `ast.literal_eval()` for safe literal parsing, or a proper schema parser",
     "created_at": "2026-05-02T15:16:55.979112+00:00",
-    "last_viewed_at": "2026-05-02T16:42:44.267031+00:00",
-    "view_count": 19
+    "last_viewed_at": "2026-05-02T18:24:26.608280+00:00",
+    "view_count": 25
   },
   {
     "scene_id": "ar_3bd6c77441",
@@ -16,7 +36,7 @@
     "title": "Error loading studio scene",
     "summary": "Missing return statement",
     "created_at": "2026-05-02T14:46:50.939565+00:00",
-    "last_viewed_at": "2026-05-02T15:59:36.973197+00:00",
-    "view_count": 6
+    "last_viewed_at": "2026-05-02T18:24:25.503998+00:00",
+    "view_count": 8
   }
 ]

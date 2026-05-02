@@ -64,6 +64,7 @@ class PRMergeRequest(BaseModel):
 class JobResponse(BaseModel):
     """Job summary for list/detail views."""
     id: str
+    user_id: str | None = None
     status: str
     failure_title: str
     failure_source: str
@@ -236,6 +237,7 @@ class ResourceItem(BaseModel):
 class ClassroomReportResponse(BaseModel):
     """Full classroom report."""
     id: str
+    user_id: str | None = None
     title: str
     topic_name: str
     topic_category: str

@@ -2,13 +2,15 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Zap, Play, ChevronDown, GitMerge, Code2, LayoutDashboard, GitFork, GraduationCap, Search, Rocket, Swords, Glasses } from "lucide-react";
+import { Zap, Play, ChevronDown, GitMerge, Code2, LayoutDashboard, GitFork, GraduationCap, Search, Rocket, Swords, Glasses, Shield, Puzzle } from "lucide-react";
 import { GitHubDrawer } from "@/components/github/GitHubDrawer";
 import { api } from "@/lib/api";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useAuth } from "@/store/AuthContext";
 
 export function Header() {
+  const { user, loading, logout } = useAuth();
   const [demoOpen, setDemoOpen] = useState(false);
   const [triggering, setTriggering] = useState(false);
   const [githubOpen, setGithubOpen] = useState(false);
@@ -146,6 +148,17 @@ export function Header() {
             Battle
           </Link>
           <Link
+            href="/sandbox"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors"
+            style={{
+              color: pathname === "/sandbox" ? "var(--text-primary)" : "var(--text-muted)",
+              background: pathname === "/sandbox" ? "var(--bg-elevated)" : "transparent",
+            }}
+          >
+            <Shield size={13} />
+            Sandbox
+          </Link>
+          <Link
             href="/ar"
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors"
             style={{
@@ -155,6 +168,17 @@ export function Header() {
           >
             <Glasses size={13} />
             AR
+          </Link>
+          <Link
+            href="/extension"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors"
+            style={{
+              color: pathname === "/extension" ? "var(--text-primary)" : "var(--text-muted)",
+              background: pathname === "/extension" ? "var(--bg-elevated)" : "transparent",
+            }}
+          >
+            <Puzzle size={13} />
+            Extension
           </Link>
         </nav>
       </div>
@@ -241,6 +265,31 @@ export function Header() {
           <GitFork size={13} />
           GitHub
         </button>
+        {/* Auth / User Profile */}
+        {!loading && user ? (
+          <div className="flex items-center gap-3 pl-3 ml-2 border-l" style={{ borderColor: "var(--border)" }}>
+            <div className="flex flex-col text-right hidden md:flex">
+              <span className="text-xs font-semibold text-gray-200">{user.name || "User"}</span>
+              <span className="text-[10px] text-gray-400">{user.email}</span>
+            </div>
+            <button
+              onClick={logout}
+              className="px-3 py-1.5 rounded-lg text-xs font-medium transition-colors bg-red-500/10 text-red-400 hover:bg-red-500/20"
+            >
+              Logout
+            </button>
+          </div>
+        ) : (
+          <div className="flex items-center gap-2 pl-3 ml-2 border-l" style={{ borderColor: "var(--border)" }}>
+            <Link
+              href="/login"
+              className="px-3 py-1.5 rounded-lg text-xs font-medium transition-colors"
+              style={{ background: "var(--bg-elevated)", color: "var(--text-primary)" }}
+            >
+              Sign in
+            </Link>
+          </div>
+        )}
       </div>
 
       {/* GitHub drawer */}

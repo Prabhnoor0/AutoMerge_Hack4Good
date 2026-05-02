@@ -38,6 +38,7 @@ import { BootSequence } from "@/components/layout/BootSequence";
 import { ExperienceShell } from "@/components/system/ExperienceShell/ExperienceShell";
 import { DevmitraProvider } from "@/store/DevmitraContext";
 import { DevmitraWidget } from "@/components/devmitra/DevmitraWidget";
+import { AuthProvider } from "@/store/AuthContext";
 
 export const metadata: Metadata = {
   title: "AutoMerge — Autonomous Debugging Platform",
@@ -56,14 +57,16 @@ export default function RootLayout({
         className="min-h-screen antialiased flex flex-col"
         suppressHydrationWarning
       >
-        <DevmitraProvider>
-          <ExperienceShell>
-            <BootSequence />
-            <Header />
-            <main className="flex-1 overflow-hidden">{children}</main>
-            <DevmitraWidget />
-          </ExperienceShell>
-        </DevmitraProvider>
+        <AuthProvider>
+          <DevmitraProvider>
+            <ExperienceShell>
+              <BootSequence />
+              <Header />
+              <main className="flex-1 overflow-hidden">{children}</main>
+              <DevmitraWidget />
+            </ExperienceShell>
+          </DevmitraProvider>
+        </AuthProvider>
       </body>
     </html>
   );

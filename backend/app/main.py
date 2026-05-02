@@ -24,6 +24,9 @@ from app.routes.repo_explorer import router as repo_explorer_router
 from app.routes.deploy import router as deploy_router
 from app.routes.battle import router as battle_router
 from app.routes.ar import router as ar_router
+from app.routes.sandbox import router as sandbox_router
+from app.routes.extension import router as extension_router
+from app.routes.auth import router as auth_router
 
 
 # ─── Structured Logging Setup ─────────────────────────────
@@ -97,3 +100,6 @@ app.include_router(repo_explorer_router, prefix="/api/repo-explorer", tags=["rep
 app.include_router(deploy_router, prefix="/api/deploy", tags=["deploy"])
 app.include_router(battle_router, prefix="/api/battle", tags=["battle"])
 app.include_router(ar_router, prefix="/api/ar", tags=["ar-debug-explorer"])
+app.include_router(sandbox_router, prefix="/api/sandbox", tags=["sandbox"])
+app.include_router(extension_router, prefix="/api/extension", tags=["extension"])
+app.include_router(auth_router, prefix="/api/auth", tags=["auth"])

@@ -22,6 +22,11 @@ class Settings(BaseSettings):
     # CORS
     CORS_ORIGINS: list[str] = ["http://localhost:3000", "http://127.0.0.1:3000"]
 
+    # Authentication
+    JWT_SECRET: str = "changeme"
+    JWT_ALGORITHM: str = "HS256"
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7  # 7 days
+
     # Optional: LLM integration
     OPENAI_API_KEY: str | None = None
     GEMINI_API_KEY: str | None = None

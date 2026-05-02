@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AutoMerge Debugger</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+
+  <!-- ── Header ─────────────────────────────────────── -->
+  <div class="header">
+    <div class="logo">
+      <div class="logo-icon">⚡</div>
+      <div>
+        <div class="logo-title">AutoMerge</div>
+        <div class="logo-sub">Live Code Debugger</div>
+      </div>
+    </div>
+    <a class="history-btn" id="openHistory" href="#" title="History">📋</a>
+  </div>
+
+  <!-- ── Source Bar (shown when code detected) ──────── -->
+  <div class="source-bar" id="sourceBar" style="display:none">
+    <span class="source-badge" id="sourceBadge">—</span>
+    <div class="source-info">
+      <div class="source-method" id="sourceMethod"></div>
+      <div class="source-label"  id="sourceLabel"></div>
+    </div>
+    <button class="re-detect-btn" id="reDetect" title="Re-scan page">↺</button>
+  </div>
+
+  <!-- ── Code Preview ───────────────────────────────── -->
+  <div class="section" id="previewSection" style="display:none">
+    <div class="section-label">Code Preview · <span style="color:#4f8ef7;font-style:normal" id="liveTag">LIVE</span></div>
+    <pre class="code-preview" id="codePreview"></pre>
+    <div class="preview-meta" id="previewMeta"></div>
+  </div>
+
+  <!-- ── Empty State ────────────────────────────────── -->
+  <div class="empty-state" id="emptyState">
+    <div class="empty-icon">🔍</div>
+    <div class="empty-title" id="emptyTitle">Select or type code to analyze</div>
+    <div class="empty-desc">
+      Works on <strong>GitHub</strong> files, <strong>CodeSandbox</strong>,
+      <strong>Replit</strong>, <strong>StackBlitz</strong>,
+      code blocks on any docs page,<br>
+      or any page where you <strong>select text</strong> or type in a code editor.
+    </div>
+    <div class="empty-hint">
+      💡 Select code with your mouse, then come back here.
+    </div>
+  </div>
+
+  <!-- ── Error State ────────────────────────────────── -->
+  <div class="error-state" id="errorState" style="display:none">
+    <div class="error-icon">⚠️</div>
+    <div class="error-msg" id="errorMsg"></div>
+  </div>
+
+  <!-- ── Action Bar ─────────────────────────────────── -->
+  <div class="action-bar">
+    <button class="analyze-btn" id="analyzeBtn" disabled>
+      <span id="analyzeBtnIcon">🔬</span>
+      <span id="analyzeBtnText">Analyze</span>
+    </button>
+  </div>
+
+  <!-- ── Loading ────────────────────────────────────── -->
+  <div class="loading" id="loading" style="display:none">
+    <div class="spinner"></div>
+    <div class="loading-text">Running AutoMerge analysis pipeline…</div>
+  </div>
+
+  <!-- ── Results ────────────────────────────────────── -->
+  <div id="results" style="display:none">
+
+    <div class="result-header" id="resultHeader"></div>
+
+    <div class="result-section" id="issueSection" style="display:none">
+      <div class="result-label">🔴 Issues</div>
+      <div class="result-body issues-body" id="issueBody"></div>
+    </div>
+
+    <div class="result-section" id="rootSection" style="display:none">
+      <div class="result-label">🎯 Root Cause</div>
+      <div class="result-body" id="rootBody"></div>
+    </div>
+
+    <div class="result-section" id="explainSection" style="display:none">
+      <div class="result-label">💡 Explanation</div>
+      <div class="result-body" id="explainBody"></div>
+    </div>
+
+    <div class="result-section" id="fixSection" style="display:none">
+      <div class="result-label">🔧 Fix Suggestion</div>
+      <div class="result-body" id="fixBody"></div>
+    </div>
+
+    <div class="result-section" id="learnSection" style="display:none">
+      <div class="result-label">📚 Learning Notes</div>
+      <div class="result-body" id="learnBody"></div>
+    </div>
+
+    <div class="report-bar">
+      <button class="report-btn"   id="openReport">📄 Full Report</button>
+      <button class="devmitra-btn" id="openDevmitra">💬 Devमित्र</button>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

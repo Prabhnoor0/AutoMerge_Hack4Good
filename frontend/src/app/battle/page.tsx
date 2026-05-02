@@ -26,22 +26,44 @@ export default function BattlePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [resultData, setResultData] = useState<any>(null);
+  const [draftDirty, setDraftDirty] = useState(false);
   const pollRef = useRef<any>(null);
+  const codeInitializedRef = useRef(false);
+  const hasEditedRef = useRef(false);
 
-  /* polling */
+  /* Safe code setter — tracks user edits */
+  const handleCodeChange = useCallback((val: string) => {
+    setCode(val);
+    hasEditedRef.current = true;
+    setDraftDirty(true);
+  }, []);
+
+  const resetDraft = useCallback(() => {
+    if (state?.challenge?.broken_code) {
+      setCode(state.challenge.broken_code);
+      hasEditedRef.current = false;
+      setDraftDirty(false);
+    }
+  }, [state]);
+
+  /* polling — NEVER overwrites user draft */
   const poll = useCallback(async (sid: string) => {
     try {
       const r = await api.battleGetState(sid);
       const s = r.data as BattleState;
       setState(s);
-      if (s.status === "running" && !code) setCode(s.challenge?.broken_code || "");
+      /* Initialize code ONCE when battle starts — never again */
+      if (s.status === "running" && !codeInitializedRef.current && !hasEditedRef.current) {
+        setCode(s.challenge?.broken_code || "");
+        codeInitializedRef.current = true;
+      }
       if (s.status === "finished") {
         clearInterval(pollRef.current);
         try { const res = await api.battleGetResult(sid); setResultData(res.data); } catch {}
         setView("result");
       }
     } catch {}
-  }, [code]);
+  }, []);  /* no code dependency — stable ref */
 
   const startPolling = useCallback((sid: string) => {
     clearInterval(pollRef.current);
@@ -89,6 +111,7 @@ export default function BattlePage() {
   const reset = () => {
     clearInterval(pollRef.current); setView("lobby"); setState(null); setResultData(null);
     setSessionId(""); setPlayerId(""); setCode(""); setExplanation(""); setError(""); setRoomCode("");
+    codeInitializedRef.current = false; hasEditedRef.current = false; setDraftDirty(false);
   };
 
   const ch = state?.challenge;
@@ -244,16 +267,24 @@ export default function BattlePage() {
                 <div className="flex-1 flex flex-col overflow-hidden">
                   <div className="flex-1 flex flex-col p-4 gap-3 overflow-hidden">
                     <div className="flex items-center justify-between">
-                      <h4 className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--accent-blue)" }}>Your Fix</h4>
-                      {me?.submitted && <Badge c="#22c55e">Submitted ✓</Badge>}
+                      <div className="flex items-center gap-2">
+                        <h4 className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--accent-blue)" }}>Your Fix</h4>
+                        {draftDirty && !me?.submitted && <span className="text-[9px] px-2 py-0.5 rounded-full" style={{ background: "rgba(245,158,11,0.15)", color: "#f59e0b" }}>● unsaved draft</span>}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {!me?.submitted && draftDirty && (
+                          <button onClick={resetDraft} className="text-[10px] px-2 py-1 rounded-lg" style={{ background: "var(--bg-elevated)", color: "var(--text-muted)", border: "1px solid var(--border)" }}>↺ Reset Code</button>
+                        )}
+                        {me?.submitted && <Badge c="#22c55e">Submitted ✓</Badge>}
+                      </div>
                     </div>
-                    <textarea value={code} onChange={e => setCode(e.target.value)} disabled={me?.submitted} className="flex-1 p-3 rounded-lg font-mono text-xs border resize-none" style={{ background: "var(--bg-elevated)", borderColor: "var(--border)", color: "var(--text-primary)", minHeight: "200px" }} spellCheck={false} />
+                    <textarea value={code} onChange={e => handleCodeChange(e.target.value)} disabled={me?.submitted} className="flex-1 p-3 rounded-lg font-mono text-xs border resize-none" style={{ background: "var(--bg-elevated)", borderColor: draftDirty ? "var(--accent-amber)" : "var(--border)", color: "var(--text-primary)", minHeight: "200px" }} spellCheck={false} autoFocus />
                     <div>
                       <label className="text-[10px] font-semibold uppercase tracking-wider mb-1 block" style={{ color: "var(--accent-purple)" }}>Explanation (optional, +15 pts)</label>
                       <textarea value={explanation} onChange={e => setExplanation(e.target.value)} disabled={me?.submitted} placeholder="Explain the bugs you found and how you fixed them..." rows={3} className="w-full p-3 rounded-lg text-xs border resize-none" style={{ background: "var(--bg-elevated)", borderColor: "var(--border)", color: "var(--text-primary)" }} />
                     </div>
-                    <button onClick={submit} disabled={me?.submitted || loading} className="py-2.5 rounded-xl text-sm font-bold transition-all" style={{ background: me?.submitted ? "var(--bg-elevated)" : "linear-gradient(135deg,#22c55e,#06b6d4)", color: "white", opacity: me?.submitted ? 0.5 : 1 }}>
-                      {me?.submitted ? "✓ Submitted — Waiting for opponent" : "🚀 Submit Solution"}
+                    <button onClick={submit} disabled={me?.submitted || loading || !code.trim()} className="py-2.5 rounded-xl text-sm font-bold transition-all" style={{ background: me?.submitted ? "var(--bg-elevated)" : "linear-gradient(135deg,#22c55e,#06b6d4)", color: "white", opacity: (me?.submitted || !code.trim()) ? 0.5 : 1 }}>
+                      {me?.submitted ? "✓ Submitted — Waiting for opponent" : !code.trim() ? "✍️ Write code to submit" : "🚀 Submit Solution"}
                     </button>
                   </div>
                 </div>
@@ -281,15 +312,36 @@ export default function BattlePage() {
               {(() => {
                 const winner = state.participants.find(p => p.id === state.winner);
                 const isMe = state.winner === playerId;
+                const noWinner = !state.winner;
+                const myScore = me?.score?.total ?? 0;
+                const myCorrectness = me?.score?.correctness ?? 0;
+                /* Outcome labels */
+                let emoji = "💪", title = "Battle Complete", color = "var(--accent-purple)";
+                let bgGrad = "linear-gradient(135deg,rgba(107,114,128,0.08),rgba(107,114,128,0.08))";
+                if (noWinner) {
+                  emoji = "😤"; title = "No Winner — Both Failed"; color = "var(--text-muted)";
+                } else if (isMe) {
+                  emoji = "🏆"; title = "You Won!"; color = "var(--accent-green)";
+                  bgGrad = "linear-gradient(135deg,rgba(34,197,94,0.08),rgba(6,182,212,0.08))";
+                } else {
+                  emoji = "❌"; title = winner ? `${winner.name} Wins — You Lost` : "You Lost";
+                  color = "var(--accent-red)";
+                  bgGrad = "linear-gradient(135deg,rgba(239,68,68,0.08),rgba(139,92,246,0.08))";
+                }
+                /* Sub-message based on correctness */
+                let sub = state.title;
+                if (noWinner) sub = "Neither player met the minimum correctness threshold.";
+                else if (isMe && myCorrectness >= 40) sub = "Excellent work — dominant victory!";
+                else if (isMe) sub = "Close win — room for improvement.";
+                else if (!isMe && myCorrectness < 15) sub = "Your fix was insufficient. Study the bugs and try again.";
                 return (
                   <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.2 }} className="glass-card p-8 text-center relative overflow-hidden">
-                    <div className="absolute inset-0" style={{ background: isMe ? "linear-gradient(135deg,rgba(34,197,94,0.08),rgba(6,182,212,0.08))" : "linear-gradient(135deg,rgba(239,68,68,0.08),rgba(139,92,246,0.08))" }} />
+                    <div className="absolute inset-0" style={{ background: bgGrad }} />
                     <div className="relative">
-                      <div className="text-5xl mb-3">{isMe ? "🏆" : "💪"}</div>
-                      <h2 className="text-2xl font-bold mb-1" style={{ color: isMe ? "var(--accent-green)" : "var(--accent-purple)" }}>
-                        {isMe ? "You Won!" : winner ? `${winner.name} Wins!` : "Battle Complete"}
-                      </h2>
-                      <p className="text-sm" style={{ color: "var(--text-muted)" }}>{state.title}</p>
+                      <div className="text-5xl mb-3">{emoji}</div>
+                      <h2 className="text-2xl font-bold mb-1" style={{ color }}>{title}</h2>
+                      <p className="text-sm" style={{ color: "var(--text-muted)" }}>{sub}</p>
+                      {myScore > 0 && <p className="text-xs mt-2 font-mono" style={{ color: "var(--text-muted)" }}>Your score: {myScore}/100</p>}
                     </div>
                   </motion.div>
                 );

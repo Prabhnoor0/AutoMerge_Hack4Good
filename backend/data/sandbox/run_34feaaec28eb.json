@@ -1,0 +1,18 @@
+{
+  "run_id": "run_34feaaec28eb",
+  "status": "error",
+  "success": false,
+  "stdout": "",
+  "stderr": "",
+  "exit_code": -1,
+  "duration_ms": 0,
+  "timed_out": false,
+  "language": "python",
+  "mode": "run",
+  "error_summary": "Docker is not available. Sandbox execution requires Docker. User code will NOT be executed on the host for safety.",
+  "test_summary": {},
+  "resource_summary": {},
+  "cleanup_ok": false,
+  "created_at": "2026-05-02T23:46:23.874163+00:00",
+  "container_id": ""
+}

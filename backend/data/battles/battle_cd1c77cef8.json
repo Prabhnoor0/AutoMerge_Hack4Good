@@ -1,0 +1,60 @@
+{
+  "id": "battle_cd1c77cef8",
+  "room_code": "7E9Q8I",
+  "title": "BugFix Arena: Broken API Handler",
+  "status": "finished",
+  "challenge_id": "ch_js_api",
+  "challenge": {
+    "id": "ch_js_api",
+    "title": "Broken API Handler",
+    "difficulty": "hard",
+    "language": "javascript",
+    "description": "An Express API handler for user registration has several bugs: missing validation, wrong status codes, broken password hashing, and a data leak. Fix all issues.",
+    "broken_code": "async function registerUser(req, res) {\n  const { username, email, password } = req.body;\n  \n  // Missing: input validation\n  \n  try {\n    const existingUser = await db.findUser(email);\n    if (existingUser) {\n      return res.status(200).json({ error: \"User exists\" }); // BUG: wrong status\n    }\n    \n    const hashedPassword = password; // BUG: not hashing\n    \n    const user = await db.createUser({\n      username,\n      email,\n      password: hashedPassword,\n      role: req.body.role || \"admin\",  // BUG: should default to \"user\"\n    });\n    \n    return res.status(200).json({  // BUG: should be 201\n      message: \"User created\",\n      user: user,  // BUG: leaking password hash\n    });\n  } catch (error) {\n    console.log(error);\n    return res.status(200).json({ error: \"Server error\" }); // BUG: wrong status\n  }\n}",
+    "error_logs": "FAIL: registerUser should return 409 for duplicate email\n  Expected: 409, Received: 200\nFAIL: registerUser should hash password before storing\n  Expected: hashed string, Received: plain text\nFAIL: registerUser should return 201 on success\n  Expected: 201, Received: 200\nFAIL: registerUser should not expose password in response\n  Expected: no password field, Received: password present\nFAIL: registerUser should default role to \"user\"\n  Expected: \"user\", Received: \"admin\"\n\nTests: 5 failed, 0 passed",
+    "hints": [
+      "Check HTTP status codes",
+      "Never store plain passwords",
+      "Don't expose sensitive data"
+    ],
+    "time_limit": 300
+  },
+  "time_limit": 300,
+  "participants": [
+    {
+      "id": "player_61f1701a00",
+      "name": "mohit",
+      "color": "#4f8ef7",
+      "is_host": true,
+      "ready": false,
+      "submitted": true,
+      "score": {
+        "correctness": 20,
+        "hidden_tests": 10,
+        "explanation_quality": 0,
+        "speed": 8,
+        "total": 38,
+        "breakdown": [
+          "Fixed 2/5 bugs \u2192 20/50 pts",
+          "Hidden tests: 2/5 \u2192 10/25 pts",
+          "Explanation quality \u2192 0/15 pts",
+          "Speed (62s / 300s) \u2192 8/10 pts"
+        ]
+      },
+      "submission": {
+        "code": "import bcrypt from \"bcrypt\";\n\nasync function registerUser(req, res) {\n  const { username, email, password } = req.body;\n\n  if (!username || !email || !password) {\n    return res.status(400).json({ error: \"All fields are required\" });\n  }\n\n  try {\n    const existingUser = await db.findUser(email);\n\n    if (existingUser) {\n      return res.status(409).json({ error: \"User already exists\" });\n    }\n\n    const hashedPassword = await bcrypt.hash(password, 10);\n\n    const user = await db.createUser({\n      username,\n      email,\n      password: hashedPassword,\n      role: req.body.role || \"admin\",\n    });\n\n    return res.status(200).json({\n      message: \"User created successfully\",\n      user: user,\n    });\n\n  } catch (error) {\n    console.error(error);\n    return res.status(200).json({ error: \"Internal server error\" });\n  }\n}",
+        "explanation": "",
+        "submitted_at": "2026-05-02T18:08:29.289655+00:00",
+        "time_taken": 62.1
+      },
+      "joined_at": "2026-05-02T18:07:24.537110+00:00",
+      "result": "failed"
+    }
+  ],
+  "started_at": "2026-05-02T18:07:27.205715+00:00",
+  "finished_at": "2026-05-02T18:08:29.289817+00:00",
+  "winner": null,
+  "created_at": "2026-05-02T18:07:24.537136+00:00",
+  "outcome": "no_winner",
+  "outcome_reason": "No player met the minimum correctness threshold."
+}

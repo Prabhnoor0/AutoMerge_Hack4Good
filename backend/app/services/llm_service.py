@@ -77,6 +77,13 @@ async def _call_gemini(prompt: str, max_tokens: int = 1024) -> str | None:
         start = time.time()
         async with httpx.AsyncClient(timeout=settings.LLM_TIMEOUT_SECONDS) as client:
             response = await client.post(url, json=payload)
+            
+            # Fallback if 429 or 404
+            if response.status_code in (429, 404, 500, 503):
+                logger.warning("llm.primary_model_failed", status=response.status_code, model=settings.LLM_MODEL)
+                url_fallback = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={settings.GEMINI_API_KEY}"
+                response = await client.post(url_fallback, json=payload)
+
             response.raise_for_status()
             data = response.json()
             text = data.get("candidates", [{}])[0].get("content", {}).get("parts", [{}])[0].get("text", None)
@@ -144,6 +151,47 @@ Keep it practical and concise."""
 
     return await _call_gemini(prompt, max_tokens=400)
 
+
+async def analyze_code_for_logic_bugs(code: str, language: str) -> dict | None:
+    """Analyze code for logical bugs that static parsers miss. Returns JSON with issues."""
+    code_snippet = code[:2500]
+    
+    prompt = f"""You are AutoMerge Mentor, an expert code reviewer.
+Analyze this {language} snippet for hidden logical bugs, edge cases, and runtime exceptions.
+Ignore missing imports or basic syntax errors unless they cause a crash. Focus on logic.
+
+Code:
+```{language}
+{code_snippet}
+```
+
+If you find a logic bug (e.g. AttributeError if a variable is used but not defined, unhandled exceptions, race conditions, bad design), return a JSON object like this:
+{{
+  "has_issues": true,
+  "root_cause": "Short summary of the core logical flaw",
+  "explanation": "Detailed but friendly explanation of why this fails at runtime",
+  "fix_suggestion": "Actionable fix or code snippet to resolve it",
+  "issues": [
+    {{"severity": "bug", "message": "Short description of the bug"}}
+  ]
+}}
+
+If the code is perfectly safe logically, return: {{"has_issues": false}}
+
+Output ONLY valid JSON, no markdown fences."""
+
+    result = await _call_gemini(prompt, max_tokens=600)
+    if not result:
+        return None
+        
+    try:
+        import json
+        clean = result.strip()
+        if clean.startswith("```"):
+            clean = "\n".join(clean.split("\n")[1:-1])
+        return json.loads(clean)
+    except Exception:
+        return None
 
 async def generate_root_cause_summary(code: str, issues: list[dict], language: str) -> str | None:
     """Generate a root cause → effect → fix chain."""

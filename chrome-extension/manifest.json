@@ -1,0 +1,45 @@
+{
+  "manifest_version": 3,
+  "name": "AutoMerge Debugger",
+  "version": "2.0.0",
+  "description": "Live browser code debugger. Analyze, explain, and fix code on GitHub, CodeSandbox, Replit, StackBlitz, and any page with code.",
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "AutoMerge Debugger"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://github.com/*",
+        "https://gist.github.com/*",
+        "https://codesandbox.io/*",
+        "https://replit.com/*",
+        "https://stackblitz.com/*",
+        "https://codepen.io/*",
+        "https://jsfiddle.net/*",
+        "http://localhost:3000/*",
+        "https://*/*",
+        "http://*/*"
+      ],
+      "js": ["contentScript.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "host_permissions": [
+    "http://localhost:8000/*",
+    "https://*/*",
+    "http://*/*"
+  ],
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "tabs"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
+}

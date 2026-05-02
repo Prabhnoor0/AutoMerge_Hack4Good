@@ -10,8 +10,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from app.database import get_db
-from app.models import Job
+from app.models import Job, User
 from app.schemas import JobResponse, JobDetailResponse
+from app.dependencies import get_current_user_optional
 
 router = APIRouter()
 
@@ -21,11 +22,17 @@ async def list_jobs(
     status: str | None = None,
     limit: int = 50,
     db: AsyncSession = Depends(get_db),
+    current_user: User | None = Depends(get_current_user_optional),
 ):
-    """List all jobs, optionally filtered by status."""
+    """List all jobs, optionally filtered by status and scoped to user."""
     query = select(Job).order_by(Job.created_at.desc()).limit(limit)
     if status:
         query = query.where(Job.status == status)
+        
+    if current_user:
+        query = query.where((Job.user_id == current_user.id) | (Job.user_id == None))
+    else:
+        query = query.where(Job.user_id == None)
 
     result = await db.execute(query)
     jobs = result.scalars().all()

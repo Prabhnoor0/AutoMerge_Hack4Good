@@ -25,11 +25,27 @@ def utc_now() -> datetime:
     return datetime.now(timezone.utc)
 
 
+class User(Base):
+    """User account."""
+    __tablename__ = "users"
+
+    id = Column(String(12), primary_key=True, default=generate_id)
+    email = Column(String(256), unique=True, nullable=False, index=True)
+    hashed_password = Column(String(256), nullable=False)
+    name = Column(String(128), default="")
+    created_at = Column(DateTime, default=utc_now, nullable=False)
+    updated_at = Column(DateTime, default=utc_now, onupdate=utc_now, nullable=False)
+
+    jobs = relationship("Job", back_populates="user")
+    classroom_reports = relationship("ClassroomReport", back_populates="user")
+
+
 class Job(Base):
     """Represents an autonomous fix job triggered by a failure."""
     __tablename__ = "jobs"
 
     id = Column(String(12), primary_key=True, default=generate_id)
+    user_id = Column(String(12), ForeignKey("users.id"), nullable=True, index=True)
     status = Column(String(20), default="queued", nullable=False, index=True)
     failure_title = Column(String(256), nullable=False)
     failure_source = Column(String(64), default="manual")  # manual, ci, webhook
@@ -57,6 +73,7 @@ class Job(Base):
     updated_at = Column(DateTime, default=utc_now, onupdate=utc_now, nullable=False)
 
     # Relationships
+    user = relationship("User", back_populates="jobs")
     steps = relationship("PipelineStep", back_populates="job", order_by="PipelineStep.order_index")
     patches = relationship("Patch", back_populates="job")
     validation = relationship("ValidationResult", back_populates="job", uselist=False)
@@ -165,6 +182,7 @@ class ClassroomReport(Base):
     __tablename__ = "classroom_reports"
 
     id = Column(String(12), primary_key=True, default=generate_id)
+    user_id = Column(String(12), ForeignKey("users.id"), nullable=True, index=True)
     title = Column(String(256), nullable=False)
     topic_name = Column(String(128), nullable=False)
     topic_category = Column(String(64), default="general")
@@ -180,3 +198,5 @@ class ClassroomReport(Base):
     report_date = Column(DateTime, default=utc_now, nullable=False)
     created_at = Column(DateTime, default=utc_now, nullable=False)
     updated_at = Column(DateTime, default=utc_now, onupdate=utc_now, nullable=False)
+
+    user = relationship("User", back_populates="classroom_reports")
