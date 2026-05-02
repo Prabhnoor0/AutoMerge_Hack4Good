@@ -1,0 +1,832 @@
+{
+  "id": "3048d454bac5",
+  "repo_url": "https://github.com/Insha-7/NeuroRead",
+  "owner": "Insha-7",
+  "repo_name": "NeuroRead",
+  "analyzed_at": "2026-05-02T09:26:07.385280+00:00",
+  "report": {
+    "what_it_does": "# NeuroRead AI \ud83e\udde0",
+    "problem_statement": "**Making any webpage readable for neurodivergent users through real-time AI multimodal transformation.**",
+    "executive_summary": "# NeuroRead AI \ud83e\udde0",
+    "tech_stack": {
+      "languages": [
+        "JavaScript",
+        "Python"
+      ],
+      "frameworks": [],
+      "infrastructure": [],
+      "styling": [],
+      "databases": [],
+      "dependencies": []
+    },
+    "languages": "JavaScript, Python",
+    "frameworks": "None detected",
+    "infrastructure": "None detected",
+    "styling": "None detected",
+    "databases": "None detected",
+    "total_files": 66,
+    "modules": [
+      "backend",
+      "extension"
+    ],
+    "module_ranking": [
+      {
+        "module": "backend",
+        "file_count": 39
+      },
+      {
+        "module": "extension",
+        "file_count": 23
+      }
+    ],
+    "routes": [
+      "backend/app/api",
+      "backend/app/api/__init__.py",
+      "backend/app/api/routers",
+      "backend/app/api/routers/__init__.py",
+      "backend/app/api/routers/accessibility.py",
+      "backend/app/api/routers/reader.py",
+      "backend/app/api/routers/system.py",
+      "backend/app/api/routers/voice.py",
+      "backend/app/schemas/api_models.py",
+      "backend/tests/test_api_endpoints.py"
+    ],
+    "components": [],
+    "services": [
+      "backend/app/services",
+      "backend/app/services/__init__.py",
+      "backend/app/services/cam_analyzer.py",
+      "backend/app/services/dom_mapper.py",
+      "backend/app/services/focus_mapper.py",
+      "backend/app/services/focus_reader.py",
+      "backend/app/services/text_simplifier.py",
+      "backend/app/services/tone_analyzer.py",
+      "backend/app/services/vision_explainer.py",
+      "backend/app/services/voice_intent.py",
+      "backend/app/services/voice_transcriber.py"
+    ],
+    "entry_points": [
+      "backend/app/main.py",
+      "backend/main.py"
+    ],
+    "important_files": [
+      {
+        "path": "backend/main.py",
+        "name": "main.py",
+        "lines": 5,
+        "purpose": "Application entry point",
+        "functions": [],
+        "classes": [],
+        "importance": 70
+      },
+      {
+        "path": "backend/app/core/config.py",
+        "name": "config.py",
+        "lines": 140,
+        "purpose": "Configuration",
+        "functions": [
+          "get_llm",
+          "get_groq_client",
+          "is_rate_limit_error",
+          "trigger_rotation",
+          "retry_llm_call",
+          "invoke_with_retry"
+        ],
+        "classes": [],
+        "importance": 55
+      },
+      {
+        "path": "backend/app/main.py",
+        "name": "main.py",
+        "lines": 21,
+        "purpose": "API route definitions",
+        "functions": [],
+        "classes": [],
+        "importance": 50
+      },
+      {
+        "path": "backend/requirements.txt",
+        "name": "requirements.txt",
+        "lines": 13,
+        "purpose": "General source file",
+        "functions": [],
+        "classes": [],
+        "importance": 45
+      },
+      {
+        "path": "README.md",
+        "name": "README.md",
+        "lines": 456,
+        "purpose": "General source file",
+        "functions": [],
+        "classes": [],
+        "importance": 35
+      },
+      {
+        "path": "backend/app/api/routers/accessibility.py",
+        "name": "accessibility.py",
+        "lines": 61,
+        "purpose": "API route definitions",
+        "functions": [
+          "simplify_text",
+          "cam_score_endpoint",
+          "analyze_tone_endpoint"
+        ],
+        "classes": [],
+        "importance": 30
+      },
+      {
+        "path": "backend/app/api/routers/reader.py",
+        "name": "reader.py",
+        "lines": 126,
+        "purpose": "API route definitions",
+        "functions": [
+          "analyze_site",
+          "analyze_focus",
+          "focus_reader_endpoint",
+          "explain_image_endpoint"
+        ],
+        "classes": [],
+        "importance": 30
+      },
+      {
+        "path": "backend/app/services/cam_analyzer.py",
+        "name": "cam_analyzer.py",
+        "lines": 60,
+        "purpose": "General source file",
+        "functions": [
+          "analyze_cam_score"
+        ],
+        "classes": [
+          "CAMResponse"
+        ],
+        "importance": 30
+      },
+      {
+        "path": "backend/app/services/dom_mapper.py",
+        "name": "dom_mapper.py",
+        "lines": 189,
+        "purpose": "General source file",
+        "functions": [
+          "generate_css_map"
+        ],
+        "classes": [
+          "SiteSelectors"
+        ],
+        "importance": 30
+      },
+      {
+        "path": "backend/app/services/focus_mapper.py",
+        "name": "focus_mapper.py",
+        "lines": 58,
+        "purpose": "General source file",
+        "functions": [
+          "generate_focus_map"
+        ],
+        "classes": [
+          "FocusSelectors"
+        ],
+        "importance": 30
+      },
+      {
+        "path": "backend/app/services/focus_reader.py",
+        "name": "focus_reader.py",
+        "lines": 149,
+        "purpose": "General source file",
+        "functions": [
+          "strip_think_tags",
+          "extract_article",
+          "extract_feed",
+          "extract_reader_content"
+        ],
+        "classes": [
+          "SectionResponse",
+          "ReaderResponse",
+          "FeedItemResponse",
+          "FeedResponse"
+        ],
+        "importance": 30
+      },
+      {
+        "path": "backend/app/services/text_simplifier.py",
+        "name": "text_simplifier.py",
+        "lines": 76,
+        "purpose": "General source file",
+        "functions": [
+          "simplify_text_chunks"
+        ],
+        "classes": [
+          "SimplificationResponse"
+        ],
+        "importance": 30
+      },
+      {
+        "path": "backend/app/services/tone_analyzer.py",
+        "name": "tone_analyzer.py",
+        "lines": 60,
+        "purpose": "General source file",
+        "functions": [
+          "analyze_tone"
+        ],
+        "classes": [
+          "ToneResponse"
+        ],
+        "importance": 30
+      },
+      {
+        "path": "backend/app/services/vision_explainer.py",
+        "name": "vision_explainer.py",
+        "lines": 70,
+        "purpose": "General source file",
+        "functions": [
+          "explain_image"
+        ],
+        "classes": [],
+        "importance": 30
+      },
+      {
+        "path": "backend/app/services/voice_intent.py",
+        "name": "voice_intent.py",
+        "lines": 93,
+        "purpose": "General source file",
+        "functions": [
+          "parse_intent"
+        ],
+        "classes": [
+          "VoiceIntent"
+        ],
+        "importance": 30
+      },
+      {
+        "path": "backend/app/api/routers/system.py",
+        "name": "system.py",
+        "lines": 25,
+        "purpose": "API route definitions",
+        "functions": [
+          "health_check",
+          "get_settings"
+        ],
+        "classes": [],
+        "importance": 20
+      },
+      {
+        "path": "backend/app/api/routers/voice.py",
+        "name": "voice.py",
+        "lines": 25,
+        "purpose": "API route definitions",
+        "functions": [
+          "voice_transcribe"
+        ],
+        "classes": [],
+        "importance": 20
+      },
+      {
+        "path": "backend/app/services/voice_transcriber.py",
+        "name": "voice_transcriber.py",
+        "lines": 44,
+        "purpose": "General source file",
+        "functions": [
+          "transcribe_audio"
+        ],
+        "classes": [],
+        "importance": 20
+      }
+    ],
+    "read_first": [
+      {
+        "path": "backend/main.py",
+        "reason": "Application entry point",
+        "importance": 70
+      },
+      {
+        "path": "backend/app/core/config.py",
+        "reason": "Configuration",
+        "importance": 55
+      },
+      {
+        "path": "backend/app/main.py",
+        "reason": "API route definitions",
+        "importance": 50
+      },
+      {
+        "path": "backend/requirements.txt",
+        "reason": "General source file",
+        "importance": 45
+      }
+    ],
+    "folder_explanations": [
+      {
+        "folder": ".gitignore",
+        "file_count": 1,
+        "explanation": "Contains 1 file(s)",
+        "sample_files": [
+          ".gitignore"
+        ]
+      },
+      {
+        "folder": "README.md",
+        "file_count": 1,
+        "explanation": "Contains 1 file(s)",
+        "sample_files": [
+          "README.md"
+        ]
+      },
+      {
+        "folder": "backend",
+        "file_count": 40,
+        "explanation": "Backend / server-side code",
+        "sample_files": [
+          "backend",
+          "app",
+          "__init__.py",
+          "api",
+          "__init__.py"
+        ]
+      },
+      {
+        "folder": "extension",
+        "file_count": 24,
+        "explanation": "Contains 24 file(s)",
+        "sample_files": [
+          "extension",
+          "_metadata",
+          "generated_indexed_rulesets",
+          "_ruleset1",
+          "background.js"
+        ]
+      }
+    ],
+    "execution_flow": "This is a backend/API application. Requests arrive at route handlers, pass through any middleware, get processed by service functions, interact with storage/databases, and return structured responses.",
+    "data_flow": "Data flows through: HTTP request \u2192 route handler \u2192 service logic \u2192 storage \u2192 response.",
+    "frontend_backend_interaction": "This project does not have a clear frontend-backend split, or both are in the same layer.",
+    "contributor_guide": {
+      "start_reading": [
+        "backend/main.py",
+        "backend/app/core/config.py",
+        "backend/app/main.py",
+        "backend/requirements.txt"
+      ],
+      "entry_points": [
+        "backend/app/main.py",
+        "backend/main.py"
+      ],
+      "route_files": [
+        "backend/app/api",
+        "backend/app/api/__init__.py",
+        "backend/app/api/routers",
+        "backend/app/api/routers/__init__.py",
+        "backend/app/api/routers/accessibility.py"
+      ],
+      "business_logic": [
+        "backend/app/services",
+        "backend/app/services/__init__.py",
+        "backend/app/services/cam_analyzer.py",
+        "backend/app/services/dom_mapper.py",
+        "backend/app/services/focus_mapper.py"
+      ],
+      "ui_files": [],
+      "safe_to_edit_first": [
+        "backend/requirements.txt",
+        "README.md",
+        "backend/app/api/routers/accessibility.py",
+        "backend/app/api/routers/reader.py",
+        "backend/app/services/cam_analyzer.py"
+      ],
+      "avoid_unless_necessary": [
+        "backend/main.py",
+        "backend/app/core/config.py",
+        "backend/app/main.py"
+      ],
+      "typical_request_flow": "User action \u2192 Frontend event handler \u2192 API call \u2192 Backend route \u2192 Service function \u2192 Data layer \u2192 Response \u2192 UI update",
+      "first_contribution_tasks": [
+        "Add a new unit test for an existing service function",
+        "Improve error messages in API route handlers",
+        "Add input validation to an existing endpoint",
+        "Write JSDoc or docstrings for undocumented functions",
+        "Add loading states or error handling in a UI component"
+      ]
+    },
+    "readme_summary": "# NeuroRead AI \ud83e\udde0",
+    "readme_full": "# NeuroRead AI \ud83e\udde0\n\n**Making any webpage readable for neurodivergent users through real-time AI multimodal transformation.**\n\n> **Google Big Code Hackathon 2026 \u00b7 Accessibility Track**  \n> Powered by **FastAPI**, **Groq Cloud** (Llama 3.1 70B, Vision, Whisper), and **Redis**.\n\n---\n\n## \ud83c\udfa5 Demo\n\n[Watch Demo](https://drive.google.com/file/d/1ljKxIPJ2vze8oKeQjhQpy85V-EDjkEPj/view?usp=sharing)\n\n---\n\n## \ud83c\udfd7\ufe0f Architecture & Core Logic\n\nNeuroRead AI is built with a **modular micro-service architecture** designed for high throughput and extreme reliability. Unlike simple wrappers, it implements a state-of-the-art model rotation and intelligent caching system.\n\n### System Context Diagram\n```mermaid\ngraph TD\n    User((User))\n    ChromeExt[Chrome Extension MV3]\n    FastAPI[FastAPI Backend]\n    Redis[(Redis Cache)]\n    Groq[Groq AI Cloud]\n\n    User -->|Interacts| ChromeExt\n    ChromeExt -->|POST analyze| FastAPI\n    FastAPI ---|Lookup/Store| Redis\n    FastAPI -->|Multimodal Chain| Groq\n    Groq -->|Llama 3.1 / Vision / Whisper| FastAPI\n    FastAPI -->|JSON Accessibility Map| ChromeExt\n    ChromeExt -->|DOM Injection| User\n```\n```mermaid\nsequenceDiagram\n    participant S as Service (CAM/Simplify)\n    participant T as Tenacity Decorator\n    participant P as ModelPoolManager\n    participant G as Groq API\n\n    S->>T: Invoke LLM Request\n    T->>G: Request with Llama-3.1-70B\n    G-->>T: Error 429 (Rate Limit)\n    T->>P: trigger_rotation()\n    P->>P: Rotate 'text_pool': Push Llama-3.1-70B to back\n    T->>T: Wait (Exponential Backoff)\n    T->>P: get_current_model()\n    P-->>T: Return Mixtral-8x7b\n    T->>G: Retry Request with Mixtral\n    G-->>T: Success 200\n    T-->>S: Return Result\n```\n### \ud83e\udde0 Core Logic & Rationale\n\n#### 1. AI/ML Model Selection & Why Groq Over Alternatives\n\n**Model Choices:**\n- **Llama-3.1-70B-Versatile**: Primary reasoning engine for text simplification. High parameter count essential for preserving nuance while reducing complexity. Chosen over GPT-4 due to **10-30x speed advantage** (2-3s vs 20-30s) and **60x cost reduction** ($0.50/1M tokens vs $30/1M).\n- **Llama-3.1-8B-Instant**: Fast intent routing and DOM mapping with sub-200ms latency. Ideal for real-time voice commands.\n- **Llama-3.2-11B-Vision**: Dedicated multimodal engine for image explanation with high visual fidelity understanding.\n- **Whisper-Large-V3-Turbo**: Real-time speech-to-text optimized for accessibility command transcription.\n\n**Why Groq, Not OpenAI/Anthropic/HuggingFace?**\n\n| Criteria | Groq | OpenAI (GPT-4) | Anthropic (Claude) | HuggingFace (Local) |\n|----------|------|----------------|-------------------|-------------------|\n| **Speed (latency)** | 2-3s | 20-30s | 10-15s | Variable (device dependent) |\n| **Cost ($/1M tokens)** | $0.50 | $30 | $15 | Free (but device cost) |\n| **Free Tier Available** | \u2705 Yes (100 RPM) | \u274c No | \u274c No | \u2705 Yes (self-hosted) |\n| **Reliability (uptime)** | 99.9% | 99.99% | 99.95% | N/A (self-managed) |\n| **Multimodal Support** | \u2705 Vision + Audio | \u2705 Vision only | \u2705 Vision only | \u26a0\ufe0f Limited |\n| **Temperature Control** | \u2705 Fine-grained | \u2705 Yes | \u2705 Yes | \u2705 Yes |\n| **JSON Mode (guaranteed)** | \u2705 Yes | \u2705 Yes | \u2705 Yes | \u26a0\ufe0f Inconsistent |\n| **Ideal For** | **Fast, affordable batch processing** | Premium, complex reasoning | Enterprise safety | Privacy-critical local ops |\n\n**Our Choice Rationale**: Groq's combination of speed (sub-3s), affordability (free tier), and multimodal capabilities makes it ideal for a browser extension serving multiple users with rate limit constraints. **Speed = better UX**. **Cost = sustainability for hackathon & open source**.\n\n#### 2. Optimized Data Structures\n\n- **Model Deque (Rotating Queue)**: Uses `collections.deque` for O(1) rotation speed when a model hits rate limits. When \"burned\", the failed model is pushed to the back of the queue, and the next available model is tried immediately.\n- **Thread-safe ContextVars**: Manages `_active_pool` state across concurrent requests, ensuring no race conditions during model rotation.\n- **Redis Hash Maps**: Persistent caching of results with 24-hour TTL for instant lookups (35-40x latency improvement on cache hits).\n\n---\n\n## \ud83e\udde9 Comprehensive Feature List\n\n| Feature | Category | Description |\n|---------|----------|-------------|\n| **Text Simplification** | Cognitive | AI rewrites complex sentences into plain English while preserving core meaning. |\n| **Tone Analysis** | Social/Pragmatic | Explicit translation of social subtext, sarcasm, and implicit meaning for Autistic users. |\n| **Vision Explainer** | Multimodal | High-fidelity image and diagram descriptions in simple, jargon-free language. |\n| **CAM Scoring** | Metric | REAL-TIME Cognitive Accessibility Metric based on lexical and visual density. |\n| **Focus Mode** | Layout | LLM-driven DOM isolation that surgically strips distractions without breaking site-specific nav. |\n| **Reading Ruler** | Visual | Dynamic overlay that highlights the active reading line to reduce visual stress. |\n| **Speech-t",
+    "has_readme": true,
+    "health_score": 85,
+    "architecture_confidence": 90,
+    "risks": [
+      "No middleware detected \u2014 auth, logging, and error handling may be inconsistent"
+    ],
+    "strengths": [
+      "Well-documented with a detailed README file",
+      "Clean service-layer architecture separating business logic from routes",
+      "Has test infrastructure for quality assurance",
+      "Proper configuration management with dedicated config files"
+    ],
+    "suggested_improvements": [
+      "Add Docker or CI/CD configuration for consistent deployments",
+      "Add API documentation (e.g., OpenAPI/Swagger) for all backend endpoints",
+      "Implement structured logging for better debugging in production"
+    ],
+    "conclusion": "**Insha-7/NeuroRead** is a well-structured JavaScript, Python project containing 66 source files. It scores **85/100** on the health index. The codebase shows 2 distinct modules with 10 route files, 11 services, and 0 components. See the contributor guide above for onboarding recommendations."
+  },
+  "structure": {
+    "total_files": 66,
+    "modules": [
+      "backend",
+      "extension"
+    ],
+    "routes": [
+      "backend/app/api",
+      "backend/app/api/__init__.py",
+      "backend/app/api/routers",
+      "backend/app/api/routers/__init__.py",
+      "backend/app/api/routers/accessibility.py",
+      "backend/app/api/routers/reader.py",
+      "backend/app/api/routers/system.py",
+      "backend/app/api/routers/voice.py",
+      "backend/app/schemas/api_models.py",
+      "backend/tests/test_api_endpoints.py"
+    ],
+    "components": [],
+    "services": [
+      "backend/app/services",
+      "backend/app/services/__init__.py",
+      "backend/app/services/cam_analyzer.py",
+      "backend/app/services/dom_mapper.py",
+      "backend/app/services/focus_mapper.py",
+      "backend/app/services/focus_reader.py",
+      "backend/app/services/text_simplifier.py",
+      "backend/app/services/tone_analyzer.py",
+      "backend/app/services/vision_explainer.py",
+      "backend/app/services/voice_intent.py",
+      "backend/app/services/voice_transcriber.py"
+    ],
+    "configs": [
+      "backend/app/core/config.py"
+    ],
+    "entry_points": [
+      "backend/app/main.py",
+      "backend/main.py"
+    ],
+    "folder_tree": [
+      {
+        "path": ".gitignore",
+        "type": "blob",
+        "size": 31
+      },
+      {
+        "path": "README.md",
+        "type": "blob",
+        "size": 17312
+      },
+      {
+        "path": "backend",
+        "type": "tree",
+        "size": 0
+      },
+      {
+        "path": "backend/app",
+        "type": "tree",
+        "size": 0
+      },
+      {
+        "path": "backend/app/__init__.py",
+        "type": "blob",
+        "size": 0
+      },
+      {
+        "path": "backend/app/api",
+        "type": "tree",
+        "size": 0
+      },
+      {
+        "path": "backend/app/api/__init__.py",
+        "type": "blob",
+        "size": 0
+      },
+      {
+        "path": "backend/app/api/routers",
+        "type": "tree",
+        "size": 0
+      },
+      {
+        "path": "backend/app/api/routers/__init__.py",
+        "type": "blob",
+        "size": 0
+      },
+      {
+        "path": "backend/app/api/routers/accessibility.py",
+        "type": "blob",
+        "size": 2025
+      },
+      {
+        "path": "backend/app/api/routers/reader.py",
+        "type": "blob",
+        "size": 5760
+      },
+      {
+        "path": "backend/app/api/routers/system.py",
+        "type": "blob",
+        "size": 514
+      },
+      {
+        "path": "backend/app/api/routers/voice.py",
+        "type": "blob",
+        "size": 826
+      },
+      {
+        "path": "backend/app/core",
+        "type": "tree",
+        "size": 0
+      },
+      {
+        "path": "backend/app/core/__init__.py",
+        "type": "blob",
+        "size": 0
+      },
+      {
+        "path": "backend/app/core/cache.py",
+        "type": "blob",
+        "size": 2151
+      },
+      {
+        "path": "backend/app/core/config.py",
+        "type": "blob",
+        "size": 5569
+      },
+      {
+        "path": "backend/app/core/model_pool.py",
+        "type": "blob",
+        "size": 1579
+      },
+      {
+        "path": "backend/app/core/rate_limit_monitor.py",
+        "type": "blob",
+        "size": 9127
+      },
+      {
+        "path": "backend/app/main.py",
+        "type": "blob",
+        "size": 516
+      },
+      {
+        "path": "backend/app/schemas",
+        "type": "tree",
+        "size": 0
+      },
+      {
+        "path": "backend/app/schemas/__init__.py",
+        "type": "blob",
+        "size": 0
+      },
+      {
+        "path": "backend/app/schemas/api_models.py",
+        "type": "blob",
+        "size": 527
+      },
+      {
+        "path": "backend/app/services",
+        "type": "tree",
+        "size": 0
+      },
+      {
+        "path": "backend/app/services/__init__.py",
+        "type": "blob",
+        "size": 0
+      },
+      {
+        "path": "backend/app/services/cam_analyzer.py",
+        "type": "blob",
+        "size": 2334
+      },
+      {
+        "path": "backend/app/services/dom_mapper.py",
+        "type": "blob",
+        "size": 13940
+      },
+      {
+        "path": "backend/app/services/focus_mapper.py",
+        "type": "blob",
+        "size": 2761
+      },
+      {
+        "path": "backend/app/services/focus_reader.py",
+        "type": "blob",
+        "size": 7364
+      },
+      {
+        "path": "backend/app/services/text_simplifier.py",
+        "type": "blob",
+        "size": 3354
+      },
+      {
+        "path": "backend/app/services/tone_analyzer.py",
+        "type": "blob",
+        "size": 2416
+      },
+      {
+        "path": "backend/app/services/vision_explainer.py",
+        "type": "blob",
+        "size": 2466
+      },
+      {
+        "path": "backend/app/services/voice_intent.py",
+        "type": "blob",
+        "size": 5418
+      },
+      {
+        "path": "backend/app/services/voice_transcriber.py",
+        "type": "blob",
+        "size": 1661
+      },
+      {
+        "path": "backend/main.py",
+        "type": "blob",
+        "size": 155
+      },
+      {
+        "path": "backend/requirements.txt",
+        "type": "blob",
+        "size": 233
+      },
+      {
+        "path": "backend/tests",
+        "type": "tree",
+        "size": 0
+      },
+      {
+        "path": "backend/tests/conftest.py",
+        "type": "blob",
+        "size": 2242
+      },
+      {
+        "path": "backend/tests/mock_data.py",
+        "type": "blob",
+        "size": 1526
+      },
+      {
+        "path": "backend/tests/test_api_endpoints.py",
+        "type": "blob",
+        "size": 2041
+      },
+      {
+        "path": "backend/tests/test_model_rotation.py",
+        "type": "blob",
+        "size": 2024
+      },
+      {
+        "path": "backend/tests/test_rate.py",
+        "type": "blob",
+        "size": 685
+      },
+      {
+        "path": "extension",
+        "type": "tree",
+        "size": 0
+      },
+      {
+        "path": "extension/_metadata",
+        "type": "tree",
+        "size": 0
+      },
+      {
+        "path": "extension/_metadata/generated_indexed_rulesets",
+        "type": "tree",
+        "size": 0
+      },
+      {
+        "path": "extension/_metadata/generated_indexed_rulesets/_ruleset1",
+        "type": "blob",
+        "size": 1331
+      },
+      {
+        "path": "extension/background.js",
+        "type": "blob",
+        "size": 4478
+      },
+      {
+        "path": "extension/features",
+        "type": "tree",
+        "size": 0
+      },
+      {
+        "path": "extension/features/ai-text.js",
+        "type": "blob",
+        "size": 6001
+      },
+      {
+        "path": "extension/features/focus-blocker.js",
+        "type": "blob",
+        "size": 5370
+      },
+      {
+        "path": "extension/features/focus-mode.js",
+        "type": "blob",
+        "size": 4236
+      },
+      {
+        "path": "extension/features/formatting.js",
+        "type": "blob",
+        "size": 11462
+      },
+      {
+        "path": "extension/features/image-explainer.js",
+        "type": "blob",
+        "size": 11918
+      },
+      {
+        "path": "extension/features/read-ruler.js",
+        "type": "blob",
+        "size": 2836
+      },
+      {
+        "path": "extension/features/reader-mode.js",
+        "type": "blob",
+        "size": 17064
+      },
+      {
+        "path": "extension/features/speech-in.js",
+        "type": "blob",
+        "size": 7150
+      },
+      {
+        "path": "extension/features/speech-out.js",
+        "type": "blob",
+        "size": 21143
+      },
+      {
+        "path": "extension/features/tone-analyzer.js",
+        "type": "blob",
+        "size": 7451
+      },
+      {
+        "path": "extension/features/toolbar.js",
+        "type": "blob",
+        "size": 8789
+      },
+      {
+        "path": "extension/features/visual-enhancement.js",
+        "type": "blob",
+        "size": 11926
+      },
+      {
+        "path": "extension/manifest.json",
+        "type": "blob",
+        "size": 1181
+      },
+      {
+        "path": "extension/popup",
+        "type": "tree",
+        "size": 0
+      },
+      {
+        "path": "extension/popup/popup.css",
+        "type": "blob",
+        "size": 7797
+      },
+      {
+        "path": "extension/popup/popup.html",
+        "type": "blob",
+        "size": 6214
+      },
+      {
+        "path": "extension/popup/popup.js",
+        "type": "blob",
+        "size": 14017
+      },
+      {
+        "path": "extension/rules.json",
+        "type": "blob",
+        "size": 1511
+      }
+    ]
+  },
+  "diagrams": {
+    "architecture": "graph TB\n    subgraph Frontend[\"\ud83d\udda5\ufe0f Frontend\"]\n        UI[\"UI Layer\"]\n    end\n    subgraph Backend[\"\u2699\ufe0f Backend\"]\n        backend_app_api[\"api\"]\n        backend_app_api___init___py[\"__init__.py\"]\n        backend_app_api_routers[\"routers\"]\n        backend_app_api_routers___init___py[\"__init__.py\"]\n        backend_app_api_routers_accessibility_py[\"accessibility.py\"]\n        backend_app_api_routers_reader_py[\"reader.py\"]\n    end\n    subgraph Services[\"\ud83d\udd27 Services\"]\n        backend_app_services[\"services\"]\n        backend_app_services___init___py[\"__init__.py\"]\n        backend_app_services_cam_analyzer_py[\"cam_analyzer.py\"]\n        backend_app_services_dom_mapper_py[\"dom_mapper.py\"]\n        backend_app_services_focus_mapper_py[\"focus_mapper.py\"]\n        backend_app_services_focus_reader_py[\"focus_reader.py\"]\n    end\n    Frontend --> Backend\n    Backend --> Services",
+    "folder_tree": "graph LR\n    ROOT --> _gitignore[\".gitignore/\"]\n    ROOT --> README_md[\"README.md/\"]\n    ROOT --> backend[\"backend/\"]\n    ROOT --> extension[\"extension/\"]",
+    "request_flow": "sequenceDiagram\n    participant User\n    participant Frontend\n    participant API\n    participant Service\n    participant DB\n    User->>Frontend: Interact with UI\n    Frontend->>API: HTTP Request\n    API->>Service: Business Logic\n    Service->>DB: Query/Mutate\n    DB-->>Service: Result\n    Service-->>API: Response Data\n    API-->>Frontend: JSON Response\n    Frontend-->>User: Render UI",
+    "dependencies": "graph TD\n    APP[\"Application\"]\n    APP --> JavaScript[\"JavaScript\"]\n    APP --> Python[\"Python\"]",
+    "execution_flow": "graph TD\n    START([\"App Start\"]) --> CONFIG[\"Load Config\"]\n    CONFIG --> INIT[\"Initialize Services\"]\n    INIT --> ROUTES[\"Register Routes\"]\n    ROUTES --> LISTEN[\"Listen for Requests\"]\n    LISTEN --> HANDLER[\"Route Handler\"]\n    HANDLER --> SERVICE[\"Service Logic\"]\n    SERVICE --> RESPONSE[\"Send Response\"]",
+    "contributor_map": "graph LR\n    START([\"Start Here\"]) --> README[\"README.md\"]\n    README --> EP[\"main.py\"]\n    EP --> ROUTES[\"Routes (10 files)\"]\n    ROUTES --> SERVICES[\"Services (11 files)\"]"
+  },
+  "file_contents": {
+    "README.md": "# NeuroRead AI \ud83e\udde0\n\n**Making any webpage readable for neurodivergent users through real-time AI multimodal transformation.**\n\n> **Google Big Code Hackathon 2026 \u00b7 Accessibility Track**  \n> Powered by **FastAPI**, **Groq Cloud** (Llama 3.1 70B, Vision, Whisper), and **Redis**.\n\n---\n\n## \ud83c\udfa5 Demo\n\n[Watch Demo](https://drive.google.com/file/d/1ljKxIPJ2vze8oKeQjhQpy85V-EDjkEPj/view?usp=sharing)\n\n---\n\n## \ud83c\udfd7\ufe0f Architecture & Core Logic\n\nNeuroRead AI is built with a **modular micro-service architecture** designed for high throughput and extreme reliability. Unlike simple wrappers, it implements a state-of-the-art model rotation and intelligent caching system.\n\n### System Context Diagram\n```mermaid\ngraph TD\n    User((User))\n    ChromeExt[Chrome Extension MV3]\n    FastAPI[FastAPI Backend]\n    Redis[(Redis Cache)]\n    Groq[Groq AI Cloud]\n\n    User -->|Interacts| ChromeExt\n    ChromeExt -->|POST analyze| FastAPI\n    FastAPI ---|Lookup/Store| Redis\n    FastAPI -->|Multimodal Chain| Groq\n    Groq -->|Llama 3.1 / Vision / Whisper| FastAPI\n    FastAPI -->|JSON Accessibility Map| ChromeExt\n    ChromeExt -->|DOM Injection| User\n```\n```mermaid\nsequenceDiagram\n    participant S as Service (CAM/Simplify)\n    participant T as Tenacity Decorator\n    participant P as ModelPoolManager\n    participant G as Groq API\n\n    S->>T: Invoke LLM Request\n    T->>G: Request with Llama-3.1-70B\n    G-->>T: Error 429 (Rate Limit)\n    T->>P: trigger_rotation()\n    P->>P: Rotate 'text_pool': Push Llama-3.1-70B to back\n    T->>T: Wait (Exponential Backoff)\n    T->>P: get_current_model()\n    P-->>T: Return Mixtral-8x7b\n    T->>G: Retry Request with Mixtral\n    G-->>T: Success 200\n    T-->>S: Return Result\n```\n### \ud83e\udde0 Core Logic & Rationale\n\n#### 1. AI/ML Model Selection & Why Groq Over Alternatives\n\n**Model Choices:**\n- **Llama-3.1-70B-Versatile**: Primary reasoning engine for text simplification. High parameter count essential for preserving nuance while reducing complexity. Chosen over GPT-4 due to **10-30x speed advantage** (2-3s vs 20-30s) and **60x cost reduction** ($0.50/1M tokens vs $30/1M).\n- **Llama-3.1-8B-Instant**: Fast intent routing and DOM mapping with sub-200ms latency. Ideal for real-time voice commands.\n- **Llama-3.2-11B-Vision**: Dedicated multimodal engine for image explanation with high visual fidelity understanding.\n- **Whisper-Large-V3-Turbo**: Real-time speech-to-text optimized for accessibility command transcription.\n\n**Why Groq, Not OpenAI/Anthropic/HuggingFace?**\n\n| Criteria | Groq | OpenAI (GPT-4) | Anthropic (Claude) | HuggingFace (Local) |\n|----------|------|----------------|-------------------|-------------------|\n| **Speed (latency)** | 2-3s | 20-30s | 10-15s | Variable (device dependent) |\n| **Cost ($/1M tokens)** | $0.50 | $30 | $15 | Free (but device cost) |\n| **Free Tier Available** | \u2705 Yes (100 RPM) | \u274c No | \u274c No | \u2705 Yes (self-hosted) |\n| **Reliability (uptime)** | 99.9% | 99.99% | 99.95% | N/A (self-managed) |\n| **Multimodal Support** | \u2705 Vision + Audio | \u2705 Vision only | \u2705 Vision only | \u26a0\ufe0f Limited |\n| **Temperature Control** | \u2705 Fine-grained | \u2705 Yes | \u2705 Yes | \u2705 Yes |\n| **JSON Mode (guaranteed)** | \u2705 Yes | \u2705 Yes | \u2705 Yes | \u26a0\ufe0f Inconsistent |\n| **Ideal For** | **Fast, affordable batch processing** | Premium, complex reasoning | Enterprise safety | Privacy-critical local ops |\n\n**Our Choice Rationale**: Groq's combination of speed (sub-3s), affordability (free tier), and multimodal capabilities makes it ideal for a browser extension serving multiple users with rate limit constraints. **Speed = better UX**. **Cost = sustainability for hackathon & open source**.\n\n#### 2. Optimized Data Structures\n\n- **Model Deque (Rotating Queue)**: Uses `collections.deque` for O(1) rotation speed when a model hits rate limits. When \"burned\", the failed model is pushed to the back of the queue, and the next available model is tried immediately.\n- **Thread-safe ContextVars**: Manages `_active_pool` state across concurrent requests, ensuring no race conditions during model rotation.\n- **Redis Hash Maps**: Persistent caching of results with 24-hour TTL for instant lookups (35-40x latency improvement on cache hits).\n\n---\n\n## \ud83e\udde9 Comprehensive Feature List\n\n| Feature | Category | Description |\n|---------|----------|-------------|\n| **Text Simplification** | Cognitive | AI rewrites complex sentences into plain English while preserving core meaning. |\n| **Tone Analysis** | Social/Pragmatic | Explicit translation of social subtext, sarcasm, and implicit meaning for Autistic users. |\n| **Vision Explainer** | Multimodal | High-fidelity image and diagram descriptions in simple, jargon-free language. |\n| **CAM Scoring** | Metric | REAL-TIME Cognitive Accessibility Metric based on lexical and visual density. |\n| **Focus Mode** | Layout | LLM-driven DOM isolation that surgically strips distractions without breaking site-specific nav. |\n| **Reading Ruler** | Visual | Dynamic overlay that highlights the active reading line to reduce visual stress. |\n| **Speech-t",
+    "backend/app/core/config.py": "\"\"\"\nNeuroRead AI \u2014 config.py\nCentral configuration for all backend modules.\nManages API keys, model assignments, and retry/rate-limit logic.\n\"\"\"\n\nimport os\nimport time\nimport contextvars\nfrom dotenv import load_dotenv\nfrom langchain_groq import ChatGroq\nfrom groq import Groq\n\nload_dotenv()\n\n# \u2500\u2500\u2500 API Key \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nGROQ_API_KEY = os.getenv(\"GROQ_API_KEY\", \"\")\n\nfrom app.core.model_pool import model_pool_manager\n\n# Thread-local context to pass the active pool name into Tenacity hooks\n_active_pool = contextvars.ContextVar('_active_pool', default='text_pool')\n\n# \u2500\u2500\u2500 Pool Assignments \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n# Assign tasks to their required fallback pools instead of rigid distinct models\nPOOL_ASSIGNMENTS = {\n    \"dom_mapper\":       \"text_pool\",\n    \"text_simplifier\":  \"text_pool\",\n    \"focus_mapper\":     \"text_pool\",\n    \"focus_reader\":     \"text_pool\",\n    \"voice_intent\":     \"text_pool\",\n    \"whisper\":          \"audio_pool\",\n    \"vision_explainer\": \"vision_pool\",\n    \"cam_analyzer\":     \"text_pool\",\n    \"tone_analyzer\":    \"text_pool\",\n}\n\n# \u2500\u2500\u2500 LLM Parameters \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nTEMPERATURES = {\n    \"dom_mapper\":       0.3,\n    \"text_simplifier\":  0.3,\n    \"focus_mapper\":     0.3,\n    \"voice_intent\":     0.3,\n}\n\n# \u2500\u2500\u2500 Rate Limit / Retry Config \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nMAX_RETRIES = 3\nRETRY_DELAY_SECONDS = 10  # Base delay, doubles on each retry (exponential backoff)\n\n\ndef get_llm(task: str) -> ChatGroq:\n    \"\"\"\n    Returns a ChatGroq LLM instance using the Model Pool rotation.\n    If the top model in the pool is rate-limited, it automatically fails over to the next!\n    \"\"\"\n    pool_name = POOL_ASSIGNMENTS.get(task, \"text_pool\")\n    _active_pool.set(pool_name)\n    selected_model = model_pool_manager.get_current_model(pool_name)\n    \n    if not selected_model:\n        raise Exception(f\"All models in '{pool_name}' are currently Rate-Limited! Server cannot process {task}.\")\n    \n    print(f\"[{task}] \ud83c\udfaf Grabbed available model from {pool_name}: {selected_model}\")\n    \n    return ChatGroq(\n        api_key=GROQ_API_KEY,\n        model=selected_model,\n        temperature=TEMPERATURES.get(task, 0.1),\n        timeout=30,  # 30 second hard timeout \u2014 never hang forever\n    )\n\n\ndef get_groq_client() -> Groq:\n    \"\"\"\n    Returns a raw Groq SDK client (used for Whisper audio transcription).\n    \"\"\"\n    return Groq(api_key=GROQ_API_KEY)\n\n\nimport asyncio\nfrom tenacity import retry, wait_exponential, stop_after_attempt, retry_if_exception_type\n\n# We don't catch all exceptions blindly, only Rate Limit errors or parsing errors that warrant a retry.\n# Groq generally throws 'RateLimitError' from the SDK, or raw string Exception blocks containing \"rate limit\" or \"429\".\n\ndef is_rate_limit_error(exception: Exception) -> bool:\n    error_str = str(exception).lower()\n    return \"429\" in error_str or \"rate_limit\" in error_str\n\ndef trigger_rotation(retry_state):\n    \"\"\"\n    Hook fired by Tenacity before sleeping when retrying.\n    Rotates to the next model on ANY failure so we never retry with the same broken model.\n    \"\"\"\n    exception = retry_state.outcome.exception()\n    if exception:\n        pool_name = _active_pool.get()\n        error_type = type(exception).__name__\n        print(f\"[Tenacity] \ud83d\udd04 {error_type} on attempt {retry_state.attempt_number}! Rotating '{pool_name}'...\")\n        model_pool_manager.rotate_failed_model(pool_name)\n\n# High-order Decorator for LangChain execution\ndef retry_llm_call(func):\n    return retry(\n        retry=retry_if_exception_type(Exception),\n        wait=wait_exponential(multiplier=1, min=1, max=10),\n        stop=stop_after_attempt(len(model_pool_manager.pools.get(\"text_pool\", []))),\n        before_sleep=trigger_rotation\n    )(func)\n\n@retry_llm_call\ndef _execute_llm_chain(task_name: str, prompt_template, parser, input_data: dict, temperature: float = None):\n    \"\"\"\n    Core execution logic. It rebuilds the chain entirely on every invocation.\n    If Tenacity triggers a retry, this function starts locally, calling get_llm() which\n    fetches the next rotated model securely.\n    \"\"\"\n    llm = get_llm(task_name)\n    chain = prompt_template | llm | parser\n    return chain.invoke(input_data)\n\ndef invoke_with_retry(chain=None, input_data: dict = None, task_name: str = \"unknown\", prompt=None, parser=None):\n    \"\"\"\n    Facade wrapper to intercept the old `invoke_with_retry(chain, data, task)` \n    and adapt it seamlessly to the new Tenacity standard.\n    Note: To support model rotation, you MUST pass `prompt` and `parser` explicitly!\n    \"\"\"\n    try:\n        if prompt and parser:\n            return _execute_llm_chain(task_name, prompt, parser, input_data)\n        elif chain:\n            # Legacy fallback if prompt/parser isn't passed (No LLM rotation available here)\n            print(f\"[{task_name}] WARNING: Legacy invoke_with_retry called. Retries will not trigger Model Rotation!\")\n            @retry_llm_call\n            def _leg",
+    "backend/app/main.py": "from fastapi import FastAPI\nfrom fastapi.middleware.cors import CORSMiddleware\n\n# Import routers\nfrom app.api.routers import system, accessibility, reader, voice\n\napp = FastAPI(title=\"NeuroRead AI Backend\")\n\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=[\"*\"],\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"],\n)\n\n# Mount all modules\napp.include_router(system.router)\napp.include_router(accessibility.router)\napp.include_router(reader.router)\napp.include_router(voice.router)\n",
+    "backend/main.py": "\nif __name__ == '__main__':\n    import uvicorn\n    uvicorn.run('app.main:app', host='0.0.0.0', port=8000, reload=True)\nelse:\n    from app.main import app\n\n",
+    "backend/requirements.txt": "fastapi==0.111.0\nuvicorn==0.29.0\npython-dotenv==1.0.1\npydantic==2.7.1\ngroq==0.8.0\nlangchain==0.1.16\nlangchain-groq==0.1.3\npython-multipart==0.0.9\ntenacity==8.3.0\npytest==8.2.1\npytest-asyncio==0.23.7\nhttpx==0.27.0\npytest-mock==3.14.0\n",
+    "backend/app/api/routers/accessibility.py": "import json\nimport asyncio\nfrom fastapi import APIRouter, HTTPException\nfrom app.schemas.api_models import SimplifyRequest, CamRequest, ToneRequest\nfrom app.core.cache import cache\nfrom app.services.text_simplifier import simplify_text_chunks\nfrom app.services.cam_analyzer import analyze_cam_score\nfrom app.services.tone_analyzer import analyze_tone\n\nrouter = APIRouter()\n\n@router.post(\"/simplify\")\nasync def simplify_text(request: SimplifyRequest):\n    chunks_str = json.dumps(request.text_chunks)\n    cached = cache.get(\"text_simplifier\", chunks_str)\n    if cached:\n        return {\"success\": True, \"cached\": True, \"simplified_chunks\": cached}\n\n    max_batch = 10\n    chunks = request.text_chunks[:max_batch]\n    simplified = await asyncio.to_thread(simplify_text_chunks, chunks)\n    \n    cache.set(\"text_simplifier\", chunks_str, simplified)\n    return {\n        \"success\": True,\n        \"simplified_chunks\": simplified\n    }\n\n@router.post(\"/cam-score\")\nasync def cam_score_endpoint(request: CamRequest):\n    cached = cache.get(\"cam_analyzer\", request.text_content)\n    if cached:\n        return {\"success\": True, \"cached\": True, \"cam\": cached}\n\n    if not request.text_content:\n        return {\"success\": False, \"error\": \"No text provided\"}\n        \n    result = await asyncio.to_thread(analyze_cam_score, request.text_content)\n    cache.set(\"cam_analyzer\", request.text_content, result)\n    \n    return {\n        \"success\": True,\n        \"cam\": result\n    }\n\n@router.post(\"/analyze-tone\")\nasync def analyze_tone_endpoint(request: ToneRequest):\n    cached = cache.get(\"tone_analyzer\", request.text_content)\n    if cached:\n        return {\"success\": True, \"cached\": True, \"analysis\": cached}\n\n    if not request.text_content:\n        raise HTTPException(status_code=400, detail=\"No text data provided\")\n        \n    result = await asyncio.to_thread(analyze_tone, request.text_content)\n    cache.set(\"tone_analyzer\", request.text_content, result)\n    \n    return {\n        \"success\": True,\n        \"analysis\": result\n    }\n",
+    "backend/app/api/routers/reader.py": "import json\nimport asyncio\nimport time\nfrom fastapi import APIRouter, HTTPException\nfrom app.schemas.api_models import SkeletonRequest, ReaderRequest, ImageExplainRequest\nfrom app.core.cache import cache\nfrom app.services.dom_mapper import generate_css_map\nfrom app.services.focus_mapper import generate_focus_map\nfrom app.services.focus_reader import extract_reader_content\nfrom app.services.vision_explainer import explain_image\n\nrouter = APIRouter()\n\n@router.post(\"/analyze-site\")\nasync def analyze_site(request: SkeletonRequest):\n    cached = cache.get(\"dom_mapper\", request.html_skeleton)\n    if cached:\n        return {\"success\": True, \"cached\": True, **cached}\n\n    ai_response = await asyncio.to_thread(generate_css_map, request.html_skeleton)\n    \n    response_data = {\n        \"selectors\": {\n            \"title_selector\": ai_response.get(\"title_selector\", \"h1\"),\n            \"body_selector\": ai_response.get(\"body_selector\", \"p\"),\n            \"header_selectors\": ai_response.get(\"header_selectors\", \"h2, h3\"),\n            \"exclusions\": ai_response.get(\"exclusions\", \"sup, sub, math, nav, footer\"),\n            \"thumbnail_selector\": ai_response.get(\"thumbnail_selector\", \"img\")\n        },\n        \"formatting\": {\n            \"typography\": {\n                \"base_font_size\": ai_response.get(\"base_font_size\", \"22px\"),\n                \"line_height\": ai_response.get(\"line_height\", \"1.9\"),\n                \"font_family\": ai_response.get(\"font_family\", \"sans-serif\"),\n                \"text_align\": ai_response.get(\"text_align\", \"left\"),\n                \"max_line_width\": ai_response.get(\"max_line_width\", \"680px\"),\n                \"letter_spacing\": ai_response.get(\"letter_spacing\", \"0.02em\"),\n                \"word_spacing\": ai_response.get(\"word_spacing\", \"0.08em\"),\n                \"override_italic\": ai_response.get(\"override_italic\", True)\n            },\n            \"colors\": {\n                \"background\": ai_response.get(\"background_color\", \"#FAFAF5\"),\n                \"text\": ai_response.get(\"text_color\", \"#1A1A2E\"),\n                \"highlight\": ai_response.get(\"heading_color\", \"#4A1D96\"),\n                \"accent\": ai_response.get(\"accent_color\", \"#D97706\")\n            },\n            \"layout\": {\n                \"paragraph_spacing\": ai_response.get(\"paragraph_spacing\", \"1em\"),\n                \"heading_margin_top\": ai_response.get(\"heading_margin_top\", \"1.5em\"),\n                \"content_max_width\": ai_response.get(\"content_max_width\", \"780px\"),\n                \"list_indent\": ai_response.get(\"list_indent\", \"20px\"),\n                \"list_item_spacing\": ai_response.get(\"list_item_spacing\", \"0.5em\")\n            },\n            \"clutter\": {\n                \"override_background_image\": ai_response.get(\"override_background_image\", True),\n                \"image_display_style\": ai_response.get(\"image_display_style\", \"block\"),\n                \"border_style\": ai_response.get(\"border_style\", \"minimal\"),\n                \"remove_decorative_shadows\": ai_response.get(\"remove_decorative_shadows\", True)\n            }\n        }\n    }\n    cache.set(\"dom_mapper\", request.html_skeleton, response_data)\n    return {\"success\": True, **response_data}\n\n@router.post(\"/analyze-focus\")\nasync def analyze_focus(request: SkeletonRequest):\n    cached = cache.get(\"focus_mapper\", request.html_skeleton)\n    if cached:\n        return {\"success\": True, \"cached\": True, **cached}\n\n    ai_response = await asyncio.to_thread(generate_focus_map, request.html_skeleton)\n    \n    response_data = {\n        \"selectors\": {\n            \"main_content_selector\": ai_response.get(\"main_content_selector\", \"article, main\"),\n            \"hide_selectors\": ai_response.get(\"hide_selectors\", \"nav, footer, aside\")\n        }\n    }\n    cache.set(\"focus_mapper\", request.html_skeleton, response_data)\n    return {\"success\": True, **response_data}\n\n@router.post(\"/focus-reader\")\nasync def focus_reader_endpoint(request: ReaderRequest):\n    print(f\"[focus-reader] === REQUEST RECEIVED === raw_text={len(request.raw_text or '')} chars, feed_items={len(request.feed_items or [])}, is_feed={request.is_feed}\")\n    \n    if not request.raw_text and not request.feed_items:\n        print(\"[focus-reader] REJECTED: no content provided\")\n        return {\"success\": False, \"error\": \"No content provided\"}\n    \n    cache_key = json.dumps({\"text\": request.raw_text, \"feed\": request.feed_items, \"is_feed\": request.is_feed})\n    cached = cache.get(\"focus_reader\", cache_key)\n    if cached:\n        print(\"[focus-reader] === SERVED FROM CACHE ===\")\n        return {\"success\": True, \"cached\": True, \"data\": cached}\n    \n    start = time.time()\n    result = await asyncio.to_thread(extract_reader_content, request.raw_text, request.feed_items, request.is_feed)\n    elapsed = time.time() - start\n    \n    sections_count = len(result.get(\"sections\", []))\n    feed_count = len(result.get(\"feed\", []))\n    print(f\"[focus-reader] === DONE in {elapsed:.1f}s === sections={sections_count}, feed={feed_count}\")\n    \n    cache.set(\"focus_reader\",",
+    "backend/app/api/routers/system.py": "from fastapi import APIRouter\nimport time\n\nrouter = APIRouter()\nSTART_TIME = time.time()\n\n@router.get(\"/health\")\ndef health_check():\n    return {\n        \"status\": \"ok\",\n        \"uptime\": time.time() - START_TIME\n    }\n\n@router.get(\"/settings\")\ndef get_settings():\n    return {\n        \"base_font_size\": \"20px\",\n        \"line_height\": \"1.8\",\n        \"colors\": {\n            \"background\": \"#FFFEF5\",\n            \"text\": \"#1A1A1A\",\n            \"highlight\": \"#6A0DAD\",\n            \"accent\": \"#E67E00\"\n        }\n    }\n",
+    "backend/app/api/routers/voice.py": "import asyncio\nfrom fastapi import APIRouter, File, UploadFile, HTTPException\nfrom app.services.voice_transcriber import transcribe_audio\nfrom app.services.voice_intent import parse_intent\n\nrouter = APIRouter()\n\n@router.post(\"/voice\")\nasync def voice_transcribe(audio: UploadFile = File(...)):\n    audio_bytes = await audio.read()\n    if not audio_bytes:\n        raise HTTPException(status_code=400, detail=\"Empty audio file\")\n    \n    transcription = await asyncio.to_thread(transcribe_audio, audio_bytes, audio.filename or \"recording.webm\")\n    \n    if not transcription:\n        return {\"success\": False, \"error\": \"No audible transcription\"}\n\n    intent = await asyncio.to_thread(parse_intent, transcription)\n    \n    return {\n        \"success\": True,\n        \"transcription\": transcription,\n        \"intent\": intent\n    }\n",
+    "backend/app/services/cam_analyzer.py": "\"\"\"\nNeuroRead AI \u2014 cam_analyzer.py\nModule: Cognitive Accessibility Metric (CAM) Score\nAnalyzes page content to score its cognitive load.\n\"\"\"\n\nfrom typing import Dict, Any\nfrom langchain_core.prompts import ChatPromptTemplate\nfrom langchain_core.output_parsers import JsonOutputParser\nfrom pydantic import BaseModel, Field\nfrom app.core.config import invoke_with_retry\n\nclass CAMResponse(BaseModel):\n    score: int = Field(description=\"Integer from 0 to 100 where 100 is perfectly accessible and easy to read, and 0 is extremely dense and complex.\")\n    rating: str = Field(description=\"One of: 'Excellent', 'Good', 'Fair', 'Poor'\")\n    insights: list[str] = Field(description=\"Exactly 2 brief, actionable insights/recommendations based on the text. Max 10 words each.\")\n\ndef analyze_cam_score(text_content: str) -> Dict[str, Any]:\n    \"\"\"\n    Evaluates the text content and returns a CAM score out of 100.\n    \"\"\"\n    parser = JsonOutputParser(pydantic_object=CAMResponse)\n    \n    prompt = ChatPromptTemplate.from_messages([\n        (\"system\", \"\"\"You are an expert accessibility evaluator for neurodivergent readers (ADHD, Dyslexia, Autism).\nEvaluate the provided text and compute a Cognitive Accessibility Metric (CAM) score.\nConsider:\n1. Lexical complexity (long/academic words lower the score)\n2. Sentence length (long run-on sentences lower the score)\n3. Formatting density (large unbroken blocks of text lower the score)\n\nProvide your analysis in strictly valid JSON matching the required schema. Ensure the score is between 0 and 100.\n\"\"\"),\n        (\"user\", \"Text to evaluate:\\n{text}\\n\\n{format_instructions}\")\n    ])\n    \n    # Cap text length to avoid giant payloads\n    safe_text = text_content[:5000]\n    if len(safe_text) < 50:\n        return {\n            \"score\": 100,\n            \"rating\": \"Excellent\",\n            \"insights\": [\"Not enough text to analyze.\", \"Page looks accessible.\"]\n        }\n        \n    result = invoke_with_retry(\n        input_data={\"text\": safe_text, \"format_instructions\": parser.get_format_instructions()},\n        task_name=\"cam_analyzer\",\n        prompt=prompt,\n        parser=parser\n    )\n    \n    if result:\n        return result\n    \n    return {\n        \"score\": 50,\n        \"rating\": \"Unknown\",\n        \"insights\": [\"Failed to calculate CAM score.\", \"Try reloading the page.\"]\n    }\n",
+    "backend/app/services/dom_mapper.py": "import os\nimport json\nfrom dotenv import load_dotenv\nfrom pydantic import BaseModel, Field\nfrom langchain_core.prompts import PromptTemplate\nfrom langchain_core.output_parsers import JsonOutputParser\nfrom app.core.config import invoke_with_retry\n\nload_dotenv()\n\n# Define the expected JSON output structure\nclass SiteSelectors(BaseModel):\n    # Core Selectors\n    title_selector: str = Field(description=\"The CSS selector for the main article title.\")\n    body_selector: str = Field(description=\"The CSS selector targeting the main reading paragraph elements.\")\n    header_selectors: str = Field(description=\"The CSS selector targeting section headings.\")\n    exclusions: str = Field(description=\"CSS selector for elements to IGNORE (e.g., math, sup, nav, footer).\")\n    thumbnail_selector: str = Field(description=\"CSS selector for article images or thumbnails.\")\n    \n    # GROUP A: Typography\n    base_font_size: str = Field(description=\"Large font size (22px-26px).\")\n    line_height: str = Field(description=\"Generous line height (1.85-2.1).\")\n    font_family: str = Field(description=\"High-legibility geometric sans-serif.\")\n    text_align: str = Field(description=\"'left' (Never justify).\")\n    max_line_width: str = Field(description=\"Line length (e.g., 680px or 65ch).\")\n    letter_spacing: str = Field(description=\"Slightly open letter spacing (0.01em-0.03em).\")\n    word_spacing: str = Field(description=\"Open word spacing (0.05em-0.1em).\")\n    override_italic: bool = Field(description=\"Set to true to replace italics with normal font-weight 500.\")\n    \n    # GROUP B: Color & Contrast\n    background_color: str = Field(description=\"Warm cream or pale sepia background.\")\n    text_color: str = Field(description=\"Rich dark charcoal text color.\")\n    heading_color: str = Field(description=\"Deep saturated color for headings.\")\n    accent_color: str = Field(description=\"High-energy warm hue for bold/highlighted concepts.\")\n    override_background_image: bool = Field(description=\"Set to true to force background-image: none.\")\n    \n    # GROUP C: Spacing & Layout\n    paragraph_spacing: str = Field(description=\"Moderate margin-bottom on paragraphs (0.8em-1.2em).\")\n    heading_margin_top: str = Field(description=\"Moderate margin-top before headings (1.2em-1.8em).\")\n    content_max_width: str = Field(description=\"Constrained central column width (740px-820px).\")\n    list_indent: str = Field(description=\"Minimal list indentation (16px-20px).\")\n    list_item_spacing: str = Field(description=\"Comfortable spacing between list items (0.3em-0.5em).\")\n    \n    # GROUP D: Visual Clutter\n    image_display_style: str = Field(description=\"'block' display for images with generous top/bottom margins.\")\n    border_style: str = Field(description=\"Minimal or no decorative borders.\")\n    remove_decorative_shadows: bool = Field(description=\"Set to true to force box-shadow and text-shadow to none.\")\n\nprompt_template = PromptTemplate(\n    template=\"\"\"You are a senior Cognitive Accessibility Engineer and Frontend Developer with deep expertise in ADHD, dyslexia, and neurodivergent UX research.\nYou are building 'NeuroRead AI' \u2014 a browser extension that surgically rewrites websites to eliminate every known ADHD reading barrier.\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nTASK 1 \u2014 STRUCTURAL EXTRACTION\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nFrom the HTML skeleton below, extract the CSS selectors for:\n- The main article/content container\n- Body paragraph text (p, li, td, blockquote, etc.)\n- All heading levels (h1\u2013h4)\n- Inline images within the content\n- Pull-quotes and highlighted callouts\n\nIGNORE AND EXCLUDE: navbars, sidebars, footers, cookie banners, social share bars, ad containers, comment sections, modals, sticky headers, newsletter popups.\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nTASK 2 \u2014 ADHD-OPTIMIZED CSS GENERATION\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nGenerate precise CSS values that counteract ALL of the following ADHD pain points. \nFor each pain point, I describe the neurological/cognitive problem and the exact CSS fix required.\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nGROUP A: TYPOGRAPHY \u2014 The #1 Source of Reading Failure\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\nPAIN A1 \u2014 \"Walls of text\" trigger immediate executive shutdown.\nDense paragraphs with no visual breathing room cause the ADHD brain to perceive reading as an insurmountable task before a single word is processed.\n\u2192 FIX: Set 'base_font_size' very large (22px\u201326px). Set 'line_height' very generous (1.85\u20132.1). This is not aesthetic \u2014 it is triage.\n\nPAIN A2 \u2014 Serif fonts and decorative typefaces increase cognitive load for ADHD/dyslexic readers.\nSerif letter forms have more visual \"noise\" per character. The brain must decode each letterform rather than pattern-matching it.\n\u2192 FIX: Set 'font_family' to a high-legibility geometric sans-serif. Preferred order: 'Atkinson Hyperlegible', 'OpenDyslexic', 'Inter', 'Helvetica Neue', sans-serif. These fonts have maximum character distinctiveness (no mirrored b/d/p/q ambigui",
+    "backend/app/services/focus_mapper.py": "import os\nfrom dotenv import load_dotenv\nfrom pydantic import BaseModel, Field\nfrom langchain_core.prompts import PromptTemplate\nfrom langchain_core.output_parsers import JsonOutputParser\nfrom app.core.config import invoke_with_retry\n\nload_dotenv()\n\nclass FocusSelectors(BaseModel):\n    main_content_selector: str = Field(description=\"CSS selector capturing the primary article container to isolate (e.g. 'article', 'main', '#content', '.mw-parser-output').\")\n    hide_selectors: str = Field(description=\"Comma-separated CSS selectors targeting EVERYTHING ELSE: navbars, sidebars, footers, ad containers, menus, and popups.\")\n\nprompt_template = PromptTemplate(\n    template=\"\"\"You are an expert Frontend DOM Analyzer specializing in accessibility and Reader Mode isolation.\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nTASK: Reader Mode Isolation\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nGiven the HTML skeleton below, you must identify:\n1. The unique selector for the MAIN content/article area.\n2. A broad set of selectors targeting EVERY distracting peripheral element.\n\nREQUIREMENTS:\n- For `hide_selectors`, aggressively select: `<nav>`, `<footer>`, `<aside>`, `.sidebar`, `#vector-toc`, cookie banners, social bars, ad slots, and site headers.\n- If you see classes like `mw-panel`, `vector-toc-container`, `vector-pinnable-header`, `menu`, or `nav`, include them in `hide_selectors`.\n- DO NOT hide the main content container or its direct ancestors.\n- DO NOT hide elements inside the main content container. \n- CRITICAL: NEVER include the main body containers in `hide_selectors`! For example, on Wikipedia, NEVER hide `.mw-body`, `.mw-body-header`, `.mw-parser-output`, or `.mw-first-heading`.\n\nHTML SKELETON:\n{skeleton}\n\nReturn ONLY valid JSON matching this schema:\n{format_instructions}\n\"\"\",\n    input_variables=[\"skeleton\"],\n    partial_variables={\"format_instructions\": JsonOutputParser(pydantic_object=FocusSelectors).get_format_instructions()},\n)\n\nparser = JsonOutputParser(pydantic_object=FocusSelectors)\n\ndef generate_focus_map(html_skeleton: str) -> dict:\n    response = invoke_with_retry(\n        input_data={\"skeleton\": html_skeleton},\n        task_name=\"focus_mapper\",\n        prompt=prompt_template,\n        parser=parser\n    )\n    \n    if response:\n        return response\n\n    print(\"[Focus Mapper] Error or Rate Limit Exceeded. Using hardcoded fallback.\")\n    return {\n        \"main_content_selector\": \"article, main, .mw-parser-output, [role='main']\",\n            \"hide_selectors\": \"nav, footer, aside, .sidebar, .menu, #vector-toc, .vector-toc-container, .mw-panel, [class*='cookie'], [class*='ad-']\"\n        }\n",
+    "backend/app/services/focus_reader.py": "from typing import List, Dict, Optional\nimport json\nfrom pydantic import BaseModel, Field\nfrom langchain_core.prompts import PromptTemplate\nfrom langchain_core.output_parsers import JsonOutputParser\nfrom app.core.config import invoke_with_retry\n\n# --- ARTICLE MODE SCHEMA ---\nclass SectionResponse(BaseModel):\n    heading: str = Field(description=\"A short, descriptive heading for this section of the article.\")\n    points: List[str] = Field(description=\"A list of concise bullet points that make up this section's content.\")\n\nclass ReaderResponse(BaseModel):\n    title: str = Field(description=\"The main title or headline of the article.\")\n    sections: List[SectionResponse] = Field(description=\"The article broken into logical sections, each with a heading and bullet points.\")\n\narticle_prompt = PromptTemplate(\n    template=\"\"\"You are an expert in cognitive accessibility and content extraction.\nYour task is to take the provided raw scraped text from a web page (which likely includes messy navigation, ads, sidebars, and footer text) and distill it into a clean, sectioned, point-by-point structural format.\n\nRULES:\n1. IDENTIFY MAIN CONTENT: Ignore navigation links (e.g. \"Home\", \"About Us\", \"Log In\", \"Search\"), cookie banners, and footer boilerplate.\n2. EXTRACT TITLE: Find the primary headline of the article.\n3. ORGANIZE INTO SECTIONS: Group the content into logical sections. Each section MUST have a short descriptive heading and a list of concise bullet points underneath.\n4. COGNITIVE ACCESSIBILITY: Keep sentences concise. If a paragraph is dense, split it into multiple points. Do not lose critical information, but do remove fluff.\n5. CLEANUP: Do not include generic UI text (like \"Share this\", \"Read more\", \"Comments\").\n6. MINIMUM SECTIONS: Always try to produce at least 2-3 sections. If the text is very short, use 1 section.\n\nINPUT TEXT:\n{raw_text}\n\nOUTPUT INSTRUCTIONS:\nReturn ONLY raw JSON matching this exact schema.\nNO markdown code fences. NO preamble. NO explanation. Just the JSON object.\n{format_instructions}\n\"\"\",\n    input_variables=[\"raw_text\"],\n    partial_variables={\"format_instructions\": JsonOutputParser(pydantic_object=ReaderResponse).get_format_instructions()},\n)\n\narticle_parser = JsonOutputParser(pydantic_object=ReaderResponse)\n\n# --- FEED MODE SCHEMA ---\nclass FeedItemResponse(BaseModel):\n    title: str = Field(description=\"The headline or title of the news item/article.\")\n    link: str = Field(description=\"The URL linking to the full article.\")\n    image_url: str = Field(description=\"The URL of the thumbnail image for the article.\")\n    summary: str = Field(description=\"A very concise (1-2 sentence) simplified summary of the headline or snippet.\")\n\nclass FeedResponse(BaseModel):\n    feed: List[FeedItemResponse] = Field(description=\"The filtered and simplified list of valid news articles/feed items.\")\n\nfeed_prompt = PromptTemplate(\n    template=\"\"\"You are an expert in cognitive accessibility and content curation.\nYour task is to act as a Feed Filter. You will receive a JSON string containing an array of raw \"card candidates\" extracted from a web page (each containing a link, an image_url, and a text snippet).\n\nRULES:\n1. FILTER JUNK: Immediately discard items that look like ads, promotional content, tiny icons, navigation links, or \"Click here\" spam.\n2. SELECT VALID ARTICLES: Only keep items that appear to be genuine news articles, blog posts, or content pieces.\n3. REWRITE/SIMPLIFY: For each valid item, rewrite the 'title' if it's too long, and create a highly simplified 'summary' from the text snippet.\n4. COGNITIVE ACCESSIBILITY: Keep summaries to 1-2 very short sentences. Use plain language.\n\nRAW CARD CANDIDATES:\n{feed_json}\n\nOUTPUT INSTRUCTIONS:\nReturn ONLY raw JSON matching this exact schema.\nNO markdown code fences. NO preamble. NO explanation. Just the JSON object.\n{format_instructions}\n\"\"\",\n    input_variables=[\"feed_json\"],\n    partial_variables={\"format_instructions\": JsonOutputParser(pydantic_object=FeedResponse).get_format_instructions()},\n)\n\nfeed_parser = JsonOutputParser(pydantic_object=FeedResponse)\nimport re\nfrom langchain_core.runnables import RunnableLambda\n\ndef strip_think_tags(text):\n    \"\"\"Strip <think>...</think> blocks from LLM output before JSON parsing.\"\"\"\n    if hasattr(text, 'content'):\n        text = text.content\n    cleaned = re.sub(r'<think>[\\s\\S]*?</think>', '', str(text)).strip()\n    print(f\"[focus-reader] LLM output cleaned: {len(cleaned)} chars\")\n    return cleaned\n\nstrip_think = RunnableLambda(strip_think_tags)\n\ndef extract_article(raw_text: str):\n    if not raw_text or len(raw_text.strip()) < 50:\n        return {\"title\": \"Not enough content\", \"sections\": []}\n    \n    # Keep chunks small to avoid TPM rate limits (target ~1500 tokens)\n    truncated_text = raw_text[:5000]\n    res = invoke_with_retry(\n        input_data={\"raw_text\": truncated_text},\n        task_name=\"focus_reader\",\n        prompt=article_prompt,\n        parser=article_parser\n    )\n    return res if res else",
+    "backend/app/services/text_simplifier.py": "import os\nfrom typing import List\nfrom dotenv import load_dotenv\nfrom pydantic import BaseModel, Field\nfrom langchain_core.prompts import PromptTemplate\nfrom langchain_core.output_parsers import JsonOutputParser\nfrom app.core.config import invoke_with_retry\n\nload_dotenv()\n\nclass SimplificationResponse(BaseModel):\n    simplified_chunks: List[str] = Field(description=\"The simplified text chunks corresponding to the inputs.\")\n\nprompt_template = PromptTemplate(\n    template=\"\"\"You are an expert in cognitive accessibility, specifically writing for ADHD and Autism.\nYour task is to simplify the provided text chunks to an 'Explain Like I'm 5' (ELI5) level.\n\nRULES FOR SIMPLIFICATION:\n1. USE EXTREMELY SIMPLE LANGUAGE. If a word has more than 3 syllables, try to find a simpler one.\n2. AGGRESSIVE BREVITY: Reduce the word count by at least 40-50%.\n3. REMOVE ALL JARGON: Replace technical terms with easy-to-understand analogies or descriptions.\n4. ONE IDEA PER SENTENCE: Split every sentence that contains 'and', 'but', or 'which' into two short sentences.\n5. NO FILLER: Start directly with the simplified content.\n6. TARGET AUDIENCE: Write as if you are explaining this to a 10-year-old with short attention span.\n7. FORMAT AS BULLETS: Return the simplified text as a concise markdown bulleted list (e.g. using '-' or '*') instead of dense paragraphs.\n\nINPUT CHUNKS:\n{chunks}\n\nOUTPUT INSTRUCTIONS:\nReturn ONLY raw JSON matching this exact schema.\nNO markdown code fences. NO preamble. NO explanation. Just the JSON object.\n{format_instructions}\n\nEnsure the output 'simplified_chunks' array has the EXACT same length and order as the input chunks. Each simplified chunk corresponds to the input chunk at the same index.\n\"\"\",\n    input_variables=[\"chunks\"],\n    partial_variables={\"format_instructions\": JsonOutputParser(pydantic_object=SimplificationResponse).get_format_instructions()},\n)\n\nparser = JsonOutputParser(pydantic_object=SimplificationResponse)\n\ndef simplify_text_chunks(chunks: List[str]) -> List[str]:\n    \"\"\"Takes a list of text strings and uses Groq Llama 3 70B to simplify them for ADHD.\"\"\"\n    if not chunks:\n        return []\n    \n    # Format the input to make it clearly distinct for the LLM\n    formatted_chunks = \"\\n---\\n\".join([f\"CHUNK {i}:\\n{chunk}\" for i, chunk in enumerate(chunks)])\n    \n    response = invoke_with_retry(\n        input_data={\"chunks\": formatted_chunks},\n        task_name=\"text_simplifier\",\n        prompt=prompt_template,\n        parser=parser\n    )\n    \n    if response:\n        simplified = response.get(\"simplified_chunks\", [])\n        \n        # Handle cases where LLM returns fewer chunks or more\n        if isinstance(simplified, list):\n            if len(simplified) != len(chunks):\n                print(f\"[Text Simplifier] Warning: Output chunks ({len(simplified)}) != Input chunks ({len(chunks)})\")\n                # Pad with original if missing\n                while len(simplified) < len(chunks):\n                    simplified.append(chunks[len(simplified)])\n                # Truncate if too many\n                simplified = simplified[:len(chunks)]\n            return simplified\n        else:\n            print(\"[Text Simplifier] Warning: 'simplified_chunks' is not a list\")\n            return chunks\n            \n    print(\"[Text Simplifier] Error or Rate Limit Exceeded.\")\n    return chunks\n",
+    "backend/app/services/tone_analyzer.py": "\"\"\"\nNeuroRead AI \u2014 tone_analyzer.py\nModule: Content Tone & Emotion Analysis\n\"\"\"\n\nfrom typing import Dict, Any\nfrom langchain_core.prompts import ChatPromptTemplate\nfrom langchain_core.output_parsers import JsonOutputParser\nfrom pydantic import BaseModel, Field\nfrom app.core.config import invoke_with_retry\n\nclass ToneResponse(BaseModel):\n    primary_tone: str = Field(description=\"The dominant tone of the text, e.g., 'Sarcastic', 'Informative', 'Persuasive', 'Hostile', 'Encouraging', 'Satirical'\")\n    emotional_intensity: str = Field(description=\"One of: 'Low', 'Medium', 'High'\")\n    implicit_meaning: str = Field(description=\"A 1-2 sentence plain-language explanation of what the author actually means. Strip away sarcasm or subtext and be extremely direct.\")\n\ndef analyze_tone(text_content: str) -> Dict[str, Any]:\n    \"\"\"\n    Evaluates text and provides a breakdown of its tone, emotion, and implicit meaning.\n    \"\"\"\n    parser = JsonOutputParser(pydantic_object=ToneResponse)\n    \n    prompt = ChatPromptTemplate.from_messages([\n        (\"system\", \"\"\"You are an expert reading assistant for adults on the autism spectrum.\nYour job is to read the selected text and explicitly define the social, emotional, and pragmatic subtext.\nNeurodivergent readers sometimes miss implicit meaning, sarcasm, or unstated intent. \n\nRead the text and parse out:\n1. The primary emotional tone.\n2. The intensity of that emotion.\n3. The true implicit meaning (translate literal words into what the author is *actually* trying to communicate or accomplish).\n\nOutput strictly valid JSON matching the format instructions.\n\"\"\"),\n        (\"user\", \"Text to evaluate:\\n{text}\\n\\n{format_instructions}\")\n    ])\n    \n    safe_text = text_content[:3000].strip()\n    if len(safe_text) < 10:\n        return {\n            \"primary_tone\": \"Neutral\",\n            \"emotional_intensity\": \"Low\",\n            \"implicit_meaning\": \"Not enough text selected to analyze tone.\"\n        }\n        \n    result = invoke_with_retry(\n        input_data={\"text\": safe_text, \"format_instructions\": parser.get_format_instructions()},\n        task_name=\"tone_analyzer\",\n        prompt=prompt,\n        parser=parser\n    )\n    \n    if result:\n        return result\n    \n    return {\n        \"primary_tone\": \"Unknown\",\n        \"emotional_intensity\": \"Low\",\n        \"implicit_meaning\": \"Failed to analyze text. Please try selecting a different paragraph.\"\n    }\n",
+    "backend/app/services/vision_explainer.py": "\"\"\"\nNeuroRead AI \u2014 vision_explainer.py\nModule: Multimodal Image/Diagram Explainer\nUses Groq Llama 3.2 11B Vision to explain images in plain language.\n\"\"\"\n\nfrom app.core.config import get_groq_client, retry_llm_call, _active_pool\nfrom app.core.model_pool import model_pool_manager\n\nSYSTEM_PROMPT = \"\"\"You are an accessibility assistant for neurodivergent users (ADHD, Dyslexia, Autism).\nDescribe this image in simple, plain language. Focus on:\n- What is being shown (type of diagram, chart, photo, etc.)\n- Key relationships, patterns, or data points\n- Labels and their meanings\n- Any important takeaways\n\nKeep your explanation under 150 words. Use short sentences. Avoid jargon.\nIf the image appears to be decorative or a logo, say so briefly.\"\"\"\n\n\ndef explain_image(image_base64: str, context: str = \"\") -> str:\n    \"\"\"\n    Send a base64-encoded image to Groq Vision for plain-language explanation.\n    Wrapped with Tenacity for automatic model rotation on rate limits.\n    \"\"\"\n    # Set the active pool so Tenacity's trigger_rotation targets vision_pool\n    _active_pool.set(\"vision_pool\")\n    try:\n        return _explain_image_with_retry(image_base64, context)\n    except Exception as e:\n        print(f\"[vision_explainer] Fatal Error after retries: {e}\")\n        return f\"Could not analyze this image: {str(e)}\"\n\n@retry_llm_call\ndef _explain_image_with_retry(image_base64: str, context: str = \"\") -> str:\n    client = get_groq_client()\n    model = model_pool_manager.get_current_model(\"vision_pool\")\n    \n    if not model:\n        raise Exception(\"All vision models are currently rate-limited.\")\n    \n    print(f\"[vision_explainer] \ud83c\udfaf Using model: {model}\")\n    \n    # Ensure proper data URL format\n    if not image_base64.startswith(\"data:\"):\n        image_base64 = f\"data:image/png;base64,{image_base64}\"\n    \n    user_content = [\n        {\n            \"type\": \"image_url\",\n            \"image_url\": {\n                \"url\": image_base64\n            }\n        },\n        {\n            \"type\": \"text\",\n            \"text\": f\"Explain this image simply.{(' Context from the page: ' + context[:300]) if context else ''}\"\n        }\n    ]\n    \n    response = client.chat.completions.create(\n        model=model,\n        messages=[\n            {\"role\": \"system\", \"content\": SYSTEM_PROMPT},\n            {\"role\": \"user\", \"content\": user_content}\n        ],\n        max_tokens=300,\n        temperature=0.3,\n    )\n    return response.choices[0].message.content.strip()\n",
+    "backend/app/services/voice_intent.py": "import os\nfrom typing import Optional\nfrom dotenv import load_dotenv\nfrom pydantic import BaseModel, Field\nfrom langchain_core.prompts import PromptTemplate\nfrom langchain_core.output_parsers import JsonOutputParser\nfrom app.core.config import invoke_with_retry\n\nload_dotenv()\n\nclass VoiceIntent(BaseModel):\n    action_type: str = Field(description=\"Must be one of: 'feature', 'dom_manipulation', or 'speak'\")\n    feature_name: Optional[str] = Field(default=None, description=\"If action_type is 'feature', the name of the feature to toggle (e.g. 'formatting', 'simplify', 'read', 'focus', 'ruler', 'toc', 'undo'). Null otherwise.\")\n    dom_action: Optional[dict] = Field(default=None, description=\"If action_type is 'dom_manipulation', a structured dict with { 'method': 'scrollBy'/'scrollTo'/'click', 'selector': CSS selector or null for window, 'args': { 'top': 500 } }. Null otherwise.\")\n    speak_message: Optional[str] = Field(default=None, description=\"If action_type is 'speak', the natural language conversational reply communicating with the user. Null otherwise.\")\n\nprompt_template = PromptTemplate(\n    template=\"\"\"You are a strict command parser for the NeuroRead accessibility browser extension.\n\nThe user said: \"{transcription}\"\n\nYou MUST classify this into ONE of the following categories and return the EXACT JSON shown.\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nCATEGORY 1: feature\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nReturn action_type \"feature\" with the EXACT feature_name from the list below.\nMatch the user's intent even if they use different words.\n\nEXACT MAPPINGS (user phrase \u2192 feature_name):\n- \"simplify\" / \"simplify text\" / \"make it simpler\" / \"explain this\" \u2192 \"simplify\"\n- \"format\" / \"formatting\" / \"change font\" / \"make it readable\" / \"fix the layout\" \u2192 \"formatting\"\n- \"read\" / \"read aloud\" / \"read this\" / \"read it\" / \"speak\" / \"text to speech\" / \"read out\" / \"read the page\" \u2192 \"read\"\n- \"stop\" / \"stop reading\" / \"be quiet\" / \"shut up\" / \"silence\" / \"pause\" \u2192 \"stop\"\n- \"focus\" / \"focus mode\" / \"true focus\" / \"hide distractions\" / \"clean the page\" / \"reader mode\" \u2192 \"focus\"\n- \"ruler\" / \"reading ruler\" / \"read ruler\" / \"line guide\" / \"focus line\" \u2192 \"ruler\"\n- \"toc\" / \"table of contents\" / \"contents\" / \"show menu\" / \"navigation\" \u2192 \"toc\"\n- \"undo\" / \"reset\" / \"revert\" / \"go back\" / \"turn off\" / \"deactivate\" / \"remove all\" \u2192 \"undo\"\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nCATEGORY 2: dom_manipulation\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nReturn action_type \"dom_manipulation\" with a dom_action dict.\nUse this for scrolling, navigation, or clicking page elements.\n\nEXACT MAPPINGS (user phrase \u2192 dom_action):\n- \"scroll down\" / \"go down\" / \"page down\" / \"move down\" / \"forward\" / \"forward the page\" / \"next\" \u2192 {{\"method\": \"scrollBy\", \"selector\": null, \"args\": {{\"top\": 500, \"behavior\": \"smooth\"}}}}\n- \"scroll up\" / \"go up\" / \"page up\" / \"move up\" / \"back up\" \u2192 {{\"method\": \"scrollBy\", \"selector\": null, \"args\": {{\"top\": -500, \"behavior\": \"smooth\"}}}}\n- \"go to top\" / \"top of page\" / \"beginning\" / \"start\" \u2192 {{\"method\": \"scrollTo\", \"selector\": null, \"args\": {{\"top\": 0, \"behavior\": \"smooth\"}}}}\n- \"go to bottom\" / \"bottom\" / \"end of page\" / \"end\" \u2192 {{\"method\": \"scrollTo\", \"selector\": null, \"args\": {{\"top\": 99999, \"behavior\": \"smooth\"}}}}\n- For clicking things, figure out a reasonable CSS selector \u2192 {{\"method\": \"click\", \"selector\": \"<CSS selector>\", \"args\": null}}\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nCATEGORY 3: speak\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\nONLY use this if the request is truly impossible for a browser extension.\nExamples: ordering food, checking weather, sending emails, playing music.\nFill speak_message with a short, friendly rejection.\n\nIMPORTANT RULES:\n- NEVER return \"speak\" for commands that match categories 1 or 2. Even partial matches should go to the correct category.\n- If the user says a single word like \"read\", \"simplify\", \"format\", \"focus\", \"ruler\" \u2014 that IS a feature command.\n- When in doubt between \"feature\" and \"speak\", ALWAYS choose \"feature\".\n- When in doubt between \"dom_manipulation\" and \"speak\", ALWAYS choose \"dom_manipulation\".\n\n{format_instructions}\n\"\"\",\n    input_variables=[\"transcription\"],\n    partial_variables={\"format_instructions\": JsonOutputParser(pydantic_object=VoiceIntent).get_format_instructions()},\n)\n\nparser = JsonOutputParser(pydantic_object=VoiceIntent)\n\ndef parse_intent(transcription: str) -> dict:\n    import re\n    # Strip trailing punctuation that might confuse the prompt intent matching\n    transcription = re.sub(r'[^\\w\\s]$', '', transcription.strip())\n\n    response = invoke_with_retry(\n        input_data={\"transcription\": transcription},\n        task_name=\"voice_intent\",\n        prompt=prompt_template,\n        parser=parser\n    )\n    \n    if response:\n        return response\n        \n    print(\"[Voice Intent] Error or Rate Limit Exceeded.\")\n    return {\n        \"action_type\": \"speak\",\n        \"speak_message\": \"Sorry, I couldn't process that command right now.\"\n    }\n",
+    "backend/app/services/voice_transcriber.py": "from app.core.config import get_groq_client, retry_llm_call, _active_pool\nfrom app.core.model_pool import model_pool_manager\n\ndef transcribe_audio(audio_bytes: bytes, filename: str = \"recording.webm\") -> str:\n    \"\"\"\n    Takes raw audio bytes and uses Groq Whisper to transcribe them.\n    Wrapped with Tenacity for automatic model rotation on rate limits.\n    \"\"\"\n    # Set the active pool so Tenacity's trigger_rotation targets audio_pool\n    _active_pool.set(\"audio_pool\")\n    try:\n        return _transcribe_with_retry(audio_bytes, filename)\n    except Exception as e:\n        print(f\"[Voice Transcriber] Fatal Error after retries: {e}\")\n        return \"\"\n\n@retry_llm_call\ndef _transcribe_with_retry(audio_bytes: bytes, filename: str = \"recording.webm\") -> str:\n    client = get_groq_client()\n    model = model_pool_manager.get_current_model(\"audio_pool\")\n    \n    if not model:\n        raise Exception(\"All audio models are currently rate-limited.\")\n    \n    print(f\"[Voice Transcriber] \ud83c\udfaf Using model: {model}\")\n    \n    transcription = client.audio.transcriptions.create(\n        file=(filename, audio_bytes),\n        model=model,\n        response_format=\"text\",\n        language=\"en\",\n        temperature=0.0,\n    )\n    result = transcription.strip() if isinstance(transcription, str) else transcription.text.strip()\n    \n    # Whisper often hallucinates these phrases on silence/background noise\n    hallucinations = [\n        \"thank you.\", \"thank you\", \"thanks for watching.\", \"thanks for watching!\",\n        \"please subscribe.\", \"subscribe.\", \"you\", \"bye.\"\n    ]\n    if result.lower() in hallucinations:\n        return \"\"\n        \n    return result\n"
+  },
+  "readme": "# NeuroRead AI \ud83e\udde0\n\n**Making any webpage readable for neurodivergent users through real-time AI multimodal transformation.**\n\n> **Google Big Code Hackathon 2026 \u00b7 Accessibility Track**  \n> Powered by **FastAPI**, **Groq Cloud** (Llama 3.1 70B, Vision, Whisper), and **Redis**.\n\n---\n\n## \ud83c\udfa5 Demo\n\n[Watch Demo](https://drive.google.com/file/d/1ljKxIPJ2vze8oKeQjhQpy85V-EDjkEPj/view?usp=sharing)\n\n---\n\n## \ud83c\udfd7\ufe0f Architecture & Core Logic\n\nNeuroRead AI is built with a **modular micro-service architecture** designed for high throughput and extreme reliability. Unlike simple wrappers, it implements a state-of-the-art model rotation and intelligent caching system.\n\n### System Context Diagram\n```mermaid\ngraph TD\n    User((User))\n    ChromeExt[Chrome Extension MV3]\n    FastAPI[FastAPI Backend]\n    Redis[(Redis Cache)]\n    Groq[Groq AI Cloud]\n\n    User -->|Interacts| ChromeExt\n    ChromeExt -->|POST analyze| FastAPI\n    FastAPI ---|Lookup/Store| Redis\n    FastAPI -->|Multimodal Chain| Groq\n    Groq -->|Llama 3.1 / Vision / Whisper| FastAPI\n    FastAPI -->|JSON Accessibility Map| ChromeExt\n    ChromeExt -->|DOM Injection| User\n```\n```mermaid\nsequenceDiagram\n    participant S as Service (CAM/Simplify)\n    participant T as Tenacity Decorator\n    participant P as ModelPoolManager\n    participant G as Groq API\n\n    S->>T: Invoke LLM Request\n    T->>G: Request with Llama-3.1-70B\n    G-->>T: Error 429 (Rate Limit)\n    T->>P: trigger_rotation()\n    P->>P: Rotate 'text_pool': Push Llama-3.1-70B to back\n    T->>T: Wait (Exponential Backoff)\n    T->>P: get_current_model()\n    P-->>T: Return Mixtral-8x7b\n    T->>G: Retry Request with Mixtral\n    G-->>T: Success 200\n    T-->>S: Return Result\n```\n### \ud83e\udde0 Core Logic & Rationale\n\n#### 1. AI/ML Model Selection & Why Groq Over Alternatives\n\n**Model Choices:**\n- **Llama-3.1-70B-Versatile**: Primary reasoning engine for text simplification. High parameter count essential for preserving nuance while reducing complexity. Chosen over GPT-4 due to **10-30x speed advantage** (2-3s vs 20-30s) and **60x cost reduction** ($0.50/1M tokens vs $30/1M).\n- **Llama-3.1-8B-Instant**: Fast intent routing and DOM mapping with sub-200ms latency. Ideal for real-time voice commands.\n- **Llama-3.2-11B-Vision**: Dedicated multimodal engine for image explanation with high visual fidelity understanding.\n- **Whisper-Large-V3-Turbo**: Real-time speech-to-text optimized for accessibility command transcription.\n\n**Why Groq, Not OpenAI/Anthropic/HuggingFace?**\n\n| Criteria | Groq | OpenAI (GPT-4) | Anthropic (Claude) | HuggingFace (Local) |\n|----------|------|----------------|-------------------|-------------------|\n| **Speed (latency)** | 2-3s | 20-30s | 10-15s | Variable (device dependent) |\n| **Cost ($/1M tokens)** | $0.50 | $30 | $15 | Free (but device cost) |\n| **Free Tier Available** | \u2705 Yes (100 RPM) | \u274c No | \u274c No | \u2705 Yes (self-hosted) |\n| **Reliability (uptime)** | 99.9% | 99.99% | 99.95% | N/A (self-managed) |\n| **Multimodal Support** | \u2705 Vision + Audio | \u2705 Vision only | \u2705 Vision only | \u26a0\ufe0f Limited |\n| **Temperature Control** | \u2705 Fine-grained | \u2705 Yes | \u2705 Yes | \u2705 Yes |\n| **JSON Mode (guaranteed)** | \u2705 Yes | \u2705 Yes | \u2705 Yes | \u26a0\ufe0f Inconsistent |\n| **Ideal For** | **Fast, affordable batch processing** | Premium, complex reasoning | Enterprise safety | Privacy-critical local ops |\n\n**Our Choice Rationale**: Groq's combination of speed (sub-3s), affordability (free tier), and multimodal capabilities makes it ideal for a browser extension serving multiple users with rate limit constraints. **Speed = better UX**. **Cost = sustainability for hackathon & open source**.\n\n#### 2. Optimized Data Structures\n\n- **Model Deque (Rotating Queue)**: Uses `collections.deque` for O(1) rotation speed when a model hits rate limits. When \"burned\", the failed model is pushed to the back of the queue, and the next available model is tried immediately.\n- **Thread-safe ContextVars**: Manages `_active_pool` state across concurrent requests, ensuring no race conditions during model rotation.\n- **Redis Hash Maps**: Persistent caching of results with 24-hour TTL for instant lookups (35-40x latency improvement on cache hits).\n\n---\n\n## \ud83e\udde9 Comprehensive Feature List\n\n| Feature | Category | Description |\n|---------|----------|-------------|\n| **Text Simplification** | Cognitive | AI rewrites complex sentences into plain English while preserving core meaning. |\n| **Tone Analysis** | Social/Pragmatic | Explicit translation of social subtext, sarcasm, and implicit meaning for Autistic users. |\n| **Vision Explainer** | Multimodal | High-fidelity image and diagram descriptions in simple, jargon-free language. |\n| **CAM Scoring** | Metric | REAL-TIME Cognitive Accessibility Metric based on lexical and visual density. |\n| **Focus Mode** | Layout | LLM-driven DOM isolation that surgically strips distractions without breaking site-specific nav. |\n| **Reading Ruler** | Visual | Dynamic overlay that highlights the active reading line to reduce visual stress. |\n| **Speech-t",
+  "qa_history": []
+}

@@ -163,6 +163,9 @@ export const api = {
       body: JSON.stringify({ session_id: sessionId }),
     }),
 
+  devmitraContextStatus: () =>
+    request<any>("/devmitra/context/status"),
+
   // ─── Classroom ──────────────────────────────────────────
 
   classroomReports: (status?: string) =>
@@ -185,4 +188,27 @@ export const api = {
 
   classroomDeleteReport: (id: string) =>
     request<{ message: string }>(`/classroom/reports/${id}`, { method: "DELETE" }),
+
+  // ─── Devमित्र Repo Explorer ─────────────────────────────
+
+  repoExplorerAnalyze: (repo_url: string, token: string = "") =>
+    request<any>("/repo-explorer/analyze", {
+      method: "POST",
+      body: JSON.stringify({ repo_url, token }),
+    }),
+
+  repoExplorerAsk: (report_id: string, question: string) =>
+    request<any>("/repo-explorer/ask", {
+      method: "POST",
+      body: JSON.stringify({ report_id, question }),
+    }),
+
+  repoExplorerHistory: () =>
+    request<any>("/repo-explorer/history"),
+
+  repoExplorerReport: (report_id: string) =>
+    request<any>(`/repo-explorer/report/${report_id}`),
+
+  repoExplorerDeleteHistory: (report_id: string) =>
+    request<any>(`/repo-explorer/history/${report_id}`, { method: "DELETE" }),
 };

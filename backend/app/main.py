@@ -20,6 +20,7 @@ from app.routes.github import router as github_router
 from app.routes.studio import router as studio_router
 from app.routes.devmitra import router as devmitra_router
 from app.routes.classroom import router as classroom_router
+from app.routes.repo_explorer import router as repo_explorer_router
 
 
 # ─── Structured Logging Setup ─────────────────────────────
@@ -89,3 +90,4 @@ app.include_router(github_router, prefix="/api/github", tags=["github"])
 app.include_router(studio_router, prefix="/api/studio", tags=["studio"])
 app.include_router(devmitra_router, prefix="/api/devmitra", tags=["devmitra"])
 app.include_router(classroom_router, prefix="/api/classroom", tags=["classroom"])
+app.include_router(repo_explorer_router, prefix="/api/repo-explorer", tags=["repo-explorer"])

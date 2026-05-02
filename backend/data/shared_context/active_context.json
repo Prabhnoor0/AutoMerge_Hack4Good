@@ -1,0 +1,47 @@
+{
+  "context": {
+    "studio": {
+      "code": "",
+      "filename": "",
+      "language": "",
+      "logs": "",
+      "updated_at": ""
+    },
+    "workspace": {
+      "files": [],
+      "repo_url": "",
+      "current_file": "",
+      "updated_at": ""
+    },
+    "repo_explorer": {
+      "report_id": "3048d454bac5",
+      "repo_name": "NeuroRead",
+      "summary": "# NeuroRead AI \ud83e\udde0",
+      "tech_stack": {
+        "languages": [
+          "JavaScript",
+          "Python"
+        ],
+        "frameworks": [],
+        "infrastructure": [],
+        "styling": [],
+        "databases": [],
+        "dependencies": []
+      },
+      "updated_at": "2026-05-02T09:26:07.389088+00:00"
+    },
+    "analysis": {
+      "last_summary": "",
+      "last_issues": [],
+      "updated_at": ""
+    }
+  },
+  "qa_history": [
+    {
+      "question": "what is the tech stack used in the repo",
+      "answer": "Based on my analysis of **NeuroRead**:\n\n**What it does:** # NeuroRead AI \ud83e\udde0\n\n**Tech Stack:** JavaScript, Python\n\nYou can explore the full report in the **Dev\u092e\u093f\u0924\u094d\u0930 Repo Explorer** (navbar).\nFeel free to ask me specific questions about the architecture, routes, or any file!",
+      "source": "widget",
+      "asked_at": "2026-05-02T09:57:05.847505+00:00"
+    }
+  ]
+}

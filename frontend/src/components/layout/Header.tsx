@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Zap, Play, ChevronDown, GitMerge, Code2, LayoutDashboard, GitFork, GraduationCap } from "lucide-react";
+import { Zap, Play, ChevronDown, GitMerge, Code2, LayoutDashboard, GitFork, GraduationCap, Search } from "lucide-react";
 import { GitHubDrawer } from "@/components/github/GitHubDrawer";
 import { api } from "@/lib/api";
 import Link from "next/link";
@@ -111,6 +111,17 @@ export function Header() {
           >
             <GraduationCap size={13} />
             Classroom
+          </Link>
+          <Link
+            href="/repo-explorer"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors"
+            style={{
+              color: pathname === "/repo-explorer" ? "var(--text-primary)" : "var(--text-muted)",
+              background: pathname === "/repo-explorer" ? "var(--bg-elevated)" : "transparent",
+            }}
+          >
+            <Search size={13} />
+            Devमित्र
           </Link>
         </nav>
       </div>

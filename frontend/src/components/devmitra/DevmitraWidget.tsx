@@ -26,6 +26,7 @@ export function DevmitraWidget() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [sessionId, setSessionId] = useState<string | null>(null);
+  const [contextStatus, setContextStatus] = useState<any>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -35,6 +36,19 @@ export function DevmitraWidget() {
   useEffect(() => {
     scrollToBottom();
   }, [messages, loading]);
+
+  // Poll for shared context status
+  useEffect(() => {
+    const fetchStatus = async () => {
+      try {
+        const status = await api.devmitraContextStatus();
+        setContextStatus(status);
+      } catch {}
+    };
+    fetchStatus();
+    const interval = setInterval(fetchStatus, 8000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleSend = async (text: string = input) => {
     if (!text.trim() || loading) return;
@@ -67,7 +81,8 @@ export function DevmitraWidget() {
     }
   };
 
-  const hasContext = !!(context.code || context.repoUrl || context.logs);
+  const hasContext = !!(context.code || context.repoUrl || context.logs || contextStatus?.has_context);
+  const contextLabel = contextStatus?.primary_label || (hasContext ? `Context: ${context.filename || context.repoUrl || 'Code snippet'}` : "No code context loaded");
 
   return (
     <>
@@ -142,11 +157,13 @@ export function DevmitraWidget() {
 
             {/* Context Badge */}
             <div className="px-4 py-2 border-b flex items-center gap-2 bg-[var(--bg-elevated)]" style={{ borderColor: "var(--border)" }}>
-              <Code2 size={12} className="text-[var(--accent-blue)]" />
+              {hasContext ? (
+                <div className="w-2 h-2 rounded-full" style={{ background: "var(--accent-green)", boxShadow: "0 0 6px rgba(34,197,94,0.5)" }} />
+              ) : (
+                <Code2 size={12} className="text-[var(--text-muted)]" />
+              )}
               <span className="text-[11px] font-medium text-[var(--text-secondary)] truncate">
-                {hasContext 
-                  ? `Context: ${context.filename || context.repoUrl || 'Pasted Code snippet'}` 
-                  : "No code context loaded"}
+                {contextLabel}
               </span>
             </div>
 

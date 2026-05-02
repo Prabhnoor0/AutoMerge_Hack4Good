@@ -15,8 +15,10 @@ from app.services.devmitra_service import (
     update_context,
     get_or_create_session
 )
+from app.services.shared_context_service import shared_context
 
 router = APIRouter()
+
 
 # --- Schemas ---
 
@@ -71,6 +73,11 @@ async def devmitra_reset_session(payload: ResetSessionRequest):
     """Clear chat history for a session."""
     reset_session(payload.session_id)
     return {"status": "success"}
+
+@router.get("/context/status")
+async def devmitra_context_status():
+    """Return current shared context signals for the widget badge."""
+    return shared_context.get_context_summary()
 
 @router.get("/health")
 async def devmitra_health():

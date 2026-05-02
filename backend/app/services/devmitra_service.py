@@ -2,6 +2,7 @@
 Devमित्र Service Module
 
 Handles chat logic, session memory, context building, and smart fallback responses.
+Now enriched with shared context from Repo Explorer, Studio, and Workspace.
 """
 
 import asyncio
@@ -10,6 +11,7 @@ from typing import Any, Dict, List, Optional
 from datetime import datetime, timezone
 
 from app.config import settings
+from app.services.shared_context_service import shared_context
 
 # In-memory session store for hackathon purposes.
 _SESSIONS: Dict[str, Dict[str, Any]] = {}
@@ -55,6 +57,35 @@ def _generate_mock_response(query: str, context: Dict[str, Any]) -> str:
     logs = context.get("logs", "")
     repo_url = context.get("repoUrl", "")
     language = context.get("language", "auto")
+    repo_summary = context.get("repo_summary", "")
+    repo_tech = context.get("repo_tech_stack", {})
+    repo_name = context.get("repo_name", "")
+    analysis_summary = context.get("analysis_summary", "")
+
+    # --- Repo-aware answers (from shared context) ---
+    if repo_summary and any(k in query_lower for k in ["repo", "repository", "project", "what does this", "about", "purpose"]):
+        tech_langs = ", ".join(repo_tech.get("languages", [])) if repo_tech else "detected"
+        tech_fw = ", ".join(repo_tech.get("frameworks", [])) if repo_tech else ""
+        fw_line = f"\n**Frameworks:** {tech_fw}" if tech_fw else ""
+        return (
+            f"Based on my analysis of **{repo_name}**:\n\n"
+            f"**What it does:** {repo_summary}\n\n"
+            f"**Tech Stack:** {tech_langs}{fw_line}\n\n"
+            f"You can explore the full report in the **Devमित्र Repo Explorer** (navbar).\n"
+            f"Feel free to ask me specific questions about the architecture, routes, or any file!"
+        )
+
+    if repo_summary and any(k in query_lower for k in ["tech stack", "technology", "built with", "language", "framework"]):
+        langs = ", ".join(repo_tech.get("languages", [])) if repo_tech else "Unknown"
+        fws = ", ".join(repo_tech.get("frameworks", [])) if repo_tech else "None detected"
+        infra = ", ".join(repo_tech.get("infrastructure", [])) if repo_tech else "None detected"
+        return (
+            f"**Tech stack for {repo_name}:**\n\n"
+            f"🔤 **Languages:** {langs}\n"
+            f"🏗️ **Frameworks:** {fws}\n"
+            f"☁️ **Infrastructure:** {infra}\n\n"
+            f"Open the **Repo Explorer** for the full dependency breakdown."
+        )
 
     # --- Explain / What does this do ---
     if any(k in query_lower for k in ["what does this code do", "explain", "walk me through", "line by line"]):
@@ -72,9 +103,11 @@ def _generate_mock_response(query: str, context: Dict[str, Any]) -> str:
                 f"- Some variables are accessed without null checks, which risks runtime crashes.\n\n"
                 f"Would you like me to go deeper into a specific function or section?"
             )
-        elif repo_url:
+        elif repo_url or repo_summary:
+            repo_label = repo_name or repo_url or "your repository"
+            extra = f"\n\n**Quick summary:** {repo_summary}" if repo_summary else ""
             return (
-                f"You're currently connected to **{repo_url}**.\n\n"
+                f"You're currently connected to **{repo_label}**.{extra}\n\n"
                 f"I can see the repository structure. To give you a detailed explanation, "
                 f"please select a specific file path in the Workspace, and I'll break it down for you."
             )
@@ -83,7 +116,8 @@ def _generate_mock_response(query: str, context: Dict[str, Any]) -> str:
                 "I don't see any code loaded right now.\n\n"
                 "**Try one of these:**\n"
                 "- Paste code in the **Studio** tab\n"
-                "- Connect a repo in the **Workspace** tab\n\n"
+                "- Connect a repo in the **Workspace** tab\n"
+                "- Analyze a repo in **Devमित्र Repo Explorer**\n\n"
                 "Once you do, I'll explain it to you line by line!"
             )
 
@@ -202,7 +236,13 @@ async def generate_chat_response(
 
     # Merge existing context with any new context passed in this request
     _SESSIONS[sid]["context"].update(current_context)
-    context = _SESSIONS[sid]["context"]
+
+    # Enrich with shared context from Repo Explorer / Studio / Workspace
+    enriched_context = shared_context.get_enriched_devmitra_context(
+        _SESSIONS[sid]["context"]
+    )
+    _SESSIONS[sid]["context"] = enriched_context
+    context = enriched_context
 
     # Append user message
     _SESSIONS[sid]["history"].append({"role": "user", "content": message})
@@ -219,5 +259,8 @@ async def generate_chat_response(
 
     # Append assistant message
     _SESSIONS[sid]["history"].append({"role": "assistant", "content": response_text})
+
+    # Track Q&A in shared context
+    shared_context.add_qa_entry(message, response_text, source="widget")
 
     return response_text
