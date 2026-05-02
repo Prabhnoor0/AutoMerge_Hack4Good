@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Press+Start+2P&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+/* ═══════════════════════════════════════════════════════════════
+   CYBERPUNK DESIGN SYSTEM — Entry Point
+   
+   Import this single file to get the full cyberpunk design system.
+   All classes are namespaced with cyber-* to avoid any collision
+   with existing styles in globals.css.
+   
+   Layers:
+     1. Tokens     — CSS custom properties (--cyber-*)
+     2. Animations — Keyframes & motion utilities
+     3. Panels     — Glassmorphism containers
+     4. Badges     — Status indicators with glow
+     5. Glow       — Reusable neon glow helpers
+     6. Typography — Futuristic fonts & text styles
+   ═══════════════════════════════════════════════════════════════ */
+
+@import "./cyberpunk-tokens.css";
+@import "./cyberpunk-animations.css";
+@import "./cyberpunk-panels.css";
+@import "./cyberpunk-badges.css";
+@import "./cyberpunk-glow.css";
+@import "./cyberpunk-typography.css";

@@ -1,0 +1,73 @@
+/* CYBERPUNK GLOW UTILITIES — Reusable neon glow helpers, namespaced cyber-glow-* */
+
+/* ── Text Glow ───────────────────────────────────── */
+.cyber-glow-text-cyan    { text-shadow: 0 0 8px rgba(0, 240, 255, 0.6), 0 0 24px rgba(0, 240, 255, 0.2); }
+.cyber-glow-text-green   { text-shadow: 0 0 8px rgba(0, 255, 136, 0.6), 0 0 24px rgba(0, 255, 136, 0.2); }
+.cyber-glow-text-red     { text-shadow: 0 0 8px rgba(255, 51, 85, 0.6), 0 0 24px rgba(255, 51, 85, 0.2); }
+.cyber-glow-text-amber   { text-shadow: 0 0 8px rgba(255, 183, 0, 0.6), 0 0 24px rgba(255, 183, 0, 0.2); }
+.cyber-glow-text-purple  { text-shadow: 0 0 8px rgba(168, 85, 247, 0.6), 0 0 24px rgba(168, 85, 247, 0.2); }
+.cyber-glow-text-white   { text-shadow: 0 0 8px rgba(224, 230, 240, 0.4), 0 0 20px rgba(224, 230, 240, 0.15); }
+
+/* ── Box Glow (border + shadow) ──────────────────── */
+.cyber-glow-box-cyan {
+  border-color: rgba(0, 240, 255, 0.25);
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.2), 0 0 40px rgba(0, 240, 255, 0.06);
+}
+.cyber-glow-box-green {
+  border-color: rgba(0, 255, 136, 0.25);
+  box-shadow: 0 0 12px rgba(0, 255, 136, 0.2), 0 0 40px rgba(0, 255, 136, 0.06);
+}
+.cyber-glow-box-red {
+  border-color: rgba(255, 51, 85, 0.25);
+  box-shadow: 0 0 12px rgba(255, 51, 85, 0.2), 0 0 40px rgba(255, 51, 85, 0.06);
+}
+.cyber-glow-box-amber {
+  border-color: rgba(255, 183, 0, 0.25);
+  box-shadow: 0 0 12px rgba(255, 183, 0, 0.2), 0 0 40px rgba(255, 183, 0, 0.06);
+}
+.cyber-glow-box-purple {
+  border-color: rgba(168, 85, 247, 0.25);
+  box-shadow: 0 0 12px rgba(168, 85, 247, 0.2), 0 0 40px rgba(168, 85, 247, 0.06);
+}
+
+/* ── Background Glow (radial behind element) ─────── */
+.cyber-glow-bg-cyan    { background: radial-gradient(ellipse at center, rgba(0,240,255,0.08) 0%, transparent 70%); }
+.cyber-glow-bg-green   { background: radial-gradient(ellipse at center, rgba(0,255,136,0.08) 0%, transparent 70%); }
+.cyber-glow-bg-red     { background: radial-gradient(ellipse at center, rgba(255,51,85,0.08) 0%, transparent 70%); }
+.cyber-glow-bg-amber   { background: radial-gradient(ellipse at center, rgba(255,183,0,0.08) 0%, transparent 70%); }
+.cyber-glow-bg-purple  { background: radial-gradient(ellipse at center, rgba(168,85,247,0.08) 0%, transparent 70%); }
+
+/* ── Neon Underline ──────────────────────────────── */
+.cyber-glow-underline-cyan {
+  border-bottom: 1px solid var(--cyber-neon-cyan);
+  box-shadow: 0 2px 8px rgba(0, 240, 255, 0.3);
+}
+.cyber-glow-underline-purple {
+  border-bottom: 1px solid var(--cyber-neon-purple);
+  box-shadow: 0 2px 8px rgba(168, 85, 247, 0.3);
+}
+
+/* ── Dot Glow (small status indicators) ──────────── */
+.cyber-glow-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.cyber-glow-dot-cyan   { background: var(--cyber-neon-cyan);   box-shadow: 0 0 6px rgba(0,240,255,0.5); }
+.cyber-glow-dot-green  { background: var(--cyber-success);     box-shadow: 0 0 6px rgba(0,255,136,0.5); }
+.cyber-glow-dot-red    { background: var(--cyber-error);       box-shadow: 0 0 6px rgba(255,51,85,0.5); }
+.cyber-glow-dot-amber  { background: var(--cyber-warning);     box-shadow: 0 0 6px rgba(255,183,0,0.5); }
+.cyber-glow-dot-purple { background: var(--cyber-ai);          box-shadow: 0 0 6px rgba(168,85,247,0.5); }
+
+/* ── Neon Line Divider ───────────────────────────── */
+.cyber-divider {
+  height: 1px;
+  border: none;
+  background: linear-gradient(90deg, transparent, rgba(0,240,255,0.2), transparent);
+}
+.cyber-divider-purple {
+  height: 1px;
+  border: none;
+  background: linear-gradient(90deg, transparent, rgba(168,85,247,0.2), transparent);
+}
