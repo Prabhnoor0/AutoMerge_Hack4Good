@@ -4,7 +4,7 @@ AutoMerge Backend Configuration
 Centralized settings loaded from environment variables with sensible defaults.
 """
 
-from pydantic_settings import BaseSettings
+from pydantic import BaseSettings 
 from pathlib import Path
 
 
