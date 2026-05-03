@@ -6,7 +6,6 @@ FastAPI app with CORS, lifecycle management, and route registration.
 
 import structlog
 from contextlib import asynccontextmanager
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -78,16 +77,17 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS middleware
+# ✅ CORS FIX (TEMP: allow all)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.CORS_ORIGINS,
+    allow_origins=["*"],   # 🔥 change later to your Vercel URL
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Register routers
+# ─── Register Routers ─────────────────────────────────────
+
 app.include_router(health_router, prefix="/api", tags=["system"])
 app.include_router(jobs_router, prefix="/api", tags=["jobs"])
 app.include_router(failures_router, prefix="/api", tags=["failures"])
