@@ -1,0 +1,29 @@
+# Render Blueprint — AutoMerge Backend
+# https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: automerge-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install --upgrade pip && pip install --prefer-binary -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: HOST
+        value: 0.0.0.0
+      - key: DEBUG
+        value: "False"
+      - key: DEMO_MODE
+        value: "True"
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CORS_ORIGINS
+        value: '["https://automerge-frontend.vercel.app"]'
+      - key: DATABASE_URL
+        value: "sqlite+aiosqlite:///./data/automerge.db"
+      - key: AGENT_MAX_RETRIES
+        value: "3"
+      - key: AGENT_TIMEOUT_SECONDS
+        value: "30"
+    plan: free
+    healthCheckPath: /api/health

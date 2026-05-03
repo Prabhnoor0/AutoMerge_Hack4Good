@@ -82,8 +82,11 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://auto-merge-hack4-good-nsoonvkw8-amits-projects-2da6df80.vercel.app"
+        "https://auto-merge-hack4-good.vercel.app",
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
     ],
+    allow_origin_regex=r"https://auto-merge-hack4-good.*\.vercel\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

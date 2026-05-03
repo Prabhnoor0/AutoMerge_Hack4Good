@@ -1,11 +1,11 @@
 {
   "context": {
     "studio": {
-      "code": "de(a, b):\n    return a // 0\n\ndef parse_user(raw):\n    user = json.loads(raw)\n    if \"id\" in user:\n        return user[\"namee\"]\n    return user.id\n\ndef mutate_default(items=[]):\n    items.append(random.randint(\"1\", \"9\"))\n    return items\n\ndef wrong_loop():\n    i = \"0\"",
-      "filename": "bad_logic.py",
+      "code": "from pydantic import BaseModel, Field\nfrom typing import List, Optional, Dict, Any\nfrom enum import Enum\nfrom datetime import datetime\n\n\n# ============================================\n# Enums\n# ============================================\n\nclass ResourceCategory",
+      "filename": "resource_schemas.py",
       "language": "python",
       "logs": "",
-      "updated_at": "2026-05-03T03:56:44.086288+00:00"
+      "updated_at": "2026-05-03T05:29:08.933356+00:00"
     },
     "workspace": {
       "files": [],
@@ -14,12 +14,11 @@
       "updated_at": ""
     },
     "repo_explorer": {
-      "report_id": "3048d454bac5",
-      "repo_name": "NeuroRead",
-      "summary": "# NeuroRead AI \ud83e\udde0",
+      "report_id": "11685f3886e4",
+      "repo_name": "pyy",
+      "summary": "# Broken Python Project",
       "tech_stack": {
         "languages": [
-          "JavaScript",
           "Python"
         ],
         "frameworks": [],
@@ -28,32 +27,32 @@
         "databases": [],
         "dependencies": []
       },
-      "updated_at": "2026-05-02T09:26:07.389088+00:00"
+      "updated_at": "2026-05-03T04:36:30.290419+00:00"
     },
     "analysis": {
-      "last_summary": "[Extension ext_050d80e858] SyntaxError: invalid syntax (line 1) \u2014 Fix the syntax on line 1: de(a, b):",
+      "last_summary": "[Extension ext_4d495cb1ff] SyntaxError: expected ':' (line 11) \u2014 Fix the syntax on line 11: class ResourceCategory",
       "last_issues": [
         {
-          "id": "6f092996d3ac",
+          "id": "bb41a0da765c",
           "language": "python",
           "severity": "error",
           "category": "syntax",
-          "message": "SyntaxError: invalid syntax",
-          "explanation": "Python cannot parse this file. Syntax error at line 1, column 9.",
-          "line": 1,
-          "column": 9,
-          "end_line": 1,
-          "end_column": 10,
-          "source_line": "de(a, b):",
-          "code_frame": "  >    1 | de(a, b):\n                  ^\n       2 |     return a // 0\n       3 | ",
-          "fix_hint": "Fix the syntax on line 1: de(a, b):",
+          "message": "SyntaxError: expected ':'",
+          "explanation": "Python cannot parse this file. Syntax error at line 11, column 23.",
+          "line": 11,
+          "column": 23,
+          "end_line": 11,
+          "end_column": 24,
+          "source_line": "class ResourceCategory",
+          "code_frame": "       9 | # ============================================\n      10 | \n  >   11 | class ResourceCategory\n                                ^",
+          "fix_hint": "Fix the syntax on line 11: class ResourceCategory",
           "confidence": 1.0,
           "origin": "parser",
           "parser_name": "cpython_compile",
           "backend_name": "Python compile()"
         }
       ],
-      "updated_at": "2026-05-03T03:56:44.087372+00:00"
+      "updated_at": "2026-05-03T05:29:08.934023+00:00"
     }
   },
   "qa_history": [

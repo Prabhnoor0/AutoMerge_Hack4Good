@@ -10,8 +10,19 @@
 
 "use strict";
 
-const API_BASE  = "http://localhost:8000/api";
-const SITE_BASE = "http://localhost:3000";
+// ── Configurable endpoints ──────────────────────────────
+// For LOCAL dev:  defaults below work out of the box.
+// For PRODUCTION: set via chrome.storage.sync (e.g. from an options page)
+//   chrome.storage.sync.set({ API_BASE: "https://automerge-backend.onrender.com/api",
+//                             SITE_BASE: "https://automerge-frontend.vercel.app" });
+let API_BASE  = "http://localhost:8000/api";
+let SITE_BASE = "http://localhost:3000";
+
+// Load any production overrides from storage
+chrome.storage?.sync?.get(["API_BASE", "SITE_BASE"], (cfg) => {
+  if (cfg.API_BASE)  API_BASE  = cfg.API_BASE;
+  if (cfg.SITE_BASE) SITE_BASE = cfg.SITE_BASE;
+});
 
 /* ── State ──────────────────────────────────────────── */
 let _active     = null;   // current CodePayload — set by content script

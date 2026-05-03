@@ -3,6 +3,8 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { useRouter, usePathname } from "next/navigation";
 
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
+
 interface User {
   id: string;
   email: string;
@@ -30,7 +32,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // Check if user is logged in
     const checkAuth = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/auth/me", {
+        const response = await fetch(`${API_BASE}/auth/me`, {
           // If we are using HttpOnly cookies (with credentials) across domains,
           // we may need credentials: 'include'. However, Next.js frontend is on 3000
           // and backend is on 8000. So we need credentials: "include" to send the cookie.
@@ -67,7 +69,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = async () => {
-    await fetch("http://localhost:8000/api/auth/logout", {
+    await fetch(`${API_BASE}/auth/logout`, {
       method: "POST",
       credentials: "include",
     });

@@ -1,5 +1,18 @@
 [
   {
+    "analysis_id": "ext_4d495cb1ff",
+    "source_type": "selection",
+    "page_url": "https://github.com/Prabhnoor0/NEUROSPACE/blob/main/backend/models/resource_schemas.py",
+    "filename": "resource_schemas.py",
+    "language": "python",
+    "confidence": 1.0,
+    "issue_count": 1,
+    "root_cause": "SyntaxError: expected ':' (line 11) \u2014 Fix the syntax on line 11: class ResourceCategory",
+    "code_hash": "e3971e3fdf20",
+    "created_at": "2026-05-03T05:29:08.931267+00:00",
+    "open_url": "http://localhost:3000/extension?report=ext_4d495cb1ff"
+  },
+  {
     "analysis_id": "ext_050d80e858",
     "source_type": "selection",
     "page_url": "https://github.com/l9456197-design/pyy/blob/main/bad_logic.py",

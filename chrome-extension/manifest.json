@@ -27,6 +27,7 @@
   ],
   "host_permissions": [
     "http://localhost:8000/*",
+    "https://*.onrender.com/*",
     "https://*/*",
     "http://*/*"
   ],

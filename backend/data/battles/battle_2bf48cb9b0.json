@@ -1,0 +1,60 @@
+{
+  "id": "battle_2bf48cb9b0",
+  "room_code": "H2CWRP",
+  "title": "BugFix Arena: Broken API Handler",
+  "status": "finished",
+  "challenge_id": "ch_js_api",
+  "challenge": {
+    "id": "ch_js_api",
+    "title": "Broken API Handler",
+    "difficulty": "hard",
+    "language": "javascript",
+    "description": "An Express API handler for user registration has several bugs: missing validation, wrong status codes, broken password hashing, and a data leak. Fix all issues.",
+    "broken_code": "async function registerUser(req, res) {\n  const { username, email, password } = req.body;\n  \n  // Missing: input validation\n  \n  try {\n    const existingUser = await db.findUser(email);\n    if (existingUser) {\n      return res.status(200).json({ error: \"User exists\" }); // BUG: wrong status\n    }\n    \n    const hashedPassword = password; // BUG: not hashing\n    \n    const user = await db.createUser({\n      username,\n      email,\n      password: hashedPassword,\n      role: req.body.role || \"admin\",  // BUG: should default to \"user\"\n    });\n    \n    return res.status(200).json({  // BUG: should be 201\n      message: \"User created\",\n      user: user,  // BUG: leaking password hash\n    });\n  } catch (error) {\n    console.log(error);\n    return res.status(200).json({ error: \"Server error\" }); // BUG: wrong status\n  }\n}",
+    "error_logs": "FAIL: registerUser should return 409 for duplicate email\n  Expected: 409, Received: 200\nFAIL: registerUser should hash password before storing\n  Expected: hashed string, Received: plain text\nFAIL: registerUser should return 201 on success\n  Expected: 201, Received: 200\nFAIL: registerUser should not expose password in response\n  Expected: no password field, Received: password present\nFAIL: registerUser should default role to \"user\"\n  Expected: \"user\", Received: \"admin\"\n\nTests: 5 failed, 0 passed",
+    "hints": [
+      "Check HTTP status codes",
+      "Never store plain passwords",
+      "Don't expose sensitive data"
+    ],
+    "time_limit": 300
+  },
+  "time_limit": 300,
+  "participants": [
+    {
+      "id": "player_bdf62fed8b",
+      "name": "amit",
+      "color": "#4f8ef7",
+      "is_host": true,
+      "ready": false,
+      "submitted": true,
+      "score": {
+        "correctness": 30,
+        "hidden_tests": 15,
+        "explanation_quality": 0,
+        "speed": 10,
+        "total": 55,
+        "breakdown": [
+          "Fixed 3/5 bugs \u2192 30/50 pts",
+          "Hidden tests: 3/5 \u2192 15/25 pts",
+          "Explanation quality \u2192 0/15 pts",
+          "Speed (9s / 300s) \u2192 10/10 pts"
+        ]
+      },
+      "submission": {
+        "code": "async function registerUser(req, res) {\n  const { username, email, password } = req.body;\n  \n  // Missing: input validation\n  \n  try {\n    const existingUser = await db.findUser(email);\n    if (existingUser) {\n      return res.status(200).json({ error: \"User exists\" }); // BUG: wrong status\n    }\n    \n    const hashedPassword = password; // BUG: not hashing\n    \n    const user = await db.createUser({\n      username,\n      email,\n      password: hashedPassword,\n      role: req.body.role || \"admin\",  // BUG: should default to \"user\"\n    });\n    \n    return res.status(200).json({  // BUG: should be 201\n      message: \"User created\",\n      user: user,  // BUG: leaking password hash\n    });\n  } catch (error) {\n    console.log(error);\n    return res.status(200).json({ error: \"Server error\" }); // BUG: wrong status\n  }\n}",
+        "explanation": "",
+        "submitted_at": "2026-05-03T04:37:45.971722+00:00",
+        "time_taken": 8.6
+      },
+      "joined_at": "2026-05-03T04:37:34.705651+00:00",
+      "result": "won"
+    }
+  ],
+  "started_at": "2026-05-03T04:37:37.384827+00:00",
+  "finished_at": "2026-05-03T04:37:45.971855+00:00",
+  "winner": "player_bdf62fed8b",
+  "created_at": "2026-05-03T04:37:34.705693+00:00",
+  "outcome": "win",
+  "outcome_reason": "amit met the threshold; opponent did not."
+}
