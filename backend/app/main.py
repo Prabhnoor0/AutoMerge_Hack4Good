@@ -78,14 +78,16 @@ app = FastAPI(
 )
 
 # ✅ CORS FIX (TEMP: allow all)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],   # 🔥 change later to your Vercel URL
+    allow_origins=[
+        "https://auto-merge-hack4-good-nsoonvkw8-amits-projects-2da6df80.vercel.app"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 # ─── Register Routers ─────────────────────────────────────
 
 app.include_router(health_router, prefix="/api", tags=["system"])
