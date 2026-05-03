@@ -2,17 +2,18 @@
 import { useState, useEffect, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSearchParams } from "next/navigation";
+import { MousePointer2, GitBranch, Package, Zap, FileEdit, HelpCircle, PlugZap, MessageCircle } from "lucide-react";
 import { api } from "@/lib/api";
 import type { ExtensionHistoryEntry, ExtensionFullReport } from "@/lib/types";
 
 /* ── Helpers ───────────────────────────────────────── */
-const SOURCE_LABELS: Record<string, { label: string; color: string; emoji: string }> = {
-  selection: { label: "Selection", color: "#4f8ef7", emoji: "🖱️" },
-  github: { label: "GitHub", color: "#22c55e", emoji: "🐙" },
-  codeblock: { label: "Code Block", color: "#f59e0b", emoji: "📦" },
-  web_editor: { label: "Web Editor", color: "#8b5cf6", emoji: "⚡" },
-  textarea: { label: "Textarea", color: "#06b6d4", emoji: "📝" },
-  none: { label: "Unknown", color: "#6b7280", emoji: "❓" },
+const SOURCE_LABELS: Record<string, { label: string; color: string; Icon: React.ElementType }> = {
+  selection: { label: "Selection", color: "#4f8ef7", Icon: MousePointer2 },
+  github: { label: "GitHub", color: "#22c55e", Icon: GitBranch },
+  codeblock: { label: "Code Block", color: "#f59e0b", Icon: Package },
+  web_editor: { label: "Web Editor", color: "#8b5cf6", Icon: Zap },
+  textarea: { label: "Textarea", color: "#06b6d4", Icon: FileEdit },
+  none: { label: "Unknown", color: "#6b7280", Icon: HelpCircle },
 };
 
 const LANG_COLORS: Record<string, string> = {
@@ -56,7 +57,7 @@ function ReportPanel({ report, onClose }: { report: ExtensionFullReport; onClose
         <div className="relative flex items-start justify-between gap-4">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-2">
-              <span className="text-sm">{src.emoji}</span>
+              <src.Icon className="w-4 h-4" style={{ color: src.color }} />
               <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded" style={{ background: `${src.color}18`, color: src.color }}>{src.label}</span>
               <span className="text-[10px] px-2 py-0.5 rounded font-mono" style={{ background: `${langColor}18`, color: langColor }}>{report.language}</span>
               <span className="text-[10px] px-2 py-0.5 rounded font-bold" style={{ background: conf.bg, color: conf.color }}>{Math.round((report.confidence || 0) * 100)}% confidence</span>
@@ -123,7 +124,7 @@ function ReportPanel({ report, onClose }: { report: ExtensionFullReport; onClose
 
       {/* Ask Devमित्र */}
       <div className="glass-card p-4">
-        <h3 className="text-[10px] font-semibold uppercase tracking-wider mb-2" style={{ color: "#a78bfa" }}>💬 Ask Devमित्र</h3>
+        <h3 className="text-[10px] font-semibold uppercase tracking-wider mb-2 flex items-center gap-1.5" style={{ color: "#a78bfa" }}><MessageCircle className="w-3.5 h-3.5" /> Ask Devमित्र</h3>
         <p className="text-[10px] mb-3" style={{ color: "var(--text-muted)" }}>
           This analysis has been pushed to Devमित्र context. Open the chat to ask follow-up questions about this code.
         </p>
@@ -198,8 +199,8 @@ function ExtensionPageContent() {
         {/* Header */}
         <div className="p-4 border-b" style={{ borderColor: "var(--border)" }}>
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "linear-gradient(135deg,#4f8ef7,#8b5cf6)", boxShadow: "0 4px 16px rgba(79,142,247,0.3)" }}>
-              <span className="text-lg">🔌</span>
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white" style={{ background: "linear-gradient(135deg,#4f8ef7,#8b5cf6)", boxShadow: "0 4px 16px rgba(79,142,247,0.3)" }}>
+              <PlugZap className="w-5 h-5" />
             </div>
             <div>
               <h1 className="text-sm font-bold" style={{ color: "var(--text-primary)" }}>Extension Reports</h1>
@@ -223,7 +224,7 @@ function ExtensionPageContent() {
           {loading && <div className="text-center py-8 text-xs" style={{ color: "var(--text-muted)" }}>Loading…</div>}
           {!loading && filtered.length === 0 && (
             <div className="text-center py-10 space-y-2">
-              <div className="text-3xl opacity-30">🔌</div>
+              <div className="flex justify-center opacity-30 text-gray-400"><PlugZap className="w-8 h-8" /></div>
               <p className="text-xs font-medium" style={{ color: "var(--text-muted)" }}>No analyses yet</p>
               <p className="text-[10px]" style={{ color: "var(--text-muted)" }}>Use the extension on a code page to analyze code.</p>
             </div>
@@ -244,7 +245,7 @@ function ExtensionPageContent() {
                 style={{ background: isSelected ? "var(--bg-elevated)" : "transparent", border: isSelected ? "1px solid var(--border)" : "1px solid transparent" }}
               >
                 <div className="flex items-center gap-2 mb-1.5">
-                  <span className="text-[10px]">{src.emoji}</span>
+                  <src.Icon className="w-3.5 h-3.5 flex-shrink-0" style={{ color: src.color }} />
                   <span className="text-[10px] font-semibold flex-1 truncate" style={{ color: "var(--text-primary)" }}>
                     {h.filename || h.page_url?.split("/").slice(-1)[0] || "Browser code"}
                   </span>
@@ -287,8 +288,8 @@ function ExtensionPageContent() {
             <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               className="flex items-center justify-center h-full min-h-64">
               <div className="text-center space-y-4 max-w-sm">
-                <div className="w-20 h-20 mx-auto rounded-3xl flex items-center justify-center" style={{ background: "var(--bg-elevated)" }}>
-                  <span className="text-4xl">🔌</span>
+                <div className="w-20 h-20 mx-auto rounded-3xl flex items-center justify-center text-gray-400" style={{ background: "var(--bg-elevated)" }}>
+                  <PlugZap className="w-10 h-10" />
                 </div>
                 <div>
                   <h2 className="text-lg font-bold mb-2" style={{ color: "var(--text-primary)" }}>AutoMerge Chrome Extension</h2>
@@ -299,7 +300,7 @@ function ExtensionPageContent() {
                 </div>
                 <div className="p-4 rounded-xl text-left space-y-2" style={{ background: "var(--bg-elevated)", border: "1px solid var(--border)" }}>
                   <p className="text-[10px] font-semibold uppercase tracking-wider mb-2" style={{ color: "var(--accent-blue)" }}>Quick Setup</p>
-                  {["1. Open chrome://extensions", "2. Enable Developer Mode", "3. Click 'Load unpacked'", "4. Select chrome-extension/ folder", "5. Visit any code page and click ⚡"].map((s, i) => (
+                  {["1. Open chrome://extensions", "2. Enable Developer Mode", "3. Click 'Load unpacked'", "4. Select chrome-extension/ folder", "5. Visit any code page and click the extension icon"].map((s, i) => (
                     <p key={i} className="text-[10px]" style={{ color: "var(--text-secondary)" }}>{s}</p>
                   ))}
                 </div>

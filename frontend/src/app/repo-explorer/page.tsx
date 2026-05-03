@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { api } from "@/lib/api";
+import { Brain, BarChart2, Building2, Search, Handshake, Folder, MessageSquare, Ruler, Clock } from "lucide-react";
 import {
   OverviewTab, ArchTab, InsightsTab, ContributorTab,
   FilesTab, DiagramsTab, QATab, HistoryTab,
@@ -10,9 +11,9 @@ import {
 const TABS = ["Overview", "Architecture", "Insights", "Contributor", "Files", "Q&A", "Diagrams", "History"] as const;
 type Tab = (typeof TABS)[number];
 
-const TAB_ICONS: Record<Tab, string> = {
-  Overview: "📊", Architecture: "🏗️", Insights: "🔍", Contributor: "🤝",
-  Files: "📁", "Q&A": "💬", Diagrams: "📐", History: "🕐",
+const TAB_ICONS: Record<Tab, React.ElementType> = {
+  Overview: BarChart2, Architecture: Building2, Insights: Search, Contributor: Handshake,
+  Files: Folder, "Q&A": MessageSquare, Diagrams: Ruler, History: Clock,
 };
 
 export default function RepoExplorerPage() {
@@ -142,9 +143,9 @@ export default function RepoExplorerPage() {
               className="w-full px-3 py-2 rounded-lg text-sm border" style={{ background: "var(--bg-elevated)", borderColor: "var(--border)", color: "var(--text-primary)" }} />
           </div>
           <button onClick={analyze} disabled={loading || !repoUrl.trim()}
-            className="px-5 py-2 rounded-lg text-sm font-semibold transition-all"
+            className="px-5 py-2 rounded-lg text-sm font-semibold transition-all flex items-center justify-center gap-1.5"
             style={{ background: loading ? "var(--bg-elevated)" : "linear-gradient(135deg,#4f8ef7,#6366f1)", color: "white", opacity: loading ? 0.7 : 1 }}>
-            {loading ? "Analyzing..." : "🔍 Analyze"}
+            {loading ? "Analyzing..." : <><Search className="w-4 h-4" /> Analyze</>}
           </button>
         </div>
 
@@ -168,7 +169,7 @@ export default function RepoExplorerPage() {
           <div className="flex-1 flex items-center justify-center">
             <div className="text-center max-w-lg">
               <div className="w-20 h-20 mx-auto mb-5 rounded-2xl flex items-center justify-center" style={{ background: "linear-gradient(135deg,#4f8ef7,#8b5cf6)", boxShadow: "0 8px 32px rgba(79,142,247,0.3)" }}>
-                <span className="text-3xl">🧠</span>
+                <Brain className="w-10 h-10 text-white" />
               </div>
               <h3 className="text-xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>Devमित्र Repo Explorer</h3>
               <p className="text-sm leading-relaxed mb-6" style={{ color: "var(--text-muted)" }}>
@@ -176,13 +177,13 @@ export default function RepoExplorerPage() {
               </p>
               <div className="grid grid-cols-4 gap-3 text-center">
                 {[
-                  { icon: "📊", label: "Deep Report" },
-                  { icon: "📐", label: "Diagrams" },
-                  { icon: "🤝", label: "Contributor Guide" },
-                  { icon: "💬", label: "Repo Q&A" },
+                  { Icon: BarChart2, label: "Deep Report" },
+                  { Icon: Ruler, label: "Diagrams" },
+                  { Icon: Handshake, label: "Contributor Guide" },
+                  { Icon: MessageSquare, label: "Repo Q&A" },
                 ].map(f => (
-                  <div key={f.label} className="glass-card p-3">
-                    <span className="text-lg">{f.icon}</span>
+                  <div key={f.label} className="glass-card p-3 flex flex-col items-center">
+                    <f.Icon className="w-5 h-5 mb-1 text-blue-400" />
                     <p className="text-[10px] mt-1 font-medium" style={{ color: "var(--text-muted)" }}>{f.label}</p>
                   </div>
                 ))}
@@ -196,17 +197,20 @@ export default function RepoExplorerPage() {
           <div className="flex-1 flex flex-col overflow-hidden">
             {/* Tabs */}
             <div className="flex gap-0.5 px-4 pt-2 overflow-x-auto" style={{ borderBottom: "1px solid var(--border)" }}>
-              {TABS.map(t => (
-                <button key={t} onClick={() => setTab(t)}
-                  className="px-3 py-2 text-[11px] font-medium rounded-t-lg transition-all flex items-center gap-1.5 whitespace-nowrap"
-                  style={{
-                    color: tab === t ? "var(--accent-blue)" : "var(--text-muted)",
-                    background: tab === t ? "var(--bg-elevated)" : "transparent",
-                    borderBottom: tab === t ? "2px solid var(--accent-blue)" : "2px solid transparent",
-                  }}>
-                  <span className="text-[10px]">{TAB_ICONS[t]}</span>{t}
-                </button>
-              ))}
+              {TABS.map(t => {
+                const Icon = TAB_ICONS[t];
+                return (
+                  <button key={t} onClick={() => setTab(t)}
+                    className="px-3 py-2 text-[11px] font-medium rounded-t-lg transition-all flex items-center gap-1.5 whitespace-nowrap"
+                    style={{
+                      color: tab === t ? "var(--accent-blue)" : "var(--text-muted)",
+                      background: tab === t ? "var(--bg-elevated)" : "transparent",
+                      borderBottom: tab === t ? "2px solid var(--accent-blue)" : "2px solid transparent",
+                    }}>
+                    <Icon className="w-3.5 h-3.5" />{t}
+                  </button>
+                );
+              })}
             </div>
 
             <div className="flex-1 overflow-auto p-4 space-y-4">

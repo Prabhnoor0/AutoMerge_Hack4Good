@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Swords, Hourglass, Lightbulb, PenLine, Send, Zap, ShieldAlert, Trophy, XCircle, Crown, Eye } from "lucide-react";
 import { api } from "@/lib/api";
 import type { BattleState, BattleParticipant } from "@/lib/types";
 
@@ -128,8 +129,8 @@ export default function BattlePage() {
             <div className="w-full max-w-lg space-y-6">
               {/* Hero */}
               <div className="text-center mb-8">
-                <div className="w-20 h-20 mx-auto mb-4 rounded-2xl flex items-center justify-center" style={{ background: "linear-gradient(135deg,#ef4444,#8b5cf6)", boxShadow: "0 8px 32px rgba(239,68,68,0.3)" }}>
-                  <span className="text-3xl">⚔️</span>
+                <div className="w-20 h-20 mx-auto mb-4 rounded-2xl flex items-center justify-center text-white" style={{ background: "linear-gradient(135deg,#ef4444,#8b5cf6)", boxShadow: "0 8px 32px rgba(239,68,68,0.3)" }}>
+                  <Swords className="w-10 h-10" />
                 </div>
                 <h1 className="text-2xl font-bold" style={{ color: "var(--text-primary)" }}>BugFix Arena</h1>
                 <p className="text-sm mt-1" style={{ color: "var(--text-muted)" }}>1v1 Debugging Competitions — Fix bugs faster than your opponent</p>
@@ -142,8 +143,8 @@ export default function BattlePage() {
               </div>
 
               {/* Create */}
-              <button onClick={create} disabled={loading || !name.trim()} className="w-full py-3 rounded-xl text-sm font-bold transition-all" style={{ background: "linear-gradient(135deg,#ef4444,#8b5cf6)", color: "white", opacity: name.trim() ? 1 : 0.5 }}>
-                ⚔️ Create New Battle
+              <button onClick={create} disabled={loading || !name.trim()} className="w-full py-3 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2" style={{ background: "linear-gradient(135deg,#ef4444,#8b5cf6)", color: "white", opacity: name.trim() ? 1 : 0.5 }}>
+                <Swords className="w-4 h-4" /> Create New Battle
               </button>
 
               {/* Divider */}
@@ -173,7 +174,7 @@ export default function BattlePage() {
             {/* Top Bar */}
             <div className="flex items-center justify-between px-4 py-2 border-b" style={{ borderColor: "var(--border)", background: "var(--bg-secondary)" }}>
               <div className="flex items-center gap-3">
-                <span className="text-lg">⚔️</span>
+                <Swords className="w-6 h-6 text-gray-400" />
                 <div>
                   <h2 className="text-sm font-bold" style={{ color: "var(--text-primary)" }}>{state.title}</h2>
                   <div className="flex items-center gap-2 mt-0.5">
@@ -215,15 +216,15 @@ export default function BattlePage() {
             {(state.status === "waiting" || state.status === "ready") && (
               <div className="flex-1 flex items-center justify-center">
                 <div className="text-center space-y-4">
-                  <div className="w-16 h-16 mx-auto rounded-full border-4 border-dashed flex items-center justify-center animate-pulse" style={{ borderColor: "var(--accent-purple)" }}>
-                    <span className="text-2xl">⏳</span>
+                  <div className="w-16 h-16 mx-auto rounded-full border-4 border-dashed flex items-center justify-center animate-pulse text-purple-400" style={{ borderColor: "var(--accent-purple)" }}>
+                    <Hourglass className="w-8 h-8" />
                   </div>
                   <h3 className="text-lg font-bold" style={{ color: "var(--text-primary)" }}>
                     {state.status === "waiting" ? "Waiting for opponent..." : "Ready to battle!"}
                   </h3>
                   <p className="text-xs" style={{ color: "var(--text-muted)" }}>Share room code: <span className="font-mono font-bold text-sm" style={{ color: "var(--accent-blue)" }}>{state.room_code}</span></p>
                   {me?.is_host && state.status === "ready" && (
-                    <button onClick={start} className="px-8 py-3 rounded-xl text-sm font-bold" style={{ background: "linear-gradient(135deg,#ef4444,#8b5cf6)", color: "white" }}>⚔️ Start Battle</button>
+                    <button onClick={start} className="px-8 py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 mx-auto" style={{ background: "linear-gradient(135deg,#ef4444,#8b5cf6)", color: "white" }}><Swords className="w-4 h-4" /> Start Battle</button>
                   )}
                   {me?.is_host && state.status === "waiting" && (
                     <button onClick={start} className="px-6 py-2 rounded-xl text-xs font-medium" style={{ background: "var(--bg-elevated)", color: "var(--text-muted)", border: "1px solid var(--border)" }}>Start Solo (Practice)</button>
@@ -248,7 +249,7 @@ export default function BattlePage() {
                   {ch?.hints && ch.hints.length > 0 && (
                     <div>
                       <h4 className="text-[10px] font-semibold uppercase tracking-wider mb-1" style={{ color: "var(--accent-amber)" }}>Hints</h4>
-                      {ch.hints.map((h, i) => <p key={i} className="text-[10px]" style={{ color: "var(--text-muted)" }}>💡 {h}</p>)}
+                      {ch.hints.map((h, i) => <p key={i} className="text-[10px] flex items-start gap-1.5" style={{ color: "var(--text-muted)" }}><Lightbulb className="w-3 h-3 flex-shrink-0" /> {h}</p>)}
                     </div>
                   )}
                   {/* Opponent status */}
@@ -283,8 +284,8 @@ export default function BattlePage() {
                       <label className="text-[10px] font-semibold uppercase tracking-wider mb-1 block" style={{ color: "var(--accent-purple)" }}>Explanation (optional, +15 pts)</label>
                       <textarea value={explanation} onChange={e => setExplanation(e.target.value)} disabled={me?.submitted} placeholder="Explain the bugs you found and how you fixed them..." rows={3} className="w-full p-3 rounded-lg text-xs border resize-none" style={{ background: "var(--bg-elevated)", borderColor: "var(--border)", color: "var(--text-primary)" }} />
                     </div>
-                    <button onClick={submit} disabled={me?.submitted || loading || !code.trim()} className="py-2.5 rounded-xl text-sm font-bold transition-all" style={{ background: me?.submitted ? "var(--bg-elevated)" : "linear-gradient(135deg,#22c55e,#06b6d4)", color: "white", opacity: (me?.submitted || !code.trim()) ? 0.5 : 1 }}>
-                      {me?.submitted ? "✓ Submitted — Waiting for opponent" : !code.trim() ? "✍️ Write code to submit" : "🚀 Submit Solution"}
+                    <button onClick={submit} disabled={me?.submitted || loading || !code.trim()} className="py-2.5 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2" style={{ background: me?.submitted ? "var(--bg-elevated)" : "linear-gradient(135deg,#22c55e,#06b6d4)", color: "white", opacity: (me?.submitted || !code.trim()) ? 0.5 : 1 }}>
+                      {me?.submitted ? "✓ Submitted — Waiting for opponent" : !code.trim() ? <><PenLine className="w-4 h-4" /> Write code to submit</> : <><Send className="w-4 h-4" /> Submit Solution</>}
                     </button>
                   </div>
                 </div>
@@ -316,15 +317,15 @@ export default function BattlePage() {
                 const myScore = me?.score?.total ?? 0;
                 const myCorrectness = me?.score?.correctness ?? 0;
                 /* Outcome labels */
-                let emoji = "💪", title = "Battle Complete", color = "var(--accent-purple)";
+                let Icon = Zap, title = "Battle Complete", color = "var(--accent-purple)";
                 let bgGrad = "linear-gradient(135deg,rgba(107,114,128,0.08),rgba(107,114,128,0.08))";
                 if (noWinner) {
-                  emoji = "😤"; title = "No Winner — Both Failed"; color = "var(--text-muted)";
+                  Icon = ShieldAlert; title = "No Winner — Both Failed"; color = "var(--text-muted)";
                 } else if (isMe) {
-                  emoji = "🏆"; title = "You Won!"; color = "var(--accent-green)";
+                  Icon = Trophy; title = "You Won!"; color = "var(--accent-green)";
                   bgGrad = "linear-gradient(135deg,rgba(34,197,94,0.08),rgba(6,182,212,0.08))";
                 } else {
-                  emoji = "❌"; title = winner ? `${winner.name} Wins — You Lost` : "You Lost";
+                  Icon = XCircle; title = winner ? `${winner.name} Wins — You Lost` : "You Lost";
                   color = "var(--accent-red)";
                   bgGrad = "linear-gradient(135deg,rgba(239,68,68,0.08),rgba(139,92,246,0.08))";
                 }
@@ -338,7 +339,7 @@ export default function BattlePage() {
                   <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.2 }} className="glass-card p-8 text-center relative overflow-hidden">
                     <div className="absolute inset-0" style={{ background: bgGrad }} />
                     <div className="relative">
-                      <div className="text-5xl mb-3">{emoji}</div>
+                      <Icon className="w-12 h-12 mx-auto mb-3" style={{ color }} />
                       <h2 className="text-2xl font-bold mb-1" style={{ color }}>{title}</h2>
                       <p className="text-sm" style={{ color: "var(--text-muted)" }}>{sub}</p>
                       {myScore > 0 && <p className="text-xs mt-2 font-mono" style={{ color: "var(--text-muted)" }}>Your score: {myScore}/100</p>}
@@ -355,7 +356,7 @@ export default function BattlePage() {
                   return (
                     <motion.div key={p.id} initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.3 + i * 0.15 }}
                       className="glass-card p-5 relative" style={{ borderColor: isWinner ? "var(--accent-green)" : "var(--border)", borderWidth: isWinner ? "2px" : "1px" }}>
-                      {isWinner && <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full flex items-center justify-center text-sm" style={{ background: "var(--accent-green)" }}>👑</div>}
+                      {isWinner && <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full flex items-center justify-center text-sm text-white" style={{ background: "var(--accent-green)" }}><Crown className="w-4 h-4" /></div>}
                       <div className="flex items-center gap-3 mb-4">
                         <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white" style={{ background: p.color }}>{p.name[0]}</div>
                         <div>
@@ -406,8 +407,8 @@ export default function BattlePage() {
               ))}
 
               <div className="flex gap-3">
-                <a href={`/ar?type=battle&id=${sessionId}`} className="flex-1 py-3 rounded-xl text-sm font-bold text-center transition-all" style={{ background: "linear-gradient(135deg,rgba(79,142,247,0.15),rgba(168,85,247,0.15))", color: "#a855f7", border: "1px solid rgba(168,85,247,0.2)" }}>🔮 View in AR</a>
-                <button onClick={reset} className="flex-1 py-3 rounded-xl text-sm font-bold" style={{ background: "linear-gradient(135deg,#ef4444,#8b5cf6)", color: "white" }}>⚔️ New Battle</button>
+                <a href={`/ar?type=battle&id=${sessionId}`} className="flex-1 py-3 rounded-xl text-sm font-bold text-center transition-all flex items-center justify-center gap-2" style={{ background: "linear-gradient(135deg,rgba(79,142,247,0.15),rgba(168,85,247,0.15))", color: "#a855f7", border: "1px solid rgba(168,85,247,0.2)" }}><Eye className="w-4 h-4" /> View in AR</a>
+                <button onClick={reset} className="flex-1 py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2" style={{ background: "linear-gradient(135deg,#ef4444,#8b5cf6)", color: "white" }}><Swords className="w-4 h-4" /> New Battle</button>
               </div>
             </div>
           </motion.div>
