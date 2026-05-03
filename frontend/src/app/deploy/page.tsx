@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Rocket, Eye, Triangle, CircleDot, Smile, Zap, Monitor, Settings, Brain, Package, FileText, AlertTriangle, Globe } from "lucide-react";
 import { api } from "@/lib/api";
 import type { DeployAnalysis, DeployRun, DeployPlatform, DeploySimCheck } from "@/lib/types";
 
@@ -86,7 +87,9 @@ export default function DeployPage() {
       <aside className="w-64 flex-shrink-0 border-r flex flex-col" style={{ borderColor: "var(--border)", background: "var(--bg-secondary)" }}>
         <div className="p-4 border-b" style={{ borderColor: "var(--border)" }}>
           <h2 className="text-sm font-bold flex items-center gap-2" style={{ color: "var(--text-primary)" }}>
-            <span className="w-7 h-7 rounded-lg flex items-center justify-center text-xs" style={{ background: "linear-gradient(135deg,#f97316,#ef4444)", color: "white" }}>🚀</span>
+            <span className="w-7 h-7 rounded-lg flex items-center justify-center text-xs" style={{ background: "linear-gradient(135deg,#f97316,#ef4444)", color: "white" }}>
+              <Rocket className="w-4 h-4" />
+            </span>
             AutoDeploy
           </h2>
           <p className="text-[10px] mt-1" style={{ color: "var(--text-muted)" }}>One-Click Deployment</p>
@@ -100,7 +103,7 @@ export default function DeployPage() {
               <div className="flex items-center gap-2 mt-1">
                 <span className="text-[10px] px-1.5 py-0.5 rounded" style={{ background: r.status === "deployed" ? "rgba(34,197,94,0.15)" : "rgba(239,68,68,0.15)", color: r.status === "deployed" ? "var(--accent-green)" : "var(--accent-red)" }}>{r.status}</span>
                 <span className="text-[10px]" style={{ color: "var(--text-muted)" }}>{r.platform}</span>
-                <a href={`/ar?type=deploy&id=${r.id}`} onClick={e => e.stopPropagation()} className="ml-auto text-[9px] font-bold px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: "rgba(168,85,247,0.12)", color: "#a855f7" }}>🔮</a>
+                <a href={`/ar?type=deploy&id=${r.id}`} onClick={e => e.stopPropagation()} className="ml-auto flex items-center justify-center w-5 h-5 rounded opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: "rgba(168,85,247,0.12)", color: "#a855f7" }}><Eye className="w-3 h-3" /></a>
               </div>
             </div>
           ))}
@@ -122,8 +125,8 @@ export default function DeployPage() {
               className="w-full px-3 py-2 rounded-lg text-sm border" style={{ background: "var(--bg-elevated)", borderColor: "var(--border)", color: "var(--text-primary)" }} />
           </div>
           <button onClick={step === "input" ? analyze : reset} disabled={loading}
-            className="px-5 py-2 rounded-lg text-sm font-semibold transition-all" style={{ background: step === "input" ? "linear-gradient(135deg,#f97316,#ef4444)" : "var(--bg-elevated)", color: "white", opacity: loading ? 0.7 : 1 }}>
-            {loading ? "..." : step === "input" ? "🚀 Analyze" : "← New"}
+            className="px-5 py-2 rounded-lg text-sm font-semibold transition-all flex items-center justify-center gap-1.5" style={{ background: step === "input" ? "linear-gradient(135deg,#f97316,#ef4444)" : "var(--bg-elevated)", color: "white", opacity: loading ? 0.7 : 1 }}>
+            {loading ? "..." : step === "input" ? <><Rocket className="w-4 h-4" /> Analyze</> : "← New"}
           </button>
         </div>
 
@@ -141,13 +144,13 @@ export default function DeployPage() {
               <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center justify-center h-full">
                 <div className="text-center max-w-lg">
                   <div className="w-20 h-20 mx-auto mb-5 rounded-2xl flex items-center justify-center" style={{ background: "linear-gradient(135deg,#f97316,#ef4444)", boxShadow: "0 8px 32px rgba(249,115,22,0.3)" }}>
-                    <span className="text-3xl">🚀</span>
+                    <Rocket className="w-10 h-10 text-white" />
                   </div>
                   <h3 className="text-xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>AutoDeploy</h3>
                   <p className="text-sm leading-relaxed mb-6" style={{ color: "var(--text-muted)" }}>Paste a GitHub URL to analyze, simulate, and deploy your project to the best free hosting platform — Vercel, Render, Hugging Face, Supabase, and more.</p>
                   <div className="grid grid-cols-4 gap-3">
-                    {[{ i: "▲", l: "Vercel" }, { i: "◉", l: "Render" }, { i: "🤗", l: "HuggingFace" }, { i: "⚡", l: "Supabase" }].map(p => (
-                      <div key={p.l} className="glass-card p-3 text-center"><span className="text-lg">{p.i}</span><p className="text-[10px] mt-1" style={{ color: "var(--text-muted)" }}>{p.l}</p></div>
+                    {[{ I: Triangle, l: "Vercel" }, { I: CircleDot, l: "Render" }, { I: Smile, l: "HuggingFace" }, { I: Zap, l: "Supabase" }].map(p => (
+                      <div key={p.l} className="glass-card p-3 flex flex-col items-center"><p.I className="w-6 h-6 mb-1 text-orange-400" /><p className="text-[10px] mt-1" style={{ color: "var(--text-muted)" }}>{p.l}</p></div>
                     ))}
                   </div>
                 </div>
@@ -160,8 +163,8 @@ export default function DeployPage() {
                 {/* Classification Hero */}
                 <div className="glass-card p-5">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "linear-gradient(135deg,#f97316,#ef4444)" }}>
-                      <span className="text-xl">{cl.project_type === "frontend" ? "🖥️" : cl.project_type === "backend" ? "⚙️" : cl.project_type === "ml" ? "🧠" : cl.project_type === "fullstack" ? "📦" : "📄"}</span>
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 text-white" style={{ background: "linear-gradient(135deg,#f97316,#ef4444)" }}>
+                      {cl.project_type === "frontend" ? <Monitor className="w-6 h-6" /> : cl.project_type === "backend" ? <Settings className="w-6 h-6" /> : cl.project_type === "ml" ? <Brain className="w-6 h-6" /> : cl.project_type === "fullstack" ? <Package className="w-6 h-6" /> : <FileText className="w-6 h-6" />}
                     </div>
                     <div className="flex-1">
                       <h2 className="text-lg font-bold" style={{ color: "var(--text-primary)" }}>{analysis.repo_name}</h2>
@@ -182,7 +185,7 @@ export default function DeployPage() {
                 <div className="glass-card p-4">
                   <h4 className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "var(--accent-blue)" }}>Detection Reasoning</h4>
                   {cl.reasoning.map((r, i) => <p key={i} className="text-xs py-0.5" style={{ color: "var(--text-secondary)" }}>• {r}</p>)}
-                  {cl.warnings.map((w, i) => <p key={i} className="text-xs py-0.5" style={{ color: "var(--accent-amber)" }}>⚠️ {w}</p>)}
+                  {cl.warnings.map((w, i) => <p key={i} className="text-xs py-0.5 flex items-center gap-1.5" style={{ color: "var(--accent-amber)" }}><AlertTriangle className="w-3 h-3" /> {w}</p>)}
                   {(analysis.failure_warnings || []).map((w, i) => <p key={i} className="text-xs py-0.5" style={{ color: "var(--accent-red)" }}>{w}</p>)}
                 </div>
 
@@ -242,9 +245,9 @@ export default function DeployPage() {
                 </div>
 
                 {/* Deploy Button */}
-                <button onClick={deploy} disabled={!selectedPlatform} className="w-full py-3 rounded-xl text-sm font-bold transition-all"
+                <button onClick={deploy} disabled={!selectedPlatform} className="w-full py-3 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2"
                   style={{ background: selectedPlatform ? "linear-gradient(135deg,#f97316,#ef4444)" : "var(--bg-elevated)", color: "white", opacity: selectedPlatform ? 1 : 0.5 }}>
-                  🚀 Deploy to {selectedPlatform ? cl.recommended_platforms.find((p: any) => p.id === selectedPlatform)?.name || selectedPlatform : "..."}
+                  <Rocket className="w-4 h-4" /> Deploy to {selectedPlatform ? cl.recommended_platforms.find((p: any) => p.id === selectedPlatform)?.name || selectedPlatform : "..."}
                 </button>
               </motion.div>
             )}
@@ -273,8 +276,8 @@ export default function DeployPage() {
                   <p className="text-xs" style={{ color: "var(--text-muted)" }}>{deployResult.repo_name} → {deployResult.platform}</p>
                   {deployResult.deploy_url && (
                     <a href={deployResult.deploy_url} target="_blank" rel="noopener noreferrer"
-                      className="inline-block mt-3 px-4 py-2 rounded-lg text-sm font-semibold" style={{ background: "var(--accent-blue)", color: "white" }}>
-                      🌐 {deployResult.deploy_url}
+                      className="inline-flex items-center gap-2 mt-3 px-4 py-2 rounded-lg text-sm font-semibold" style={{ background: "var(--accent-blue)", color: "white" }}>
+                      <Globe className="w-4 h-4" /> {deployResult.deploy_url}
                     </a>
                   )}
                   {deployResult.error && <p className="mt-3 text-sm" style={{ color: "var(--accent-red)" }}>{deployResult.error}</p>}

@@ -1,11 +1,11 @@
 {
   "context": {
     "studio": {
-      "code": "import random\nimport json\nfrom not_a_real_package import impossible\n\nGLOBAL = 10\nGLOBAL = \"now_string\"\n\ndef divide(a, b):\n    return a // 0\n\ndef parse_user(raw):\n    user = json.loads(raw)\n    if \"id\" in user:\n        return user[\"namee\"]\n    return user.id\n\ndef mutate_default(items=[]):\n    items.append(random.randint(\"1\", \"9\"))\n    return items\n\ndef wrong_loop():\n    i = \"0\"\n    while i < 10:\n        i += 1\n    return i\n\nasync def async_no_await():\n    print(\"this is async but sync misuse\")\n    return 1 / \"2\"\n\ndef impossible_match(x):\n    match x:\n        case 1:\n            return \"one\"\n        case [a, b:\n            return a + b\n        case _:\n            return None",
+      "code": "de(a, b):\n    return a // 0\n\ndef parse_user(raw):\n    user = json.loads(raw)\n    if \"id\" in user:\n        return user[\"namee\"]\n    return user.id\n\ndef mutate_default(items=[]):\n    items.append(random.randint(\"1\", \"9\"))\n    return items\n\ndef wrong_loop():\n    i = \"0\"",
       "filename": "bad_logic.py",
       "language": "python",
       "logs": "",
-      "updated_at": "2026-05-02T23:25:16.839664+00:00"
+      "updated_at": "2026-05-03T03:56:44.086288+00:00"
     },
     "workspace": {
       "files": [],
@@ -31,29 +31,29 @@
       "updated_at": "2026-05-02T09:26:07.389088+00:00"
     },
     "analysis": {
-      "last_summary": "[Extension ext_6c8b2a8f51] SyntaxError: invalid syntax (line 35) \u2014 Fix the syntax on line 35: case [a, b:",
+      "last_summary": "[Extension ext_050d80e858] SyntaxError: invalid syntax (line 1) \u2014 Fix the syntax on line 1: de(a, b):",
       "last_issues": [
         {
-          "id": "aa3d29270109",
+          "id": "6f092996d3ac",
           "language": "python",
           "severity": "error",
           "category": "syntax",
           "message": "SyntaxError: invalid syntax",
-          "explanation": "Python cannot parse this file. Syntax error at line 35, column 19.",
-          "line": 35,
-          "column": 19,
-          "end_line": 35,
-          "end_column": 20,
-          "source_line": "        case [a, b:",
-          "code_frame": "      33 |         case 1:\n      34 |             return \"one\"\n  >   35 |         case [a, b:\n                            ^\n      36 |             return a + b\n      37 |         case _:",
-          "fix_hint": "Fix the syntax on line 35: case [a, b:",
+          "explanation": "Python cannot parse this file. Syntax error at line 1, column 9.",
+          "line": 1,
+          "column": 9,
+          "end_line": 1,
+          "end_column": 10,
+          "source_line": "de(a, b):",
+          "code_frame": "  >    1 | de(a, b):\n                  ^\n       2 |     return a // 0\n       3 | ",
+          "fix_hint": "Fix the syntax on line 1: de(a, b):",
           "confidence": 1.0,
           "origin": "parser",
           "parser_name": "cpython_compile",
           "backend_name": "Python compile()"
         }
       ],
-      "updated_at": "2026-05-02T23:25:16.841155+00:00"
+      "updated_at": "2026-05-03T03:56:44.087372+00:00"
     }
   },
   "qa_history": [

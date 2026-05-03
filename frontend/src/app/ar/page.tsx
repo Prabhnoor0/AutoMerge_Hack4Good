@@ -1,13 +1,14 @@
 "use client";
 import { useState, useEffect, useCallback, useRef, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Focus, Zap, FolderOpen, Rocket, Swords, AlertTriangle, Lightbulb } from "lucide-react";
 import { api } from "@/lib/api";
 import type { ARScene, ARNode, AREdge, ARSourceType, ARHistoryEntry } from "@/lib/types";
 import { useSearchParams } from "next/navigation";
 
 // ─── Constants ───────────────────────────────────────────
 const SOURCE_LABELS: Record<ARSourceType, string> = { studio: "Studio", repo: "Repo Explorer", deploy: "Deploy", battle: "Battle" };
-const SOURCE_ICONS: Record<ARSourceType, string> = { studio: "⚡", repo: "📂", deploy: "🚀", battle: "⚔️" };
+const SOURCE_ICONS: Record<ARSourceType, React.ElementType> = { studio: Zap, repo: FolderOpen, deploy: Rocket, battle: Swords };
 const STATUS_GLOW: Record<string, string> = { error: "#ef4444", warning: "#f59e0b", success: "#22c55e", active: "#3b82f6", default: "#6b7280", highlight: "#a855f7", winner: "#fbbf24", finished: "#22c55e", submitted: "#3b82f6", info: "#3b82f6" };
 
 // ─── Sub-components ──────────────────────────────────────
@@ -175,8 +176,8 @@ function SceneCanvas({ scene, selectedNode, onSelectNode }: { scene: ARScene; se
 
       {/* Floating title */}
       <div className="absolute top-4 left-4 flex items-center gap-2">
-        <div className="px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider" style={{ background: "rgba(79,142,247,0.15)", color: "#4f8ef7", border: "1px solid rgba(79,142,247,0.2)" }}>
-          {SOURCE_ICONS[scene.source_type]} {scene.source_type}
+        <div className="px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-2" style={{ background: "rgba(79,142,247,0.15)", color: "#4f8ef7", border: "1px solid rgba(79,142,247,0.2)" }}>
+          {(() => { const Icon = SOURCE_ICONS[scene.source_type] || Focus; return <Icon className="w-3.5 h-3.5" />; })()} {scene.source_type}
         </div>
       </div>
 
@@ -265,7 +266,9 @@ function ARPageInner() {
       {/* Top Bar */}
       <div className="flex items-center justify-between px-6 py-3 border-b" style={{ borderColor: "var(--border)" }}>
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-xl flex items-center justify-center text-lg" style={{ background: "linear-gradient(135deg, #4f8ef7, #a855f7)", boxShadow: "0 0 20px rgba(79,142,247,0.3)" }}>🔮</div>
+          <div className="w-8 h-8 rounded-xl flex items-center justify-center text-white" style={{ background: "linear-gradient(135deg, #4f8ef7, #a855f7)", boxShadow: "0 0 20px rgba(79,142,247,0.3)" }}>
+            <Focus className="w-4 h-4" />
+          </div>
           <div>
             <h1 className="text-lg font-bold" style={{ color: "var(--text-primary)" }}>AR Debug Explorer</h1>
             <p className="text-[10px] uppercase tracking-wider font-medium" style={{ color: "var(--text-muted)" }}>
@@ -286,10 +289,15 @@ function ARPageInner() {
           {/* Source Input */}
           <div className="space-y-2">
             <label className="text-[10px] font-semibold uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Source</label>
-            <select value={sourceType} onChange={e => setSourceType(e.target.value as ARSourceType)}
-              className="w-full px-3 py-2 rounded-lg text-sm border outline-none" style={{ background: "var(--bg-card)", borderColor: "var(--border)", color: "var(--text-primary)" }}>
-              {(Object.keys(SOURCE_LABELS) as ARSourceType[]).map(k => <option key={k} value={k}>{SOURCE_ICONS[k]} {SOURCE_LABELS[k]}</option>)}
-            </select>
+            <div className="relative">
+              <select value={sourceType} onChange={e => setSourceType(e.target.value as ARSourceType)}
+                className="w-full pl-8 pr-3 py-2 rounded-lg text-sm border outline-none appearance-none" style={{ background: "var(--bg-card)", borderColor: "var(--border)", color: "var(--text-primary)" }}>
+                {(Object.keys(SOURCE_LABELS) as ARSourceType[]).map(k => <option key={k} value={k}>{SOURCE_LABELS[k]}</option>)}
+              </select>
+              <div className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none">
+                {(() => { const Icon = SOURCE_ICONS[sourceType] || Focus; return <Icon className="w-3.5 h-3.5 text-gray-400" />; })()}
+              </div>
+            </div>
             <input value={sourceInput} onChange={e => setSourceInput(e.target.value)} placeholder="Enter ID..."
               className="w-full px-3 py-2 rounded-lg text-sm border outline-none font-mono" style={{ background: "var(--bg-card)", borderColor: "var(--border)", color: "var(--text-primary)" }}
               onKeyDown={e => e.key === "Enter" && handleLoad()} />
@@ -304,17 +312,20 @@ function ARPageInner() {
           <div>
             <h3 className="text-[10px] font-semibold uppercase tracking-wider mb-2" style={{ color: "var(--text-muted)" }}>Recent Scenes</h3>
             <div className="space-y-1.5">
-              {history.slice(0, 15).map(h => (
-                <button key={h.scene_id} onClick={() => { setSourceType(h.source_type); setSourceInput(h.source_id); loadScene(h.source_type, h.source_id); }}
-                  className="w-full text-left p-2.5 rounded-lg border transition-all hover:border-[var(--accent-blue)]"
-                  style={{ background: "var(--bg-card)", borderColor: "var(--border)" }}>
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-xs">{SOURCE_ICONS[h.source_type]}</span>
-                    <span className="text-xs font-medium truncate" style={{ color: "var(--text-primary)" }}>{h.title}</span>
-                  </div>
-                  <span className="text-[9px] mt-0.5 block" style={{ color: "var(--text-muted)" }}>Views: {h.view_count}</span>
-                </button>
-              ))}
+              {history.slice(0, 15).map(h => {
+                const Icon = SOURCE_ICONS[h.source_type] || Focus;
+                return (
+                  <button key={h.scene_id} onClick={() => { setSourceType(h.source_type); setSourceInput(h.source_id); loadScene(h.source_type, h.source_id); }}
+                    className="w-full text-left p-2.5 rounded-lg border transition-all hover:border-[var(--accent-blue)]"
+                    style={{ background: "var(--bg-card)", borderColor: "var(--border)" }}>
+                    <div className="flex items-center gap-1.5">
+                      <Icon className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" />
+                      <span className="text-xs font-medium truncate" style={{ color: "var(--text-primary)" }}>{h.title}</span>
+                    </div>
+                    <span className="text-[9px] mt-0.5 block" style={{ color: "var(--text-muted)" }}>Views: {h.view_count}</span>
+                  </button>
+                );
+              })}
               {!history.length && <p className="text-xs text-center py-4" style={{ color: "var(--text-muted)" }}>No scenes yet</p>}
             </div>
           </div>
@@ -326,7 +337,7 @@ function ARPageInner() {
 
           {!scene && !loading && !error && (
             <div className="flex-1 flex flex-col items-center justify-center gap-4" style={{ color: "var(--text-muted)" }}>
-              <div className="text-6xl opacity-20">🔮</div>
+              <div className="opacity-20"><Focus className="w-16 h-16" /></div>
               <p className="text-sm font-medium">Select a source or enter an ID to visualize</p>
               <p className="text-xs">Studio job IDs, Repo report IDs, Deploy run IDs, or Battle session IDs</p>
             </div>
@@ -334,7 +345,7 @@ function ARPageInner() {
 
           {loading && (
             <div className="flex-1 flex flex-col items-center justify-center gap-4">
-              <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 2, ease: "linear" }} className="text-5xl">🔮</motion.div>
+              <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 2, ease: "linear" }} className="text-blue-500"><Focus className="w-12 h-12" /></motion.div>
               <p className="text-sm font-medium animate-pulse" style={{ color: "var(--accent-blue)" }}>Generating AR scene...</p>
             </div>
           )}
@@ -368,7 +379,7 @@ function ARPageInner() {
                   <div className="mt-2 space-y-1">
                     {scene.warnings.map((w, i) => (
                       <div key={i} className="flex items-start gap-1.5 text-[11px]" style={{ color: "#f59e0b" }}>
-                        <span>⚠</span><span>{w}</span>
+                        <AlertTriangle className="w-3 h-3 flex-shrink-0 mt-0.5" /><span>{w}</span>
                       </div>
                     ))}
                   </div>
@@ -392,8 +403,8 @@ function ARPageInner() {
                         {selNode.source_line != null && <span className="text-[9px] font-mono px-1.5 py-0.5 rounded" style={{ background: "var(--bg-elevated)", color: "var(--text-muted)" }}>Line {selNode.source_line}</span>}
                       </div>
                       {selNode.metadata?.fix_hint && (
-                        <div className="mt-2 p-2 rounded-lg text-[11px]" style={{ background: "rgba(34,197,94,0.08)", color: "#22c55e" }}>
-                          💡 {selNode.metadata.fix_hint}
+                        <div className="mt-2 p-2 rounded-lg text-[11px] flex items-start gap-1.5" style={{ background: "rgba(34,197,94,0.08)", color: "#22c55e" }}>
+                          <Lightbulb className="w-3 h-3 flex-shrink-0 mt-0.5" /> {selNode.metadata.fix_hint}
                         </div>
                       )}
                     </motion.div>
